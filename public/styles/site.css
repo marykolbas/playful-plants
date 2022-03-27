@@ -1,0 +1,90 @@
+body{
+    font-family: sans-serif;
+    width: 90%;
+    margin: auto;
+}
+
+.columns{ /*general div for column flex*/
+    display: flex;
+    flex-direction: column;
+  }
+
+.rows{
+    display:flex;
+    flex-direction: row;
+}
+
+aside{
+    width: 35%;
+    border-right-style: solid;
+}
+
+main{
+    padding-left: 20px;
+}
+
+form{
+    padding: 10px;
+}
+
+#addform{
+    padding-top: 20px;
+}
+
+.form_element{
+    margin-bottom: 5px;
+}
+
+.checkbox_option{
+    padding-left: 10px;
+}
+
+.align-right {
+    display: flex;
+    justify-content:flex-end;
+  }
+
+table{
+    border-spacing: 0;
+}
+
+table th {
+    text-align:left;
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    padding: 10px;
+    background-color: white;
+    position: sticky;
+    top: 0px;
+}
+
+table td{
+    text-align: left;
+    font-weight: normal;
+    padding: 10px;
+    padding-right: 16px;
+}
+
+.hidden{
+    display: none;
+}
+
+.feedback{
+    color: red;
+}
+
+.confirmation{
+    color: green;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+form h2{
+    margin-bottom: 0px;
+}
+
+@media print {
+    aside{
+        display: none;
+    }
+}
