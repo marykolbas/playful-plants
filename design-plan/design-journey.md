@@ -46,6 +46,13 @@ _Consumer_ Goal 2: Gain all the information necessary to know how to take care o
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
   - The consumer cares about creating nature-rich spaces and likely will want to garden using this data, so to meet this goal I need to provide them with this data. Since there is a lot of data, I will make this information available when the consumer clicks on the plant for more details.
 
+_Consumer_ Goal 3: Print a specific plant's care information
+
+- **Design Ideas and Choices** _How will you meet those goals in your design?_
+  - I will make the page for individual plants printer-friendly (smaller image, fit to one standard page).
+- **Rationale & Additional Notes** _Justify your decisions; additional notes._
+  - The consumer wants to know how to care for the plants that they choose to plant. By providing a way to print the page with care information, they can have this information physically without having to come to the website and search for this plant every time they need to use this information.
+
 
 
 ### _Consumer_ Persona (Milestone 1)
@@ -77,13 +84,6 @@ _Administrator_ Goal 2: Filter and Sort the Database
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
   - Members of the Playful Plants Project will want to be able to see what is currently in the database and how many of each plant they may have for each tag. This way they will know what is in the database and can make informed decisions about what needs to be added.
 
-_Administrator_ Goal 3: TODO
-
-TODO
-
-TODO: ...
-
-
 ### _Administrator_ Persona (Milestone 1)
 
 > Use the goals you identified above to develop a persona of your site's audience.
@@ -94,6 +94,7 @@ TODO: ...
 
 
 ### Site Design (Milestone 1)
+
 > Document your _entire_ design process. **We want to see iteration!**
 > **Show us the evolution of your design from your first idea (sketch) to the final design you plan to implement (sketch).**
 > **Show us how you decided what data to display to each audience.**
@@ -104,7 +105,21 @@ TODO: ...
 
 _Initial Designs / Design Iterations:_
 
-TODO
+![Consumer View Sketch 1](/design-plan/consumersketch1.jpeg)
+
+I sketched two designs (seperated by pink line). Since this is a mobile site, I prefer the right sketch with the Sort as a dropdown and Filter as a hamburger menu. The small tiles rather than an aside column is better fit for smaller screens.
+
+![Admin View Sketch 1](/design-plan/adminsketch1.jpeg)
+
+My first itteration of the administrator view of the website was to have a sidebar similar to Project 2 and have long tiles in the main body of the website. There is a seperate page for the login page and there are buttons (once logged in) to edit or delete plants.
+
+![Admin View Sketch 2](/design-plan/adminsketch2.jpeg)
+
+I itterated the administrator view to instead have square tiles with information under them like the consumer view. The first box is a button to add a new plant, which is a form on a seperate page.
+
+![Admin View Sketch 2 Edit and Confirmation Pages](/design-plan/adminsketch2_editandconfirmation.jpeg)
+
+After clicking on the Edit button on a plant's tile, it opens that plant's details page as a form with its existing data values in the form values. After a plant is added, there is a confirmation page that allows the user to either add another plant or navigate back to the catalog page.
 
 
 _Final Design:_
