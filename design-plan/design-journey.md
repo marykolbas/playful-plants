@@ -107,7 +107,7 @@ _Initial Designs / Design Iterations:_
 
 ![Consumer View Sketch 1](/design-plan/consumersketch1.jpeg)
 
-I sketched two designs (seperated by pink line). Since this is a mobile site, I prefer the right sketch with the Sort as a dropdown and Filter as a hamburger menu. The small tiles rather than an aside column is better fit for smaller screens.
+I sketched two designs (seperated by pink line). Since this is a mobile site, I prefer the right sketch with the Sort as a dropdown and Filter as a hamburger menu. The small tiles rather than an aside column is better fit for smaller screens, which Abi will be using to view this site.
 
 ![Admin View Sketch 1](/design-plan/adminsketch1.jpeg)
 
@@ -115,12 +115,15 @@ My first itteration of the administrator view of the website was to have a sideb
 
 ![Admin View Sketch 2](/design-plan/adminsketch2.jpeg)
 
-I itterated the administrator view to instead have square tiles with information under them like the consumer view. The first box is a button to add a new plant, which is a form on a seperate page.
+I itterated the administrator view to instead have square tiles with information under them like the consumer view. This gives Tim a better idea of how the information will be displayed on the consumer view version of the website without logging out. The first box is a button to add a new plant, which is a form on a seperate page. This follows common design patterns I have seen before on gallery websites and applications, which Tim is likely familiar with.
 
 ![Admin View Sketch 2 Edit and Confirmation Pages](/design-plan/adminsketch2_editandconfirmation.jpeg)
 
-After clicking on the Edit button on a plant's tile, it opens that plant's details page as a form with its existing data values in the form values. After a plant is added, there is a confirmation page that allows the user to either add another plant or navigate back to the catalog page.
+After clicking on the Edit button on a plant's tile, the link opens that plant's details page as a form with its existing data values in the form values. After a plant is added, there is a confirmation page that allows Tim to either add another plant or navigate back to the catalog page.
 
+![Admin View Sketch 2 Edit page Itteration 2](/design-plan/adminsketch2_edit2.jpeg)
+
+An alternative design for the edit page is to have each field have an "edit" button next to it that must be clicked to display the text field or dropdown form. This may avoid logistic difficulties because it can prevent Tim from accidentally changing information he didn't mean to change, but also may be difficult to code and allow for multiple fields to be changed at once, so I am not sure if this is the design I want to go with.
 
 _Final Design:_
 
