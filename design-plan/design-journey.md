@@ -169,6 +169,8 @@ Tim enjoys tinkering and has a selective learning style. My design uses headers 
 > **Hint: You probably need a table for "entries", `tags`, `"entry"_tags`** (stores relationship between entries and tags), and a `users` tables.
 > **Hint: For foreign keys, use the singular name of the table + _id.** For example: `image_id` and `tag_id` for the `image_tags` (tags for each image) table.
 
+//these field names are long, but in my code I will have to shorten the HTTP parameter versions of them for URL purposes
+
 Table: plants
 
 - id: INTEGER {PK, U, NN, AI},
@@ -189,7 +191,7 @@ Table: plants
 Table: tags
 
 - id: INTEGER {PK, U, NN, AI},
-- classification: TEXT {U, NN}
+- tag_name: TEXT {U, NN}
 
 Table: entry_tags
 
@@ -205,17 +207,39 @@ Table: users
 
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
+
 > Plan _all_ of your database queries. You may use natural language, pseudocode, or SQL.
 
 ```
-TODO: Plan a query
+Getting all plants data (consumer and administrator):
+
+SELECT * FROM plants;
 ```
 
 ```
-TODO: Plan another query
+Ordering displayed plants (consumer and administrator):
+
+SELECT * FROM plants ORDER BY $orderfield_and_direction;
+  e.g. SELECT * FROM plants ORDER BY name ASC;
 ```
 
-TODO: ...
+```
+Ordering and Filtering plants (consumer):
+
+SELECT * FROM plants JOIN entry_tags ON plants.id=entry_tags.plant_id ORDER BY $orderfield_and_direction WHERE $filter_conditions;
+  e.g. SELECT * FROM plants JOIN entry_tags ON plants.id=entry_tags.plant_id ORDER BY name ASC WHERE tag_id=1;
+  (Not too sure about how joins work yet.)
+```
+
+```
+Ordering and Filtering plants (admin):
+
+SELECT * FROM plants ORDER BY $orderfield_and_direction WHERE $filter_conditions;
+  e.g. SELECT * FROM plants ORDER BY name ASC WHERE ex_c=1 OR ex_s=1;
+```
+
+
+
 
 
 ### Code Planning (Milestone 1, Milestone 2, Milestone 3, Final Submission)
@@ -223,14 +247,134 @@ TODO: ...
 > Tip: Break this up by pages. It makes it easier to plan.
 
 ```
-TODO: WRITE YOUR PSEUDOCODE HERE, between the back-tick lines.
+Administrator Catalog Page (use existing code and variables from project 2)
+
+sort/filter form:
+if(form is submitted){
+  set sticky values to user inputted values (do this any time form is submitted)
+  requery using inputted values to indicate WHERE clause (using parameter markers)
+  //initial parts
+  $select_part = "SELECT * FROM plants ";
+  $order_part = " ORDER BY ";
+  $where_part = "";
+  $order_part2 = "";
+  //create list for SQL conditional expressions:
+  $filter_exprs = array();
+  if (checkbox to filter by exploratory constructive play){
+    //append SQl conditional expression to list:
+    array_push($filter_exprs, "(exploratory_constructive = 1)");
+  }
+  ...do this for all 8 checkboxes
+  if (count($filter_exprs) > 0){
+    $where_part = "WHERE " . implode(' OR ', $filter_exprs);
+  }
+  if(sortby_name is selected){
+    array_push($sort_exprs, "name")
+  }
+  ...do this for sortby_sci_name and sortby_plant_id
+  $query = $select_part + $where_part + $order_part + $order_part2;
+}
 ```
 
 ```
-TODO: WRITE MORE PSEUDOCODE HERE, between the back-tick lines.
+Administrator Add New Plant Page (use existing code and variables from project 2)
+
+Add Plant Form:
+if(form is submitted){
+  if(name/sci_name/pp_id is empty){  //3 seperate if statements
+    form not valid
+    show name/sci_name/pp_id feedback
+  }
+  if(sci name/pp_id isn't unique){ //2 seperate if statements
+    form not valid
+    show sci name feedback for non-unique
+  }
+  if(form is valid){
+    $result = exec_sql_query(
+      $db,
+      "INSERT INTO plants (name, sci_name, plant_id, exploratory_constructive, exploratory_sensory, physical, imaginative, resotrative, expressive, play_with_rules, bio) VALUES (:name, :sci_name, :plant_id, :ex_con, :ex_sen, :phys, :imag, :rest, :exp, :rules, :bio;",
+      array(
+        ':name' => $name,
+        ':sci_name' => $sci_name,
+        ':plant_id' => $plant_id,
+        ':ex_con' => $exploratory_constructive == 'checked' ? '1' : '0');
+        ...continue for other checkboxes
+      )
+    if($result){ //use to restyle the whole page to a confirmation message (or make new page?)
+      $result_inserted=True;
+    }
+    );
+  }
+  else{ //if form is not valid
+    sticky_name = user's name input
+    sticky_sci_name = user's sci_name input
+    sticky_plantid = user's plantid input
+    sticky_exploratory_constructive = checked/unchecked based on user input
+    ... continues for all other checkboxes
+  }
 ```
 
-TODO: ...
+```
+Login Page
+
+Username/Password form:
+if(form is submitted){
+  if(username/password is empty){  //2 seperate if statements
+    form not valid
+    show username/password feedback
+  }
+  if(form is valid){
+    //check if username and password is valid using exec_sql_query and counting?
+  }
+    if(login was successful){
+      change the website to administrator mode
+    }
+    );
+  }
+  else{ //if form is not valid
+    sticky_username = input from user
+    //don't make password sticky
+  }
+```
+
+```
+Admin View of Details Page after clicking "Edit"
+
+grab all of the relevant fields for that particular plant
+set all of the form value= to the values from the database
+if(form submitted){
+  make sure all fields are valid (no nulls or uniques (other than itself?), similar to Add Plant validity)
+  if(form valid){
+    save changes (either by using some SQL edit function OR delete existing and resave as if adding a new plant)
+  }
+  if(changes were successful){
+    show confirmation message
+  }
+}
+```
+
+```
+Consumer Catalog View
+
+sort/filter form:
+if(form is submitted){
+  set sticky values to user inputted values (do this any time form is submitted)
+  requery using inputted values to indicate WHERE clause (using parameter markers)
+  create list to append all of the SQL filter conditions
+  if (radio button for a certain tag){
+    append SQl conditional expression "id = #" to list
+  }
+  ...do this for all filters
+  if (count($filter_exprs) > 0){
+    $where_part = "WHERE " . implode(' AND ', $filter_exprs);
+  }
+  if(sortby_name/sort_by_sci_name is selected){ //2 seperate if statements
+    array_push($sort_exprs, "name")
+  }
+  $query = $select_part + $where_part + $order_part + $order_part2;
+  //the where_part will be like: "id=1 AND id=15" to search for only plants that are both shrubs and annual
+}
+```
 
 
 ### Accessibility Audit (Final Submission)
