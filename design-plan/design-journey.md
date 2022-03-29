@@ -107,7 +107,7 @@ _Initial Designs / Design Iterations:_
 
 ![Consumer View Sketch 1](/design-plan/consumersketch1.jpeg)
 
-I sketched two designs (seperated by pink line). Since this is a mobile site, I prefer the right sketch with the Sort as a dropdown and Filter as a hamburger menu. The small tiles rather than an aside column is better fit for smaller screens, which Abi will be using to view this site.
+I sketched two designs (seperated by pink line). Since this is a mobile site, Abi would prefer the right sketch with the Sort as a dropdown and Filter as a hamburger menu. This is because it makes the site more usable and follows common design patterns so she is less likely to give-up on using this technology. Additionally, the hamburger menu appears when tapping the "Filter By" button and will include instructions on how to use the filtering system. The small tiles rather than an aside column is better fit for smaller screens, which Abi will be using to view this site. Additionally, being able to view the plants visually first is more helpful and usable than including all plant details on the screen at once, which is likely to confuse and overwhelm her.
 
 ![Admin View Sketch 1](/design-plan/adminsketch1.jpeg)
 
@@ -127,9 +127,9 @@ An alternative design for the edit page is to have each field have an "edit" but
 
 _Final Design:_
 
-![Consumer View Sketch 1](/design-plan/consumersketch1.jpeg)
+![Consumer View Sketch 2](/design-plan/consumersketch2.jpeg)
 
-To start my initial coding, I plan to use the square tile and hamburger menu layout on the right side of this sketch. Each plant has its own details page.
+I itterated my first sketch to include more instructions and clarification for features on the website to aid Abi and her cognitive styles. This information will not only make her feel more comfortable clicking on certain buttons/links and feel informed, but also supports her comprehensive information proccessing style.
 
 ![Admin View Sketch 2](/design-plan/adminsketch2.jpeg)
 
@@ -140,38 +140,68 @@ I will use my second sketch for the admin view that uses square tiles. For now, 
 The login page will be a seperate page with only the login form. It will only be accessible when the user isn't logged in.
 
 
-
 ### Design Pattern Explanation/Reflection (Milestone 1)
+
 > Write a one paragraph (6-8 sentences) reflection explaining how you used design patterns for media catalogs in your site's final design.
 
-TODO
+My design reflects common media catalog design patterns by implementing image tiles with short captions that expand into more detailed pages. I based this off of the small-screen version of the seedsavers.org website. This website similarly as a seperate login page, as do most websites that implmenet catalogs such as online shopping sites or Instagram. When given the ability to edit a post on Instagram or a blog, it presents the user with a form that has existing data within the form fields already, which is why the Edit page for Tim will has a similar pattern. I decided to have the Add Plant "button" be an empty tile following the design patterns I see on other gallery editing websites, such as on Notion, but instead put this button at the top because the Playful Plants Project will have too many entries to put this "add plant" tile at the bottom of the page.
 
 
 ### Cognitive Styles Explanation/Reflection (Milestone 1)
+
 > Write a one paragraph (6-8 sentences) reflection explaining how your final design supports the cognitive styles of each persona.
 
 _Consumer Cognitive Styles Reflection:_
 
-TODO
+Abi feels comfortable with technologies she has used before, so I am implementing similar design patterns to other websites to make it less likely she gives up on using the website due to confusion. Additionally, a lot of information is included on the page to give instructions to what the "Sort By" and "Filter By" Buttons do so that although she is risk averse, she feels comfortable and understands what will happen when she uses these features. Instructions will be provided to explain to Abi that detailed information on the plant's care can be found by clicking on the plant's image/name. By providing these instructions and information, not only does it aid her in regards to her risk averse, low computer self-efficacy, and learning by process cognitive styles, but it also synergizes with her comprehensive information processing style since this important information will all be at the top of the page and easy to read over before proceeding down the page. This will give her information about how to accomplish her tasks/goals with technology in a straightforward way that prevents her from wasting time.
 
 
 _Site Administrator Cognitive Styles Reflection:_
 
-TODO
+Tim enjoys tinkering and has a selective learning style. My design uses headers and properly labeled buttons that follow common design patterns to give Tim promising leads. Although Tim does have tasks and goals to accomplish as a member of the Playful Plants Project, he enjoys exploring new technologies and finding shortcuts, so by using valid HTML formatting he has the opportunity and use the features of his web browser to better tinker with the features of the website.
 
 
 ## Implementation Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
 
 ### Database Schema (Milestone 1)
+
 > Describe the structure of your database. You may use words or a picture. A bulleted list is probably the simplest way to do this. Make sure you include constraints for each field.
 > **Hint: You probably need a table for "entries", `tags`, `"entry"_tags`** (stores relationship between entries and tags), and a `users` tables.
 > **Hint: For foreign keys, use the singular name of the table + _id.** For example: `image_id` and `tag_id` for the `image_tags` (tags for each image) table.
 
-Table: TODO
+Table: plants
 
-- field1: TYPE {constraints...},
-- field2...
-- TODO
+- id: INTEGER {PK, U, NN, AI},
+- name: TEXT {NN},
+- sci_name: TEXT {U, NN},
+- pp_id: TEXT {U, NN}, //playful plants ID
+- exploratory_constructive: INTEGER {NN}
+- exploratory_sensory: INTEGER {NN}
+- physical: INTEGER {NN}
+- imaginative: INTEGER {NN}
+- restorative: INTEGER {NN}
+- expressive: INTEGER {NN}
+- play_with_rules: INTEGER {NN}
+- bio: INTEGER {NN}
+
+// tags for sorting for consumers, such as classification and growing needs
+
+Table: tags
+
+- id: INTEGER {PK, U, NN, AI},
+- classification: TEXT {U, NN}
+
+Table: entry_tags
+
+- id: INTEGER {PK, U, NN, AI},
+- plant_id: INTEGER {}
+- tag_id: INTEGER {}
+
+Table: users
+
+- id: INTEGER {PK, U, NN, AI},
+- username: TEXT {U, NN},
+- password: TEXT {NN}
 
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
