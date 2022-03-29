@@ -127,7 +127,18 @@ An alternative design for the edit page is to have each field have an "edit" but
 
 _Final Design:_
 
-TODO
+![Consumer View Sketch 1](/design-plan/consumersketch1.jpeg)
+
+To start my initial coding, I plan to use the square tile and hamburger menu layout on the right side of this sketch. Each plant has its own details page.
+
+![Admin View Sketch 2](/design-plan/adminsketch2.jpeg)
+
+I will use my second sketch for the admin view that uses square tiles. For now, I also plan on using the above edit page, which when logged in as admin, displays all values of the details page within a form and allows for multiple edits at once, with a "save changes" button at the bottom.
+
+![Login Page](/design-plan/loginsketch.jpg)
+
+The login page will be a seperate page with only the login form. It will only be accessible when the user isn't logged in.
+
 
 
 ### Design Pattern Explanation/Reflection (Milestone 1)
