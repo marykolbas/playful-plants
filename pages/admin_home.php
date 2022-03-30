@@ -295,129 +295,45 @@ if (isset($_POST['add_plant_submit'])) {
         <input type="submit" value="Apply Changes" name="apply_changes_submit"/>
       </div>
     </form>
-    <!--ADD PLANT FORM-->
 
-    <form method="post" action="/" id="addform" novalidate>
-    <h2> Add a New Plant </h2>
-    <div class="confirmation">
-      <?php
-      if($result_inserted){
-        echo htmlspecialchars("Plant with Plant ID '" . $plant_id . "' was successfully added to the database.");
-      }
-      ?>
-    </div>
-    <div class=columns>
-      <div class="feedback <?php echo $name_feedback_class; ?>">Please enter the plant's name.</div>
-      <div class="form_element">
-        <label for="name_input">Plant Name:</label>
-        <input type="text" id="name_input" name="name" value="<?php echo htmlspecialchars($sticky_name)?>"/>
-      </div>
-      <div class="feedback <?php echo $sci_name_feedback_class; ?>">Please enter the plant's scientific name.</div>
-      <div class="feedback <?php echo $sci_name_feedback_unique; ?>">A plant with this scientific name already exists. Please enter a different scientific name.</div>
-      <div class="form_element">
-        <label for="sci_name_input">Scientific Name:</label>
-        <input type="text" id="sci_name_input" name="sci_name" value="<?php echo htmlspecialchars($sticky_sci_name)?>"/>
-      </div>
-      <div class="feedback <?php echo $plant_id_feedback_class; ?>">Please enter the Plant ID.</div>
-      <div class="feedback <?php echo $plant_id_feedback_unique; ?>">A plant with this Plant ID already exists. Please enter a different Plant ID.</div>
-      <div class="form_element">
-        <label for="plant_id_input">Plant ID:</label>
-        <input type="text" id="plant_id_input" name="plant_id" value="<?php echo htmlspecialchars($sticky_plant_id)?>"/>
-      </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
-          <label for="is_exploratory_constructive_box">Exploratory Constructive Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_exploratory_sensory_box" name="is_exploratory_sensory" <?php echo htmlspecialchars($sticky_exploratory_sensory)?>/>
-          <label for="is_exploratory_sensory_box">Exploratory Sensory Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_physical_box" name="is_physical" <?php echo htmlspecialchars($sticky_physical)?>/>
-          <label for="is_physical_box">Physical Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_imaginative_box" name="is_imaginative" <?php echo htmlspecialchars($sticky_imaginative)?> />
-          <label for="is_imaginative_box">Imaginative Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_restorative_box" name="is_restorative" <?php echo htmlspecialchars($sticky_restorative)?> />
-          <label for="is_restorative_box">Restorative Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_expressive_box" name="is_expressive" <?php echo htmlspecialchars($sticky_expressive)?> />
-          <label for="is_expressive_box">Expressive Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_play_with_rules_box" name="is_play_with_rules" <?php echo htmlspecialchars($sticky_play_with_rules)?> />
-          <label for="is_play_with_rules_box">Play with Rules</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_bio_box" name="is_bio" <?php echo htmlspecialchars($sticky_bio)?> />
-          <label for="is_bio_box">Bio Play</label>
-        </div>
-      </div>
-      <div class="align-right">
-        <input type="submit" value="Add Plant" name="add_plant_submit"/>
-    </div>
-    </form>
   </aside>
 
-  <main class='print'>
+  <main>
     <h2> Playful Plants Catalog </h2>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Scientific Name</th>
-        <th>Plant ID</th>
-        <th>Play Type</th>
-      </tr>
-      <?php foreach($records as $record){?>
-        <tr>
-          <td><?php echo htmlspecialchars($record['name']); ?></td>
-          <td><?php echo htmlspecialchars($record['sci_name']); ?></td>
-          <td><?php echo htmlspecialchars($record['plant_id']); ?></td>
-          <?php
-            //list for all play types of this particular plant entry
-            $play_types = array();
-            if ($record['exploratory_constructive'] == '1'){
-              array_push($play_types, "Exploratory Constructive Play");
-            }
-            if ($record['exploratory_sensory'] == '1'){
-              array_push($play_types, "Exploratory Sensory Play");
-            }
-            if ($record['physical'] == '1'){
-              array_push($play_types, "Physical Play");
-            }
-            if ($record['imaginative'] == '1'){
-              array_push($play_types, "Imaginative Play");
-            }
-            if ($record['restorative'] =='1'){
-              array_push($play_types, "Restorative Play");
-            }
-            if ($record['expressive'] == '1'){
-              array_push($play_types, "Expressive Play");
-            }
-            if ($record['play_with_rules'] == '1'){
-              array_push($play_types, "Play With Rules");
-            }
-            if ($record['bio'] == '1'){
-              array_push($play_types, "Bio Play");
-            }
-
-            if (count($play_types) > 0){
-              $play_types_complete = implode(', ', $play_types);
-            }
-            else{
-              $play_types_complete = "";
-            }
-            ?>
-          <td>
-            <?php echo htmlspecialchars($play_types_complete)?>
-          </td>
-        </tr>
-      <?php }?>
-    </table>
+    <div class="rows">
+      <div class="catalog_entry">
+        <!--Image Source: Original Work (Mary Kolbas) -->
+        <img src="/public/plus.jpg" alt="Plus sign in circle">
+        <h3><a href="/addplant"> Add New Plant </a></h3>
+      </div>
+      <div class="catalog_entry">
+        <!--Image Source: Original Work (Mary Kolbas) -->
+        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <h3>3 Sisters-Corn</h3>
+        <h4>Red Mohawk Corn</h4>
+        <a href="/plant"> Edit </a>
+      </div>
+      <div class="catalog_entry">
+        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <h3>American Groundnut</h3>
+        <h4>Apius americana</h4>
+        <a href="/plant"> Edit </a>
+      </div>
+    </div>
+    <div class="rows">
+      <div class="catalog_entry">
+        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <h3>Common Nasturtiums</h3>
+        <h4>Tropaeolum (group)</h4>
+        <a href="/plant"> Edit </a>
+      </div>
+      <div class="catalog_entry">
+        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <h3>Downy skullcap</h3>
+        <h4>Scutellaria incana</h4>
+        <a href="/plant"> Edit </a>
+      </div>
+    </div>
   </main>
 </div>
 </body>

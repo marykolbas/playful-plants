@@ -24,8 +24,12 @@ if (preg_match('/^\/public\//', $request_uri) || $request_uri == '/favicon.ico')
   // let the web server respond for static resources
   return False;
 } else if (match_routes($request_uri, '/')) {
-  require 'pages/home.php';
-} else {
+  require 'pages/admin_home.php';
+} else if(match_routes($request_uri, '/plant')){
+  require 'pages/admin_plant.php';
+}else if(match_routes($request_uri, '/addplant')){
+  require 'pages/addplant.php';
+}else {
   error_log("  404 Not Found: " . $request_uri);
   http_response_code(404);
   require 'pages/404.php';
