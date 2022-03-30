@@ -128,12 +128,17 @@
 
 
 <body>
+<main>
   <h1>Playful Plants Project</h1>
   <div class="align-right">
-        <a href="/login"> Logout</a> <!--Have this button process the logout-->
+        <a href="/login"> Log-in </a>
     </div>
 <div class="content">
   <aside>
+      <p>Sort and Filter catalog contents by selecting options below, then click "Apply Changes".</p>
+  <form method="post" action="/" id="print_button" novalidate>
+      <input type="submit" value="Print Catalog" name="print_submit" onclick="window.print()"/>
+    </form>
     <!--FILTER FORM-->
     <form method="get" action="/" novalidate>
       <div class="form_element">
@@ -144,40 +149,61 @@
           <option value="sortby_plant_id" <?php echo htmlspecialchars($sticky_sortby_plant_id)?>> Plant ID </option>
         </select>
       </div>
-      <div class=columns>
+
+<label for="classification"> Growth Cycle</label>
         <div class="form_element">
-          <input type="checkbox" id="exploratory_constructive_box" name="exploratory_constructive_box" <?php echo htmlspecialchars($sticky_exploratory_constructive_filter)?>/>
-          <label for="exploratory_constructive_box">Exploratory Constructive Play</label>
+          <input type="checkbox" id="shrub" name="classification" <?php echo htmlspecialchars($sticky_shrub)?>/>
+          <label for="shrub">Shrub</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="exploratory_sensory_box" name="exploratory_sensory_box" <?php echo htmlspecialchars($sticky_exploratory_sensory_filter)?>/>
-          <label for="exploratory_sensory_box">Exploratory Sensory Play</label>
+          <input type="checkbox" id="grass" name="classification" <?php echo htmlspecialchars($sticky_grass)?>/>
+          <label for="grass">Grass</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="physical_box" name="physical_box" <?php echo htmlspecialchars($sticky_physical_filter)?>/>
-          <label for="physical_box">Physical Play</label>
+          <input type="checkbox" id="vine" name="classification" <?php echo htmlspecialchars($sticky_vine)?>/>
+          <label for="vine">Vine</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="imaginative_box" name="imaginative_box" <?php echo htmlspecialchars($sticky_imaginative_filter)?>/>
-          <label for="imaginative_box">Imaginative Play</label>
+          <input type="checkbox" id="tree" name="classification" <?php echo htmlspecialchars($sticky_tree)?>/>
+          <label for="tree">Tree</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="restorative_box" name="restorative_box" <?php echo htmlspecialchars($sticky_restorative_filter)?>/>
-          <label for="restorative_box">Restorative Play</label>
+          <input type="checkbox" id="groundcover" name="classification" <?php echo htmlspecialchars($sticky_groundcover)?>/>
+          <label for="groundcover">Groundcover</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="expressive_box" name="expressive_box" <?php echo htmlspecialchars($sticky_expressive_filter)?>/>
-          <label for="expressive_box">Expressive Play</label>
+          <input type="checkbox" id="other" name="classification" <?php echo htmlspecialchars($sticky_other)?>/>
+          <label for="other">Other</label>
+        </div>
+
+        <label for="growth"> Growth Cycle</label>
+        <div class="form_element">
+          <input type="checkbox" id="annual" name="growth" <?php echo htmlspecialchars($sticky_annual)?>/>
+          <label for="annual">Annual</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="play_with_rules_box" name="play_with_rules_box" <?php echo htmlspecialchars($sticky_play_with_rules_filter)?>/>
-          <label for="play_with_rules_box">Play with Rules</label>
+          <input type="checkbox" id="perennial" name="growth" <?php echo htmlspecialchars($sticky_perennial)?>/>
+          <label for="perennial">Perennial</label>
+        </div>
+
+        <label for="sunlight"> Sunlight </label>
+        <div class="form_element">
+          <input type="checkbox" id="fullsun" name="sunlight" <?php echo htmlspecialchars($sticky_fullsun)?>/>
+          <label for="fullsun">Full Sun</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="bio_box" name="bio_box" <?php echo htmlspecialchars($sticky_bio_filter)?>/>
-          <label for="bio_box">Bio Play</label>
+          <input type="checkbox" id="partialshade" name="sunlight" <?php echo htmlspecialchars($sticky_partialshade)?>/>
+          <label for="partialshade">Partial Shade</label>
         </div>
-      </div>
+        <div class="form_element">
+          <input type="checkbox" id="fullshade" name="sunlight" <?php echo htmlspecialchars($sticky_fullshade)?>/>
+          <label for="fullshade">Full Shade</label>
+        </div>
+        <div class="form_element">
+          <label for="fullshade">Hardiness Level: </label>
+          <input type="text" id="hardiness" name="hardiness" <?php echo htmlspecialchars($sticky_hardiness)?>/>
+        </div> <!--Change this to dropdowns or categorical?-->
+
       <div class="align-right">
         <input type="submit" value="Apply Changes" name="apply_changes_submit"/>
       </div>
@@ -190,41 +216,31 @@
     <div class="rows">
       <div class="catalog_entry">
         <!--Image Source: Original Work (Mary Kolbas) -->
-        <img src="/public/plus.jpg" alt="Plus sign in circle">
-        <h3><a href="/addplant"> Add New Plant </a></h3>
+        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <h3><a href="/plant">3 Sisters-Corn</a></h3>
+        <h4 class="sciname">Red Mohawk Corn</h4>
       </div>
       <div class="catalog_entry">
-        <!--Image Source: Original Work (Mary Kolbas) -->
         <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>3 Sisters-Corn</h3>
-        <h4>Red Mohawk Corn</h4>
-        <a href="/admin_plant"> Edit </a>
+        <h3><a href="/plant">American Groundnut</a></h3>
+        <h4 class="sciname">Apius americana</h4>
       </div>
     </div>
     <div class="rows">
-      <div class="catalog_entry">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>American Groundnut</h3>
-        <h4 class="sciname">Apius americana</h4>
-        <a href="/admin_plant"> Edit </a>
-      </div>
       <div class="catalog_entry">
         <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
         <h3>Common Nasturtiums</h3>
         <h4 class="sciname">Tropaeolum (group)</h4>
-        <a href="/admin_plant"> Edit </a>
       </div>
-    </div>
-    <div class="rows">
       <div class="catalog_entry">
         <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
         <h3>Downy skullcap</h3>
         <h4 class="sciname">Scutellaria incana</h4>
-        <a href="/admin_plant"> Edit </a>
       </div>
     </div>
   </main>
 </div>
+</main>
 </body>
 
 </html>

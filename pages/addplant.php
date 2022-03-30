@@ -144,6 +144,11 @@ if (isset($_POST['add_plant_submit'])) {
 </head>
 
 <body>
+<main>
+<h1>Playful Plants Project</h1>
+<div class="align-right">
+   <a href="/login"> Logout</a> <!--Have this button process the logout-->
+</div>
 <a href="/"> Return to Catalog </a>
 <!--ADD PLANT FORM-->
 <form method="post" action="/addplant" id="addform" novalidate>
@@ -246,4 +251,6 @@ if (isset($_POST['add_plant_submit'])) {
         <input type="submit" value="Add Plant" name="add_plant_submit"/>
     </div>
     </form>
+    </main>
 </body>
+</html>

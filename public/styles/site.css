@@ -15,13 +15,13 @@ body{
 }
 
 aside{
-    width: 35%;
+    flex-grow:35;
     border-right-style: solid;
 }
 
 main{
     padding-left: 20px;
-    width:100%;
+    flex-grow: 65;
 }
 
 form{
@@ -76,3 +76,26 @@ form h2{
     margin: 10px;
     padding: 10px;
 }
+
+.content{
+    display:flex;
+    flex-direction: row;
+}
+
+.sciname{
+    font-style: italic;
+}
+
+@media (max-width: 800px){
+    .content{
+        flex-direction: column;
+    }
+    aside{
+        border-right-style: none;
+    }
+    body{
+        width:100%;
+    }
+
+
+  }

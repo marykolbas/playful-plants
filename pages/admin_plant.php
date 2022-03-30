@@ -119,7 +119,18 @@ if (isset($_POST['edit_plant_submit'])) {
 </head>
 
 <body>
+  <main>
     <h1>Playful Plants Project</h1>
+    <div class="align-right">
+        <a href="/login"> Logout</a> <!--Have this button process the logout-->
+    </div>
+    <div class="confirmation">
+      <?php
+      if($result_edited){
+        echo htmlspecialchars("Plant with Plant ID '" . $plant_id . "' was successfully edited.");?>
+      <?php } ?>
+
+    </div>
     <a href="/"> Return to Catalog </a>
     <form method="post" action="/plant" id="addform" novalidate>
     <h2> Edit Existing Plant </h2>
@@ -190,8 +201,8 @@ if (isset($_POST['edit_plant_submit'])) {
           </select>
         </div>
         <div class="form_element">
-          <label for="season">Perennial/Annual:</label>
-          <select id="season" name="season">
+          <label for="growth">Perennial/Annual:</label>
+          <select id="growth" name="growth">
             <option value="season_none"> </option>
             <option value="perennial"> Perennial</option>
             <option value="annual" selected> Annual</option>
@@ -212,20 +223,15 @@ if (isset($_POST['edit_plant_submit'])) {
         <div class="form_element">
           <label for="hardiness">Hardiness Level</label>
           <input type="text" id="hardiness" name="sci_name" value="4-9"/>
-      </div>
+        </div>
 
       </div>
 
       <div class="align-right">
         <input type="submit" value="Save Changes" name="edit_plant_submit"/>
     </div>
-    <div class="confirmation">
-      <?php
-      if($result_edited){
-        echo htmlspecialchars("Plant with Plant ID '" . $plant_id . "' was successfully edited.");?>
-        <a href = "/"> Return to Catalog </a>
-      <?php } ?>
 
-    </div>
     </form>
+      </main>
 </body>
+</html>
