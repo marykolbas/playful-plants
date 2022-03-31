@@ -243,6 +243,7 @@ SELECT * FROM plants ORDER BY $orderfield_and_direction WHERE $filter_conditions
 
 
 ### Code Planning (Milestone 1, Milestone 2, Milestone 3, Final Submission)
+
 > Plan any PHP code you'll need here using pseudocode.
 > Tip: Break this up by pages. It makes it easier to plan.
 

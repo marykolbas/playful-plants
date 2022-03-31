@@ -144,7 +144,7 @@ if (isset($_POST['add_plant_submit'])) {
 </head>
 
 <body>
-<main>
+<main class="center">
 <h1>Playful Plants Project</h1>
 <div class="align-right">
    <a href="/login"> Logout</a> <!--Have this button process the logout-->

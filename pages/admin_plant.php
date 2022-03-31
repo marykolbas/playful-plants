@@ -119,7 +119,7 @@ if (isset($_POST['edit_plant_submit'])) {
 </head>
 
 <body>
-  <main>
+  <main class="center">
     <h1>Playful Plants Project</h1>
     <div class="align-right">
         <a href="/login"> Logout</a> <!--Have this button process the logout-->
@@ -153,7 +153,7 @@ if (isset($_POST['edit_plant_submit'])) {
         <input type="text" id="plant_id_input" name="plant_id" value="FE_07"/>
       </div>
       <div class="form_element">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <img class="big_image" src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
         Upload Image
       </div>
         <div class="form_element">

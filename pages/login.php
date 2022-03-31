@@ -49,7 +49,7 @@
 
 <body>
 
-    <main>
+    <main class="center">
       <h1>Playful Plants Project</h1>
         <p> If you are an administrator, log-in to edit database. Otherwise, <a href="/"> return to the catalog.</a></p>
         <form method="post" action="/login" novalidate>

@@ -135,7 +135,7 @@
     </div>
 <div class="content">
   <aside>
-      <p>Sort and Filter catalog contents by selecting options below, then click "Apply Changes".</p>
+      <p id="instructions">Sort and Filter catalog contents by selecting options below, then click "Apply Changes".</p>
   <form method="post" action="/" id="print_button" novalidate>
       <input type="submit" value="Print Catalog" name="print_submit" onclick="window.print()"/>
     </form>

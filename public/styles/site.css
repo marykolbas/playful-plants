@@ -1,6 +1,6 @@
 body{
     font-family: sans-serif;
-    width: 90%;
+    width: 80%;
     margin: auto;
 }
 
@@ -99,3 +99,12 @@ form h2{
 
 
   }
+
+  .center{
+      width: 50%;
+      margin: auto;
+  }
+
+.big_image{
+    width:50%;
+}

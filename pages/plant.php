@@ -10,7 +10,7 @@
 
 <body>
 
-    <main>
+    <main class="center">
     <h1>Playful Plants Project</h1>
     <div class="align-right">
         <a href="/login"> Log-in </a>
@@ -18,7 +18,7 @@
         <a href="/"> Return to Catalog </a>
         <h3>3 Sisters-Corn</h3>
         <h4 class="sciname">Red Mohawk Corn</h4>
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <img class="big_image" src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
         <p> Classification: Other </p>
         <p>Growth Pattern: Annual</p>
         <p>Sun: Full Sun</p>
