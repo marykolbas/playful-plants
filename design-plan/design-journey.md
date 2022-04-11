@@ -378,6 +378,24 @@ if(form is submitted){
 }
 ```
 
+```
+Printing catalog using flexbox with 2 plant entries per row
+
+<?php
+$counter = 0;
+foreach($records as $record){
+  $query_string = http_build_query(array(
+      'pp_id' => $record['pp_id'] (or use some other more appropriate query parameter)
+    ));
+?>
+      <?php if($counter%2==0) echo '<div class="rows">'; ?> //open div if first entry
+        //print content for that entry
+      <?php if($counter%2!=0) echo "</div>" ?> //close div if second entry
+    <?php $counter=$counter+1;} ?> //increase counter after each foreach record entry
+
+} //close for each loop
+
+```
 
 ### Accessibility Audit (Final Submission)
 > Tell us what issues you discovered during your accessibility audit.
