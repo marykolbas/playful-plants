@@ -185,6 +185,7 @@ Table: plants
 - expressive: INTEGER {NN}
 - play_with_rules: INTEGER {NN}
 - bio: INTEGER {NN}
+- hardiness_level: TEXT {NN}
 
 // tags for sorting for consumers, such as classification and growing needs
 
