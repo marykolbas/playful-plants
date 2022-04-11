@@ -1,6 +1,6 @@
 <?php
 //open database
-$db = init_sqlite_db('db/site.sqlite', 'db.init.sq()';
+$db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
 #starting variables
 $name = '';

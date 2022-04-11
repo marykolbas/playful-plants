@@ -150,7 +150,7 @@
         </select>
       </div>
 
-<label for="classification"> Growth Cycle</label>
+    <label for="classification"> Growth Cycle</label>
         <div class="form_element">
           <input type="checkbox" id="shrub" name="classification" <?php echo htmlspecialchars($sticky_shrub)?>/>
           <label for="shrub">Shrub</label>
@@ -213,31 +213,25 @@
 
   <main>
     <h2> Playful Plants Catalog </h2>
-    <div class="rows">
-      <div class="catalog_entry">
-        <!--Image Source: Original Work (Mary Kolbas) -->
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3><a href="/plant">3 Sisters-Corn</a></h3>
-        <h4 class="sciname">Red Mohawk Corn</h4>
+
+    <?php
+    $counter = 0;
+    foreach($records as $record){
+      $query_string = http_build_query(array(
+        'pp_id' => $record['pp_id']
+      ));
+      ?>
+      <?php if($counter%2==0) echo '<div class="rows">'; ?>
+        <div class="catalog_entry">
+          <!--Image Source: Original Work (Mary Kolbas) -->
+          <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+          <h3><a href="/plant?<?php echo $query_string; ?>"><?php echo htmlspecialchars($record['name']); ?></a></h3>
+          <h4 class="sciname"><?php echo htmlspecialchars($record['sci_name']); ?></h4>
+        <?php if($counter%2!=0) echo "</div>" ?>
       </div>
-      <div class="catalog_entry">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3><a href="/plant">American Groundnut</a></h3>
-        <h4 class="sciname">Apius americana</h4>
-      </div>
-    </div>
-    <div class="rows">
-      <div class="catalog_entry">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>Common Nasturtiums</h3>
-        <h4 class="sciname">Tropaeolum (group)</h4>
-      </div>
-      <div class="catalog_entry">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>Downy skullcap</h3>
-        <h4 class="sciname">Scutellaria incana</h4>
-      </div>
-    </div>
+    <?php
+    $counter=$counter+1;
+    } ?>
   </main>
 </div>
 </main>
