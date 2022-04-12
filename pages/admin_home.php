@@ -204,8 +204,8 @@
       <?php if($counter%2==0) echo '<div class="rows">'; ?>
 
       <div class="catalog_entry">
-        <!--Image Source: Original Work (Mary Kolbas) -->
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+        <!--onerror source: https://www.w3schools.com/jsref/event_onerror.asp-->
+        <img class="admin_image" src = "/public/seed_images/<?php echo htmlspecialchars($record['pp_id'])?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($record['name']);?>>
         <h3><?php echo htmlspecialchars($record['name']); ?></h3>
         <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
         <a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
