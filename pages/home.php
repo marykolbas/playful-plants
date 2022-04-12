@@ -227,8 +227,8 @@
           <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
           <h3><a href="/plant?<?php echo $query_string; ?>"><?php echo htmlspecialchars($record['name']); ?></a></h3>
           <h4 class="sciname"><?php echo htmlspecialchars($record['sci_name']); ?></h4>
-        <?php if($counter%2!=0) echo "</div>" ?>
-      </div>
+        </div>
+      <?php if($counter%2!=0) echo "</div>" ?>
     <?php
     $counter=$counter+1;
     } ?>

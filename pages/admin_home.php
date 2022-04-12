@@ -1,6 +1,6 @@
 <?php
   //open database
-  $db = init_sqlite_db('db/site.sqlite', 'db.init.sq()';
+  $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
   #starting variables
   $name = '';
@@ -188,41 +188,32 @@
   <main>
     <h2> Playful Plants Catalog </h2>
     <div class="rows">
-      <div class="catalog_entry">
+    <?php
+    $counter = 1;?>
+    <div class="catalog_entry">
         <!--Image Source: Original Work (Mary Kolbas) -->
         <img src="/public/plus.jpg" alt="Plus sign in circle">
         <h3><a href="/addplant"> Add New Plant </a></h3>
-      </div>
+    </div>
+    <?php
+    foreach($records as $record){
+      $query_string = http_build_query(array(
+        'pp_id' => $record['pp_id']
+      ));
+      ?>
+      <?php if($counter%2==0) echo '<div class="rows">'; ?>
+
       <div class="catalog_entry">
         <!--Image Source: Original Work (Mary Kolbas) -->
         <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>3 Sisters-Corn</h3>
-        <h4>Red Mohawk Corn</h4>
-        <a href="/admin_plant"> Edit </a>
+        <h3><?php echo htmlspecialchars($record['name']); ?></h3>
+        <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
+        <a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
       </div>
-    </div>
-    <div class="rows">
-      <div class="catalog_entry">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>American Groundnut</h3>
-        <h4 class="sciname">Apius americana</h4>
-        <a href="/admin_plant"> Edit </a>
-      </div>
-      <div class="catalog_entry">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>Common Nasturtiums</h3>
-        <h4 class="sciname">Tropaeolum (group)</h4>
-        <a href="/admin_plant"> Edit </a>
-      </div>
-    </div>
-    <div class="rows">
-      <div class="catalog_entry">
-        <img src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <h3>Downy skullcap</h3>
-        <h4 class="sciname">Scutellaria incana</h4>
-        <a href="/admin_plant"> Edit </a>
-      </div>
-    </div>
+    <?php if($counter%2!=0) echo "</div>" ?>
+    <?php
+    $counter=$counter+1;
+    } ?> <!--closes foreach-->
   </main>
 </div>
 </body>
