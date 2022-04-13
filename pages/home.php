@@ -200,7 +200,7 @@
           <label for="fullshade">Full Shade</label>
         </div>
         <div class="form_element">
-          <label for="fullshade">Hardiness Level: </label>
+          <label for="hardiness">Hardiness Level: </label>
           <input type="text" id="hardiness" name="hardiness" <?php echo htmlspecialchars($sticky_hardiness)?>/>
         </div> <!--Change this to dropdowns or categorical?-->
 

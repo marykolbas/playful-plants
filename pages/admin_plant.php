@@ -2,18 +2,26 @@
 //open database
 $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
-#starting variables
-$name = '';
-$sci_name = '';
-$plant_id = '';
-$exploratory_constructive = '';
-$exploratory_sensory = '';
-$physical = '';
-$imaginative = '';
-$restorative = '';
-$expressive = '';
-$play_with_rules = '';
-$bio = '';
+$plant=$_GET['pp_id'];
+$result=exec_sql_query(
+  $db,
+  "SELECT * FROM plants WHERE (pp_id= :pp_id);",
+  array(
+      ':pp_id' => $plant
+  )
+)->fetchAll();
+$name = $result[0]['name'];
+$sci_name = $result[0]['sci_name'];
+$plant_id=$result[0]['id'];
+$hardiness=$result[0]['hardiness_level'];
+$exploratory_constructive = ($result[0]['exploratory_constructive']? 'checked' : '');
+$exploratory_sensory = ($result[0]['exploratory_sensory']? 'checked' : '');
+$physical = ($result[0]['physical']? 'checked' : '');
+$imaginative = ($result[0]['imaginative']? 'checked' : '');
+$restorative = ($result[0]['restorative']? 'checked' : '');
+$expressive = ($result[0]['expressive']? 'checked' : '');
+$play_with_rules = ($result[0]['play_with_rules']? 'checked' : '');
+$bio = ($result[0]['bio']? 'checked' : '');
 
 $name_feedback_class = 'hidden';
 $sci_name_feedback_class = 'hidden';
@@ -132,62 +140,68 @@ if (isset($_POST['edit_plant_submit'])) {
 
     </div>
     <a href="/"> Return to Catalog </a>
-    <form method="post" action="/plant" id="addform" novalidate>
+    <?php
+    $query_string = http_build_query(array(
+        'pp_id' => $plant
+      ));
+      ?>
+    <form method="post" action="/plant?<?php echo $query_string;?>" id="editplant" novalidate>
     <h2> Edit Existing Plant </h2>
 
       <div class="feedback <?php echo $name_feedback_class; ?>">Please enter the plant's name.</div>
       <div class="form_element">
         <label for="name_input">Plant Name:</label>
-        <input type="text" id="name_input" name="name" value="3 Sisters-Corn"/>
+        <input type="text" id="name_input" name="name" value="<?php echo htmlspecialchars($name)?>"/>
       </div>
       <div class="feedback <?php echo $sci_name_feedback_class; ?>">Please enter the plant's scientific name.</div>
       <div class="feedback <?php echo $sci_name_feedback_unique; ?>">A plant with this scientific name already exists. Please enter a different scientific name.</div>
       <div class="form_element">
         <label for="sci_name_input">Scientific Name:</label>
-        <input type="text" id="sci_name_input" name="sci_name" value="Red Mohawk Corn"/>
+        <input type="text" id="sci_name_input" name="sci_name" value="<?php echo htmlspecialchars($sci_name)?>"/>
       </div>
       <div class="feedback <?php echo $plant_id_feedback_class; ?>">Please enter the Plant ID.</div>
       <div class="feedback <?php echo $plant_id_feedback_unique; ?>">A plant with this Plant ID already exists. Please enter a different Plant ID.</div>
       <div class="form_element">
         <label for="plant_id_input">Plant ID:</label>
-        <input type="text" id="plant_id_input" name="plant_id" value="FE_07"/>
+        <input type="text" id="plant_id_input" name="plant_id" value="<?php echo htmlspecialchars($plant)?>"/>
       </div>
       <div class="form_element">
         <img class="big_image" src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
         Upload Image
       </div>
         <div class="form_element">
-          <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive"/>
+          <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($exploratory_constructive)?>/>
           <label for="is_exploratory_constructive_box">Exploratory Constructive Play</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="is_exploratory_sensory_box" name="is_exploratory_sensory" checked/>
+          <input type="checkbox" id="is_exploratory_sensory_box" name="is_exploratory_sensory" <?php echo htmlspecialchars($exploratory_sensory)?>/>
           <label for="is_exploratory_sensory_box">Exploratory Sensory Play</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="is_physical_box" name="is_physical" checked/>
+          <input type="checkbox" id="is_physical_box" name="is_physical" <?php echo htmlspecialchars($physical)?>/>
           <label for="is_physical_box">Physical Play</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="is_imaginative_box" name="is_imaginative" checked />
+          <input type="checkbox" id="is_imaginative_box" name="is_imaginative" <?php echo htmlspecialchars($imaginative)?> />
           <label for="is_imaginative_box">Imaginative Play</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="is_restorative_box" name="is_restorative" checked />
+          <input type="checkbox" id="is_restorative_box" name="is_restorative" <?php echo htmlspecialchars($restorative)?> />
           <label for="is_restorative_box">Restorative Play</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="is_expressive_box" name="is_expressive"  />
+          <input type="checkbox" id="is_expressive_box" name="is_expressive" <?php echo htmlspecialchars($expressive)?>/>
           <label for="is_expressive_box">Expressive Play</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="is_play_with_rules_box" name="is_play_with_rules" checked />
+          <input type="checkbox" id="is_play_with_rules_box" name="is_play_with_rules" <?php echo htmlspecialchars($play_with_rules)?> />
           <label for="is_play_with_rules_box">Play with Rules</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="is_bio_box" name="is_bio" />
+          <input type="checkbox" id="is_bio_box" name="is_bio" <?php echo htmlspecialchars($bio)?>/>
           <label for="is_bio_box">Bio Play</label>
         </div>
+        <h3> Tags </h3>
         <div class="form_element">
           <label for="classification">General Classification:</label>
           <select id="classification" name="class">
@@ -222,7 +236,7 @@ if (isset($_POST['edit_plant_submit'])) {
         </div>
         <div class="form_element">
           <label for="hardiness">Hardiness Level</label>
-          <input type="text" id="hardiness" name="sci_name" value="4-9"/>
+          <input type="text" id="hardiness" name="sci_name" value="<?php echo htmlspecialchars($hardiness)?>"/>
         </div>
 
       </div>

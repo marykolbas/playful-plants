@@ -118,10 +118,20 @@ form h2{
 }
 
 img{
-    max-width: 250px;
+    max-width: 90%;
     max-height: 200px;
 }
 
 .admin_image{
     max-height: 150px;
+}
+
+.tag{
+    border-style: solid;
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+    display:inline;
+    padding: 10px;
+    margin: 10px;
 }

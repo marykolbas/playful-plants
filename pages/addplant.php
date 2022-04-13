@@ -1,11 +1,11 @@
 <?php
   //open database
-  $db = init_sqlite_db('db/site.sqlite', 'db.init.sq()';
+  $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
   #starting variables
   $name = '';
   $sci_name = '';
-  $plant_id = '';
+  $pp_id = '';
   $exploratory_constructive = '';
   $exploratory_sensory = '';
   $physical = '';
@@ -14,18 +14,19 @@
   $expressive = '';
   $play_with_rules = '';
   $bio = '';
+  $hardiness='';
 
   $name_feedback_class = 'hidden';
   $sci_name_feedback_class = 'hidden';
-  $plant_id_feedback_class = 'hidden';
+  $pp_id_feedback_class = 'hidden';
   $sci_name_feedback_unique = 'hidden';
-  $plant_id_feedback_unique = 'hidden';
+  $pp_id_feedback_unique = 'hidden';
 
 #ADD PLANT FORM
 if(!$form_valid){
     $sticky_name= '';
     $sticky_sci_name = '';
-    $sticky_plant_id = '';
+    $sticky_pp_id = '';
     $sticky_exploratory_constructive = '';
     $sticky_exploratory_sensory = '';
     $sticky_physical = '';
@@ -35,13 +36,14 @@ if(!$form_valid){
     $sticky_expressive = '';
     $sticky_play_with_rules= '';
     $sticky_bio = '';
+    $sticky_hardiness = '';
   }
 
 if (isset($_POST['add_plant_submit'])) {
 
   $name = trim($_POST['name']); // untrusted
   $sci_name = trim($_POST['sci_name']); // untrusted
-  $plant_id = strtoupper(trim($_POST['plant_id'])); // untrusted
+  $pp_id = strtoupper(trim($_POST['pp_id'])); // untrusted
   $exploratory_constructive = ($_POST['is_exploratory_constructive'] ? 'checked' : '');
   $exploratory_sensory = ($_POST['is_exploratory_sensory'] ? 'checked' : '');
   $physical = ($_POST['is_physical'] ? 'checked' : '');
@@ -50,6 +52,7 @@ if (isset($_POST['add_plant_submit'])) {
   $expressive = ($_POST['is_expressive'] ? 'checked' : '');
   $play_with_rules = ($_POST['is_play_with_rules'] ? 'checked' : '');
   $bio = ($_POST['is_bio'] ? 'checked' : '');
+  $hardiness = ($_POST['hardiness']);
 
   $form_valid = True;
 
@@ -75,21 +78,21 @@ if (isset($_POST['add_plant_submit'])) {
       $sci_name_feedback_unique = True;
     }
   }
-  if (empty($plant_id)) {
+  if (empty($pp_id)) {
     $form_valid = False;
-    $plant_id_feedback_class = '';
+    $pp_id_feedback_class = '';
   }
   else{
     $records = exec_sql_query(
       $db,
-      "SELECT * FROM plants WHERE (plant_id = :plant_id);",
+      "SELECT * FROM plants WHERE (pp_id = :pp_id);",
       array(
-        ':plant_id' => $plant_id
+        ':pp_id' => $pp_id
       )
     )-> fetchAll();
     if(count($records)>0){
       $form_valid = False;
-      $plant_id_feedback_unique = True;
+      $pp_id_feedback_unique = True;
     }
   }
 
@@ -97,11 +100,11 @@ if (isset($_POST['add_plant_submit'])) {
   if($form_valid){
     $result = exec_sql_query(
       $db,
-      "INSERT INTO plants (name, sci_name, plant_id, exploratory_constructive, exploratory_sensory, physical, imaginative, restorative, expressive, play_with_rules, bio) VALUES (:name, :sci_name, :plant_id, :ex_con, :ex_sen, :phys, :imag, :rest, :expr, :rules, :bio);",
+      "INSERT INTO plants (name, sci_name, pp_id, exploratory_constructive, exploratory_sensory, physical, imaginative, restorative, expressive, play_with_rules, bio, hardiness_level) VALUES (:name, :sci_name, :pp_id, :ex_con, :ex_sen, :phys, :imag, :rest, :expr, :rules, :bio,:hardiness);",
       array(
         ':name' => $name,
         ':sci_name' => $sci_name,
-        ':plant_id' => $plant_id,
+        ':pp_id' => $pp_id,
         ':ex_con' => $exploratory_constructive == 'checked' ? '1' : '0',
         ':ex_sen' => $exploratory_sensory == 'checked' ? '1' : '0',
         ':phys' => $physical == 'checked' ? '1' : '0',
@@ -109,7 +112,8 @@ if (isset($_POST['add_plant_submit'])) {
         ':rest' => $restorative == 'checked' ? '1' : '0',
         ':expr' => $expressive == 'checked' ? '1' : '0',
         ':rules' => $play_with_rules == 'checked' ? '1' : '0',
-        ':bio' => $bio == 'checked' ? '1' : '0'
+        ':bio' => $bio == 'checked' ? '1' : '0',
+        ':hardiness' => $hardiness
       )
     );
     if($result){ //use to do confirmation message?
@@ -120,7 +124,7 @@ if (isset($_POST['add_plant_submit'])) {
     // set sticky values
     $sticky_name=$name;
     $sticky_sci_name = $sci_name;
-    $sticky_plant_id = $plant_id;
+    $sticky_pp_id = $pp_id;
     $sticky_exploratory_constructive = $exploratory_constructive;
     $sticky_exploratory_sensory = $exploratory_sensory;
     $sticky_physical = $physical;
@@ -129,6 +133,7 @@ if (isset($_POST['add_plant_submit'])) {
     $sticky_expressive = $expressive;
     $sticky_play_with_rules = $play_with_rules;
     $sticky_bio = $bio;
+    $sticky_hardiness = $hardiness;
   }
 }
 ?>
@@ -156,7 +161,7 @@ if (isset($_POST['add_plant_submit'])) {
     <div class="confirmation">
       <?php
       if($result_inserted){
-        echo htmlspecialchars("Plant with Plant ID '" . $plant_id . "' was successfully added to the database.");
+        echo htmlspecialchars("Plant with Plant ID '" . $pp_id . "' was successfully added to the database.");
       }
       ?>
     </div>
@@ -172,11 +177,11 @@ if (isset($_POST['add_plant_submit'])) {
         <label for="sci_name_input">Scientific Name:</label>
         <input type="text" id="sci_name_input" name="sci_name" value="<?php echo htmlspecialchars($sticky_sci_name)?>"/>
       </div>
-      <div class="feedback <?php echo $plant_id_feedback_class; ?>">Please enter the Plant ID.</div>
-      <div class="feedback <?php echo $plant_id_feedback_unique; ?>">A plant with this Plant ID already exists. Please enter a different Plant ID.</div>
+      <div class="feedback <?php echo $pp_id_feedback_class; ?>">Please enter the Plant ID.</div>
+      <div class="feedback <?php echo $pp_id_feedback_unique; ?>">A plant with this Plant ID already exists. Please enter a different Plant ID.</div>
       <div class="form_element">
-        <label for="plant_id_input">Plant ID:</label>
-        <input type="text" id="plant_id_input" name="plant_id" value="<?php echo htmlspecialchars($sticky_plant_id)?>"/>
+        <label for="pp_id_input">Plant ID:</label>
+        <input type="text" id="pp_id_input" name="pp_id" value="<?php echo htmlspecialchars($sticky_pp_id)?>"/>
       </div>
         <div class="form_element">
           <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
@@ -244,7 +249,7 @@ if (isset($_POST['add_plant_submit'])) {
         </div>
         <div class="form_element">
           <label for="hardiness">Hardiness Level</label>
-          <input type="text" id="hardiness" name="sci_name"/>
+          <input type="text" id="hardiness" name="hardiness" value="<?php echo htmlspecialchars($sticky_hardiness)?>"/>
       </div>
       </div>
       <div class="align-right">

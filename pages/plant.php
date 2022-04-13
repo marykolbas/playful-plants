@@ -12,15 +12,16 @@
     $name = $result[0]['name'];
     $sci_name = $result[0]['sci_name'];
     $plant_id=$result[0]['id'];
+    $hardiness=$result[0]['hardiness_level'];
 
     //$tag_query = "SELECT * FROM tags WHERE (plant_id=" . $plant_id . ")";
-    $tags_result = exec_sql_query(
+    /*$tags_result = exec_sql_query(
         $db,
         "SELECT * FROM entrytags WHERE (plant_id= :plant_id);",
         array(
 
         )
-    );
+    );*/
 
 ?>
 
@@ -44,11 +45,13 @@
         <a href="/"> Return to Catalog </a>
         <h3><?php echo htmlspecialchars($name)?></h3>
         <h4 class="sciname"><?php echo htmlspecialchars($sci_name)?></h4>
-        <img class="big_image" src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
-        <p> Classification: Other </p>
-        <p>Growth Pattern: Annual</p>
-        <p>Sun: Full Sun</p>
-        <p>Hardiness: 4-9 </p>
+        <img src = "/public/seed_images/<?php echo htmlspecialchars($plant)?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($name);?>>
+        <p>Hardiness Level: <?php echo htmlspecialchars($hardiness);?></p>
+        <h5>Tags</h5>
+        <p class="tag"> Classification: Other </p>
+        <p class="tag">Growth Pattern: Annual</p>
+        <p class="tag">Sun: Full Sun</p>
+
         <?php
          foreach($tags_result as $tag){
 
