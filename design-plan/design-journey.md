@@ -239,6 +239,18 @@ SELECT * FROM plants ORDER BY $orderfield_and_direction WHERE $filter_conditions
   e.g. SELECT * FROM plants ORDER BY name ASC WHERE ex_c=1 OR ex_s=1;
 ```
 
+```
+Getting a specific plant's tags:
+
+SELECT
+  plants.id AS 'plants.id',
+  tags.name AS 'tags.name'
+FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) INNER JOIN tags ON (entry_tags.tag_id = tags.id)
+WHERE (plants.id = 1);
+
+```
+
+
 
 
 
