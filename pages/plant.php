@@ -14,14 +14,18 @@
     $plant_id=$result[0]['id'];
     $hardiness=$result[0]['hardiness_level'];
 
-    //$tag_query = "SELECT * FROM tags WHERE (plant_id=" . $plant_id . ")";
-    /*$tags_result = exec_sql_query(
+    $tags=exec_sql_query(
         $db,
-        "SELECT * FROM entrytags WHERE (plant_id= :plant_id);",
+        "SELECT
+        plants.id AS 'plants.id',
+        tags.name AS 'tags.name'
+        FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) INNER JOIN tags ON (entry_tags.tag_id = tags.id)
+        WHERE (plants.id = :plant_id);",
         array(
-
+            ':plant_id' => $plant_id
         )
-    );*/
+    )->fetchAll();
+
 
 ?>
 
@@ -45,16 +49,14 @@
         <a href="/"> Return to Catalog </a>
         <h3><?php echo htmlspecialchars($name)?></h3>
         <h4 class="sciname"><?php echo htmlspecialchars($sci_name)?></h4>
-        <img src = "/public/seed_images/<?php echo htmlspecialchars($plant)?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($name);?>>
+        <img src = "/public/uploads/plants/<?php echo htmlspecialchars($plant_id)?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($name);?>>
         <p>Hardiness Level: <?php echo htmlspecialchars($hardiness);?></p>
         <h5>Tags</h5>
-        <p class="tag"> Classification: Other </p>
-        <p class="tag">Growth Pattern: Annual</p>
-        <p class="tag">Sun: Full Sun</p>
-
         <?php
-         foreach($tags_result as $tag){
-
+         foreach($tags as $tag){
+            echo "<p class='tag'>";
+            echo htmlspecialchars($tag['tags.name']);
+            echo "</p>";
          }
         ?>
     </main>

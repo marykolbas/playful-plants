@@ -247,11 +247,7 @@ SELECT
   tags.name AS 'tags.name'
 FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) INNER JOIN tags ON (entry_tags.tag_id = tags.id)
 WHERE (plants.id = 1);
-
 ```
-
-
-
 
 
 
@@ -407,6 +403,17 @@ foreach($records as $record){
 
 } //close for each loop
 
+```
+
+```
+Printing tags on plants detail page
+ <?php
+         foreach($tags as $tag){
+            echo "<p class='tag'>";
+            echo htmlspecialchars($tag['tags.name']);
+            echo "</p>";
+         }
+        ?>
 ```
 
 ### Accessibility Audit (Final Submission)

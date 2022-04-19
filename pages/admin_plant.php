@@ -23,6 +23,52 @@ $expressive = ($result[0]['expressive']? 'checked' : '');
 $play_with_rules = ($result[0]['play_with_rules']? 'checked' : '');
 $bio = ($result[0]['bio']? 'checked' : '');
 
+$tags=exec_sql_query(
+  $db,
+  "SELECT
+  plants.id AS 'plants.id',
+  tags.name AS 'tags.name'
+  FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) INNER JOIN tags ON (entry_tags.tag_id = tags.id)
+  WHERE (plants.id = :plant_id);",
+  array(
+      ':plant_id' => $plant_id
+  )
+)->fetchAll();
+
+
+//Set to empty string (so that the foreach conditions work)
+$is_shrub='';
+$is_grass = '';
+$is_vine='';
+$is_tree = '';
+$is_flower = '';
+$is_groundcover = '';
+$is_other = '';
+$is_perennial = '';
+$is_annual = '';
+$is_fullsun = '';
+$is_partialshade = '';
+$is_fullshade = '';
+
+//check which tags are selected for this plant
+foreach($tags as $tag){
+  $is_shrub= (($tag['tags.name'] == 'Classification: Shrub') || ($is_shrub=="selected") ? 'selected' : '');
+  $is_grass= (($tag['tags.name'] == 'Classification: Grass') || ($is_grass=="selected")? 'selected' : '');
+  $is_vine= (($tag['tags.name'] == 'Classification: Vine') || ($is_vine=="selected") ? 'selected' : '');
+  $is_tree = (($tag['tags.name'] == 'Classification: Tree') || ($is_tree=="selected") ? 'selected' : '');
+  $is_flower= (($tag['tags.name'] == 'Classification: Flower') || ($is_flower=="selected") ? 'selected' : '');
+  $is_groundcover= (($tag['tags.name'] == 'Classification: Groundcover') || ($is_groundcover=="selected") ? 'selected' : '');
+  $is_other= (($tag['tags.name'] == 'Classification: Other') || ($is_other=="selected") ? 'selected' : '');
+  $is_perennial = (($tag['tags.name'] == 'Growth: Perennial') || ($is_perennial=="selected") ? 'selected' : '');
+  $is_annual = (($tag['tags.name'] == 'Growth: Annual') || ($is_annual=="selected") ? 'selected' : '');
+  $is_fullsun = (($tag['tags.name'] == 'Sun: Full Sun') || ($is_fullsun=="checked") ? 'checked' : '');
+  $is_partialshade= (($tag['tags.name'] == 'Sun: Partial Shade') || ($is_partialshade=="checked") ? 'checked' : '');
+  $is_fullshade = (($tag['tags.name'] == 'Sun: Full Shade') || ($is_fullshade=="checked") ? 'checked' : '');
+
+}
+
+
+
 $name_feedback_class = 'hidden';
 $sci_name_feedback_class = 'hidden';
 $plant_id_feedback_class = 'hidden';
@@ -166,7 +212,7 @@ if (isset($_POST['edit_plant_submit'])) {
         <input type="text" id="plant_id_input" name="plant_id" value="<?php echo htmlspecialchars($plant)?>"/>
       </div>
       <div class="form_element">
-        <img class="big_image" src="/public/temp_plant.jpg" alt="Drawing of Flower with words 'No Image' overlayed">
+      <img src = "/public/uploads/plants/<?php echo htmlspecialchars($plant_id)?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($name);?>>
         Upload Image
       </div>
         <div class="form_element">
@@ -205,33 +251,34 @@ if (isset($_POST['edit_plant_submit'])) {
         <div class="form_element">
           <label for="classification">General Classification:</label>
           <select id="classification" name="class">
-            <option value="class_none"> </option>
-            <option value="class_shrub"> Shrub </option>
-            <option value="class_grass"> Grass </option>
-            <option value="class_vine"> Vine </option>
-            <option value="class_vine" > Tree </option>
-            <option value="class_vine" > Groundcover </option>
-            <option value="class_vine" selected> Other </option>
+            <option value="class_none" > </option>
+            <option value="class_shrub" <?php echo htmlspecialchars($is_shrub);?>> Shrub </option>
+            <option value="class_grass" <?php echo htmlspecialchars($is_grass);?>> Grass </option>
+            <option value="class_vine" <?php echo htmlspecialchars($is_vine);?>> Vine </option>
+            <option value="class_tree" <?php echo htmlspecialchars($is_tree);?> > Tree </option>
+            <option value="class_flower" <?php echo htmlspecialchars($is_flower);?> > Flower </option>
+            <option value="class_groundcover" <?php echo htmlspecialchars($is_groundcover);?>> Groundcover </option>
+            <option value="class_other" <?php echo htmlspecialchars($is_other);?>> Other </option>
           </select>
         </div>
         <div class="form_element">
           <label for="growth">Perennial/Annual:</label>
           <select id="growth" name="growth">
             <option value="season_none"> </option>
-            <option value="perennial"> Perennial</option>
-            <option value="annual" selected> Annual</option>
+            <option value="perennial" <?php echo htmlspecialchars($is_perennial);?>> Perennial</option>
+            <option value="annual" <?php echo htmlspecialchars($is_annual);?>> Annual</option>
           </select>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="fullsun" name="fullsun" checked />
+          <input type="checkbox" id="fullsun" name="fullsun" <?php echo htmlspecialchars($is_fullsun);?> />
           <label for="fullsun">Full Sun </label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="partialshade" name="partialshade"  />
+          <input type="checkbox" id="partialshade" name="partialshade" <?php echo htmlspecialchars($is_partialshade);?>/>
           <label for="partialshade">Partial Shade </label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="fullshade" name="fullshade"/>
+          <input type="checkbox" id="fullshade" name="fullshade" <?php echo htmlspecialchars($is_fullshade);?>/>
           <label for="fullshade">Full Shade </label>
         </div>
         <div class="form_element">

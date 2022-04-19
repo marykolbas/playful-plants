@@ -52,18 +52,18 @@ INSERT INTO plants (id, name, sci_name, pp_id, exploratory_constructive, explora
 INSERT INTO plants (id, name, sci_name, pp_id, exploratory_constructive, exploratory_sensory, physical, imaginative, restorative, expressive, play_with_rules, bio, hardiness_level) VALUES (16, "Sensitive Fern", "Onodea sensibilis", "FE_03", 0, 1, 0, 0, 1, 0, 0, 0, "4-8");
 
 --insert tags
-INSERT INTO tags (id, name) VALUES (1, 'Perennial');
-INSERT INTO tags (id, name) VALUES (2, 'Annual');
-INSERT INTO tags (id, name) VALUES (3, 'Full Sun');
-INSERT INTO tags (id, name) VALUES (4, 'Partial Shade');
-INSERT INTO tags (id, name) VALUES (5, 'Full Shade');
-INSERT INTO tags (id, name) VALUES (6, 'Shrub');
-INSERT INTO tags (id, name) VALUES (7, 'Grass');
-INSERT INTO tags (id, name) VALUES (8, 'Vine');
-INSERT INTO tags (id, name) VALUES (9, 'Tree');
-INSERT INTO tags (id, name) VALUES (10, 'Flower');
-INSERT INTO tags (id, name) VALUES (11, 'Groundcover');
-INSERT INTO tags (id, name) VALUES (12, 'Other');
+INSERT INTO tags (id, name) VALUES (1, 'Growth: Perennial');
+INSERT INTO tags (id, name) VALUES (2, 'Growth: Annual');
+INSERT INTO tags (id, name) VALUES (3, 'Sun: Full Sun');
+INSERT INTO tags (id, name) VALUES (4, 'Sun: Partial Shade');
+INSERT INTO tags (id, name) VALUES (5, 'Sun: Full Shade');
+INSERT INTO tags (id, name) VALUES (6, 'Classification: Shrub');
+INSERT INTO tags (id, name) VALUES (7, 'Classification: Grass');
+INSERT INTO tags (id, name) VALUES (8, 'Classification: Vine');
+INSERT INTO tags (id, name) VALUES (9, 'Classification: Tree');
+INSERT INTO tags (id, name) VALUES (10, 'Classification: Flower');
+INSERT INTO tags (id, name) VALUES (11, 'Classification: Groundcover');
+INSERT INTO tags (id, name) VALUES (12, 'Classification: Other');
 
 --insert entry tags
 INSERT INTO entry_tags (id, plant_id, tag_id) VALUES (1, 2, 1);

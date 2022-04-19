@@ -205,7 +205,7 @@
 
       <div class="catalog_entry">
         <!--onerror source: https://www.w3schools.com/jsref/event_onerror.asp-->
-        <img class="admin_image" src = "/public/seed_images/<?php echo htmlspecialchars($record['pp_id'])?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($record['name']);?>>
+        <img class="admin_image" src = "/public/uploads/plants/<?php echo htmlspecialchars($record['id'])?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($record['name']);?>>
         <h3><?php echo htmlspecialchars($record['name']); ?></h3>
         <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
         <a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
