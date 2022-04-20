@@ -1,36 +1,42 @@
 CREATE TABLE plants (
-id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-name TEXT NOT NULL,
-sci_name TEXT NOT NULL UNIQUE,
-pp_id TEXT NOT NULL UNIQUE,
-exploratory_constructive INTEGER NOT NULL,
-exploratory_sensory INTEGER NOT NULL,
-physical INTEGER NOT NULL,
-imaginative INTEGER NOT NULL,
-restorative INTEGER NOT NULL,
-expressive INTEGER NOT NULL,
-play_with_rules INTEGER NOT NULL,
-bio INTEGER NOT NULL,
-hardiness_level TEXT NOT NULL
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT NOT NULL,
+    sci_name TEXT NOT NULL UNIQUE,
+    pp_id TEXT NOT NULL UNIQUE,
+    exploratory_constructive INTEGER NOT NULL,
+    exploratory_sensory INTEGER NOT NULL,
+    physical INTEGER NOT NULL,
+    imaginative INTEGER NOT NULL,
+    restorative INTEGER NOT NULL,
+    expressive INTEGER NOT NULL,
+    play_with_rules INTEGER NOT NULL,
+    bio INTEGER NOT NULL,
+    hardiness_level TEXT NOT NULL
 );
 
 CREATE TABLE tags (
-id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-name TEXT NOT NULL UNIQUE
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE entry_tags (
-id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-plant_id INTEGER NOT NULL,
-tag_id INTEGER NOT NULL,
-FOREIGN KEY (plant_id) REFERENCES plants(id),
-FOREIGN KEY (tag_id) REFERENCES tags(id)
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    plant_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    FOREIGN KEY (plant_id) REFERENCES plants(id),
+    FOREIGN KEY (tag_id) REFERENCES tags(id)
 );
 
 CREATE TABLE users (
-id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-username TEXT NOT NULL UNIQUE,
-password TEXT NOT NULL
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE documents (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    file_name TEXT NOT NULL UNIQUE,
+    file_ext TEXT NOT NULL
 );
 
 --insert plants
@@ -123,3 +129,14 @@ INSERT INTO entry_tags (id, plant_id, tag_id) VALUES (54, 14, 10);
 INSERT INTO entry_tags (id, plant_id, tag_id) VALUES (55, 1, 12);
 INSERT INTO entry_tags (id, plant_id, tag_id) VALUES (56, 7, 12);
 INSERT INTO entry_tags (id, plant_id, tag_id) VALUES (57, 16, 12);
+
+--insert documents
+INSERT INTO documents (id, file_name, file_ext) VALUES (1, '5', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (2, '9', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (3, '10', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (4, '11', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (5, '12', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (6, '13', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (7, '14', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (8, '15', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (9, '16', 'jpg');

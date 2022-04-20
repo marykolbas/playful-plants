@@ -206,6 +206,12 @@ Table: users
 - username: TEXT {U, NN},
 - password: TEXT {NN}
 
+Table: documents
+
+- id: INTEGER {PK, U, NN, AI},
+- file_name: TEXT {U, NN},
+- file_ext: TEXT {NN}
+
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
 

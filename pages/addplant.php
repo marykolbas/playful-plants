@@ -1,4 +1,5 @@
 <?php
+  define("MAX_FILE_FIZE", 1000000);
   //open database
   $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
@@ -21,6 +22,7 @@
   $pp_id_feedback_class = 'hidden';
   $sci_name_feedback_unique = 'hidden';
   $pp_id_feedback_unique = 'hidden';
+  $img_feedback_class = 'hidden';
 
 #ADD PLANT FORM
 if(!$form_valid){
@@ -37,6 +39,18 @@ if(!$form_valid){
     $sticky_play_with_rules= '';
     $sticky_bio = '';
     $sticky_hardiness = '';
+    $sticky_shrub = '';
+    $sticky_grass = '';
+    $sticky_vine = '';
+    $sticky_tree = '';
+    $sticky_flower = '';
+    $sticky_groundcover = '';
+    $sticky_other = '';
+    $sticky_perennial= '';
+    $sticky_annual= '';
+    $sticky_fullsun ='';
+    $sticky_partialshade = '';
+    $sticky_fullshade = '';
   }
 
 if (isset($_POST['add_plant_submit'])) {
@@ -53,8 +67,29 @@ if (isset($_POST['add_plant_submit'])) {
   $play_with_rules = ($_POST['is_play_with_rules'] ? 'checked' : '');
   $bio = ($_POST['is_bio'] ? 'checked' : '');
   $hardiness = ($_POST['hardiness']);
+  $classification = $_POST['class']; //will return the value (id) of that tag
+  $season = $_POST['season'];
+  $fullsun = $_POST['fullsun'];
+  $partialshade = $_POST['partialshade'];
+  $fullshade = $_POST['fullshade'];
+  $tags_array = array_filter(array($classification, $season, $fullsun, $partialshade, $fullshade));
 
   $form_valid = True;
+
+  $upload = $_FILES['img_file'];
+  // if file upload was successful
+  if($upload['error']==UPLOAD_ERR_OK){
+    $upload_filename = basename($upload['name']);
+    $upload_ext = strtolower(pathinfo($upload_filename, PATHINFO_EXTENSION));
+    if(!in_array($upload_ext, array('jpg'))&&!in_array($upload_ext, array('png'))){
+      $form_valid=False;
+    }
+  }
+  else{
+    $form_valid=False;
+  }
+
+
 
   if (empty($name)) {
     $form_valid = False;
@@ -116,8 +151,46 @@ if (isset($_POST['add_plant_submit'])) {
         ':hardiness' => $hardiness
       )
     );
-    if($result){ //use to do confirmation message?
+    //get the new id number for tag inserts (old way)
+    // $re_request = exec_sql_query(
+    //   $db,
+    //   "SELECT id FROM plants WHERE (pp_id=:pp_id)",
+    //   array(
+    //     ':pp_id' => $pp_id
+    //   )
+    //  ) -> fetchAll();
+    // $plant_id = $re_request[0]['id'];
+
+    //last inserted id (new way)
+    $plant_id = $db->lastInsertId('id');
+
+    foreach($tags_array as $tag){
+      $result_tags = exec_sql_query(
+        $db,
+        "INSERT INTO entry_tags (plant_id, tag_id) VALUES (:plant_id, :tag_id);",
+        array(
+          ':plant_id' => $plant_id,
+          ':tag_id' => $tag
+        )
+      );
+    }
+
+    $result_file = exec_sql_query(
+      $db,
+      "INSERT INTO documents (file_name, file_ext) VALUES (:file_name, :file_ext)",
+      array(
+        ':file_name' => $plant_id, //$upload_filename,
+        ':file_ext' => $upload_ext
+      )
+      );
+
+    if($result && $result_tags && $result_file){ //use to do confirmation message?
       $result_inserted=True;
+
+      //for the documents table
+      //$record_id = $db->lastInsertId('id');
+      $id_filename = "public/uploads/documents/" . $plant_id . "." . $upload_ext;
+      move_uploaded_file($upload['temp_time'], $id_filename);
     }
   }
   else{
@@ -134,8 +207,22 @@ if (isset($_POST['add_plant_submit'])) {
     $sticky_play_with_rules = $play_with_rules;
     $sticky_bio = $bio;
     $sticky_hardiness = $hardiness;
+    $sticky_shrub = ($classification==6 ? 'selected' : '');
+    $sticky_grass = ($classification==7 ? 'selected' : '');
+    $sticky_vine = ($classification==8 ? 'selected' : '');
+    $sticky_tree = ($classification==9 ? 'selected' : '');
+    $sticky_flower = ($classification==10 ? 'selected' : '');
+    $sticky_groundcover = ($classification==11 ? 'selected' : '');
+    $sticky_other = ($classification==12 ? 'selected' : '');
+    $sticky_perennial= ($season==1 ? 'selected' : '');
+    $sticky_annual= ($season==2 ? 'selected' : '');
+    $sticky_fullsun = ($fullsun==3 ? 'checked' : '');
+    $sticky_partialshade = ($partialshade==4 ? 'checked' : '');
+    $sticky_fullshade = ($fullshade==5 ? 'checked' : '');
+    $img_feedback_class = '';
   }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -156,7 +243,7 @@ if (isset($_POST['add_plant_submit'])) {
 </div>
 <a href="/"> Return to Catalog </a>
 <!--ADD PLANT FORM-->
-<form method="post" action="/addplant" id="addform" novalidate>
+<form method="post" action="/addplant" id="addform" enctype = "multipart/form-data" novalidate>
     <h2> Add a New Plant </h2>
     <div class="confirmation">
       <?php
@@ -182,6 +269,12 @@ if (isset($_POST['add_plant_submit'])) {
       <div class="form_element">
         <label for="pp_id_input">Plant ID:</label>
         <input type="text" id="pp_id_input" name="pp_id" value="<?php echo htmlspecialchars($sticky_pp_id)?>"/>
+      </div>
+      <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
+      <div class = "form_element">
+        <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg or png format.</div>
+        <label for="file">Upload Image: </label>
+        <input type = "file" accept=".jpg, .png" name="img_file" />
       </div>
         <div class="form_element">
           <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
@@ -218,33 +311,34 @@ if (isset($_POST['add_plant_submit'])) {
         <div class="form_element">
           <label for="classification">General Classification:</label>
           <select id="classification" name="class">
-            <option value="class_none"> </option>
-            <option value="class_shrub"> Shrub </option>
-            <option value="class_grass"> Grass </option>
-            <option value="class_vine"> Vine </option>
-            <option value="class_vine" > Tree </option>
-            <option value="class_vine" > Groundcover </option>
-            <option value="class_vine" > Other </option>
+            <option value=""> </option>
+            <option value="6" <?php echo htmlspecialchars($sticky_shrub)?>> Shrub </option>
+            <option value="7" <?php echo htmlspecialchars($sticky_grass)?>> Grass </option>
+            <option value="8" <?php echo htmlspecialchars($sticky_vine)?>> Vine </option>
+            <option value="9" <?php echo htmlspecialchars($sticky_tree)?>> Tree </option>
+            <option value="10" <?php echo htmlspecialchars($sticky_flower)?>> Flower </option>
+            <option value="11" <?php echo htmlspecialchars($sticky_groundcover)?>> Groundcover </option>
+            <option value="12" <?php echo htmlspecialchars($sticky_other)?>> Other </option>
           </select>
         </div>
         <div class="form_element">
           <label for="season">Perennial/Annual:</label>
           <select id="season" name="season">
-            <option value="season_none"> </option>
-            <option value="perennial"> Perennial</option>
-            <option value="annual" > Annual</option>
+            <option value=""> </option>
+            <option value="1" <?php echo htmlspecialchars($sticky_perennial)?>> Perennial</option>
+            <option value="2" <?php echo htmlspecialchars($sticky_annual)?>> Annual</option>
           </select>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="fullsun" name="fullsun" />
-          <label for="fullsun">Full Sun </label>
+          <input type="checkbox" id="fullsun" name="fullsun" value="3" <?php echo htmlspecialchars($sticky_fullsun)?>/>
+          <label for="fullsun" >Full Sun </label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="partialshade" name="partialshade"  />
+          <input type="checkbox" id="partialshade" name="partialshade" value="4" <?php echo htmlspecialchars($sticky_partialshade)?>/>
           <label for="partialshade">Partial Shade </label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="fullshade" name="fullshade"/>
+          <input type="checkbox" id="fullshade" name="fullshade" value="5" <?php echo htmlspecialchars($sticky_fullshade)?>/>
           <label for="fullshade">Full Shade </label>
         </div>
         <div class="form_element">
