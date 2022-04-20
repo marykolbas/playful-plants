@@ -49,7 +49,16 @@
         <a href="/"> Return to Catalog </a>
         <h3><?php echo htmlspecialchars($name)?></h3>
         <h4 class="sciname"><?php echo htmlspecialchars($sci_name)?></h4>
-        <img src = "/public/uploads/plants/<?php echo htmlspecialchars($plant_id)?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($name);?>>
+        <?php
+            $result_documentstable = exec_sql_query(
+            $db,
+            "SELECT file_name AS 'documents.file_name' FROM documents WHERE (id=:plant_id);",
+            array(
+            ':plant_id' => $plant_id
+            )
+        )->fetchAll();
+        ?>
+        <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt="Image of "<?php echo htmlspecialchars($name);?>/>
         <p>Hardiness Level: <?php echo htmlspecialchars($hardiness);?></p>
         <h5>Tags</h5>
         <?php

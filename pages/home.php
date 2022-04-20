@@ -5,7 +5,7 @@
   #starting variables
   $name = '';
   $sci_name = '';
-  $plant_id = '';
+  $pp_id = '';
   $exploratory_constructive = '';
   $exploratory_sensory = '';
   $physical = '';
@@ -17,9 +17,9 @@
 
   $name_feedback_class = 'hidden';
   $sci_name_feedback_class = 'hidden';
-  $plant_id_feedback_class = 'hidden';
+  $pp_id_feedback_class = 'hidden';
   $sci_name_feedback_unique = 'hidden';
-  $plant_id_feedback_unique = 'hidden';
+  $pp_id_feedback_unique = 'hidden';
 
 
 #FILTER FORM
@@ -220,11 +220,17 @@
       $query_string = http_build_query(array(
         'pp_id' => $record['pp_id']
       ));
+      $result_documentstable = exec_sql_query(
+        $db,
+        "SELECT file_name AS 'documents.file_name' FROM documents WHERE (id=:plant_id);",
+        array(
+          ':plant_id' => $record['id']
+        )
+      )->fetchAll();
       ?>
       <?php if($counter%2==0) echo '<div class="rows">'; ?>
         <div class="catalog_entry">
-          <!--onerror source: https://www.w3schools.com/jsref/event_onerror.asp-->
-          <img src = "/public/uploads/plants/<?php echo htmlspecialchars($record['id'])?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($record['name']);?>>
+          <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg"? alt="Image of "<?php echo htmlspecialchars($record['name']);?>>
           <h3><a href="/plant?<?php echo $query_string; ?>"><?php echo htmlspecialchars($record['name']); ?></a></h3>
           <h4 class="sciname"><?php echo htmlspecialchars($record['sci_name']); ?></h4>
         </div>

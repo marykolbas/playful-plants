@@ -80,6 +80,7 @@ $sci_name_feedback_class = 'hidden';
 $pp_id_feedback_class = 'hidden';
 $sci_name_feedback_unique = 'hidden';
 $pp_id_feedback_unique = 'hidden';
+$img_feedback_class = 'hidden';
 
 if (isset($_POST['edit_plant_submit'])) {
 
@@ -104,6 +105,22 @@ if (isset($_POST['edit_plant_submit'])) {
 
   $form_valid = True;
 
+    $upload = $_FILES['img_file'];
+    //IF THE SIZE OF THIS IS 0 THEN THEY DIDN'T UPLOAD AND U SHOULD JUST UPLOAD THE DEFAULT OR SOMETHING IDK I WILL COME BACK TO THIS
+
+  // if file upload was successful
+  if($upload['error']==UPLOAD_ERR_OK){
+    $upload_filename = basename($upload['name']);
+    $upload_ext = strtolower(pathinfo($upload_filename, PATHINFO_EXTENSION));
+    if(!in_array($upload_ext, array('jpg'))&&!in_array($upload_ext, array('png'))){
+      $form_valid=False;
+    }
+  }
+  else{
+    $form_valid=False;
+  }
+
+
   if (empty($name)) {
     $form_valid = False;
     $name_feedback_class = '';
@@ -116,9 +133,10 @@ if (isset($_POST['edit_plant_submit'])) {
     //check if sci_name is unique
     $records = exec_sql_query(
       $db,
-      "SELECT * FROM plants WHERE (sci_name = :sci_name);",
+      "SELECT * FROM plants WHERE (sci_name = :sci_name) AND (id<>:id);",
       array(
-        ':sci_name' => $sci_name
+        ':sci_name' => $sci_name,
+        ':id' => $plant_id
       )
     )-> fetchAll();
     if(count($records)>0){
@@ -133,9 +151,10 @@ if (isset($_POST['edit_plant_submit'])) {
   else{
     $records = exec_sql_query(
       $db,
-      "SELECT * FROM plants WHERE (id = :plant_id);",
+      "SELECT * FROM plants WHERE (id = :plant_id) AND (id<>:id);",
       array(
-        ':plant_id' => $pp_id
+        ':plant_id' => $pp_id,
+        ':id' => $plant_id
       )
     )-> fetchAll();
     if(count($records)>0){
@@ -146,21 +165,37 @@ if (isset($_POST['edit_plant_submit'])) {
 
 
   //as 1 or 0 to use for update array
-  $ex_con_up = $exploratory_constructive == 'checked' ? '1' : '0';
-  $ex_sen_up = ($exploratory_sensory == 'checked' ? '1' : '0');
-  $phys_up = ($physical == 'checked' ? '1' : '0');
-  $imag_up = ($imaginative == 'checked' ? '1' : '0');
-  $rest_up = ($restorative == 'checked' ? '1' : '0');
-  $expr_up = ($expressive == 'checked' ? '1' : '0');
-  $rules_up = $play_with_rules == 'checked' ? '1' : '0';
-  $bio_up = ($bio == 'checked' ? '1' : '0');
+  $ex_con_up = $exploratory_constructive == 'checked' ? 1 : 0;
+  $ex_sen_up = ($exploratory_sensory == 'checked' ? 1 : 0);
+  $phys_up = ($physical == 'checked' ? 1 : 0);
+  $imag_up = ($imaginative == 'checked' ? 1 : 0);
+  $rest_up = ($restorative == 'checked' ? 1 : 0);
+  $expr_up = ($expressive == 'checked' ? 1 : 0);
+  $rules_up = $play_with_rules == 'checked' ? 1 : 0;
+  $bio_up = ($bio == 'checked' ? 1 : 0);
 
+  $plant_id_asint = (int)$plant_id;
   if($form_valid){
     //not done yet
-    $result = exec_sql_query(
+    $result_update = exec_sql_query(
       $db,
-      "UPDATE plants SET name = :name, sci_name = :sciname, pp_id =:pp_id, exploratory_constructive = :ex_con, exploratory_sensory=:ex_sen, physical=:phys, imaginative=:imag, restorative=:rest, expressive=:expr, play_with_rules=:rules, bio=:bio, hardiness_level=:hardiness WHERE(id=:plant_id)",
+      "UPDATE plants SET
+        id=:plant_id,
+        name = :name,
+        sci_name = :sci_name,
+        pp_id =:pp_id,
+        exploratory_constructive = :ex_con,
+        exploratory_sensory=:ex_sen,
+        physical=:phys,
+        imaginative=:imag,
+        restorative=:rest,
+        expressive=:expr,
+        play_with_rules=:rules,
+        bio=:bio,
+        hardiness_level=:hardiness
+        WHERE(id=:plant_id);",
       array(
+        ':plant_id' => $plant_id_asint,
         ':name' => $name,
         ':sci_name' => $sci_name,
         ':pp_id' => $plant,
@@ -172,10 +207,12 @@ if (isset($_POST['edit_plant_submit'])) {
         ':expr' => $expr_up,
         ':rules' => $rules_up,
         ':bio' => $bio_up,
-        ':hardiness' => $hardiness,
-        ':plant_id' => $plant_id
+        ':hardiness' => $hardiness
       )
     );
+
+    //$plant_id = $db->lastInsertId('id');
+
     // //delete all entrytags associated with this plant
     // $delete_old = exec_sql_query(
     //   $db,
@@ -195,7 +232,18 @@ if (isset($_POST['edit_plant_submit'])) {
     //     )
     //   );
     // }
-    if($result ){ //use to do confirmation message && $result_tags
+
+    $result_file = exec_sql_query(
+      $db,
+      "UPDATE documents SET file_name =:file_name, file_ext=:file_ext WHERE (id=:id);",
+      array(
+        ':file_name' => $upload_filename,
+        ':file_ext' => $upload_ext,
+        ':id' => $plant_id
+      )
+      );
+
+    if($result_update && $result_file){ //use to do confirmation message
       $result_edited=True;
     }
   }
@@ -212,6 +260,7 @@ if (isset($_POST['edit_plant_submit'])) {
     $sticky_expressive = $expressive;
     $sticky_play_with_rules = $play_with_rules;
     $sticky_bio = $bio;
+    $img_feedback_class = '';
   }
 }
 ?>
@@ -245,7 +294,7 @@ if (isset($_POST['edit_plant_submit'])) {
         'pp_id' => $plant
       ));
       ?>
-    <form method="post" action="/admin_plant?<?php echo $query_string;?>" id="editplant" novalidate>
+    <form method="post" action="/admin_plant?<?php echo $query_string;?>" id="editplant" enctype = "multipart/form-data" novalidate>
     <h2> Edit Existing Plant </h2>
 
       <div class="feedback <?php echo $name_feedback_class; ?>">Please enter the plant's name.</div>
@@ -266,8 +315,22 @@ if (isset($_POST['edit_plant_submit'])) {
         <input type="text" id="plant_id_input" name="plant_id" value="<?php echo htmlspecialchars($plant)?>"/>
       </div>
       <div class="form_element">
-      <img src = "/public/uploads/plants/<?php echo htmlspecialchars($pp_id)?>.jpg" onerror="this.onerror=null; this.src='/public/temp_plant.jpg'" alt="Image of "<?php echo htmlspecialchars($name);?>>
-        Upload Image
+      <?php
+            $result_documentstable = exec_sql_query(
+            $db,
+            "SELECT file_name AS 'documents.file_name' FROM documents WHERE (id=:plant_id);",
+            array(
+            ':plant_id' => $plant_id
+            )
+        )->fetchAll();
+        ?>
+      <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg"? alt="Image of "<?php echo htmlspecialchars($name);?>>
+      <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
+      <div class = "form_element">
+        <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg format.</div>
+        <label for="file">Upload New Image: </label>
+        <input type = "file" accept=".jpg" name="img_file" />
+      </div>
       </div>
         <div class="form_element">
           <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($exploratory_constructive)?>/>

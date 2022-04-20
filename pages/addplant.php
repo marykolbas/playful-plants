@@ -77,9 +77,17 @@ if (isset($_POST['add_plant_submit'])) {
   $form_valid = True;
 
   $upload = $_FILES['img_file'];
+  //IF THE SIZE OF THIS IS 0 THEN THEY DIDN'T UPLOAD AND U SHOULD JUST UPLOAD THE DEFAULT OR SOMETHING IDK I WILL COME BACK TO THIS
+
   // if file upload was successful
   if($upload['error']==UPLOAD_ERR_OK){
     $upload_filename = basename($upload['name']);
+    // if($_FILES['size']>0){
+    //   $upload_filename = $plant_id;
+    // }
+    // else{
+    //   $upload_filename = 'temp_plant';
+    // }
     $upload_ext = strtolower(pathinfo($upload_filename, PATHINFO_EXTENSION));
     if(!in_array($upload_ext, array('jpg'))&&!in_array($upload_ext, array('png'))){
       $form_valid=False;
@@ -141,7 +149,7 @@ if (isset($_POST['add_plant_submit'])) {
         ':sci_name' => $sci_name,
         ':pp_id' => $pp_id,
         ':ex_con' => $exploratory_constructive == 'checked' ? '1' : '0',
-        ':ex_sen' => $exploratory_sensory == 'checked' ? '1' : '0',
+        ':ex_sen' => $exploratory_sensory>0 == 'checked' ? '1' : '0',
         ':phys' => $physical == 'checked' ? '1' : '0',
         ':imag' => $imaginative == 'checked' ? '1' : '0',
         ':rest' => $restorative == 'checked' ? '1' : '0',
@@ -151,15 +159,7 @@ if (isset($_POST['add_plant_submit'])) {
         ':hardiness' => $hardiness
       )
     );
-    //get the new id number for tag inserts (old way)
-    // $re_request = exec_sql_query(
-    //   $db,
-    //   "SELECT id FROM plants WHERE (pp_id=:pp_id)",
-    //   array(
-    //     ':pp_id' => $pp_id
-    //   )
-    //  ) -> fetchAll();
-    // $plant_id = $re_request[0]['id'];
+
 
     //last inserted id (new way)
     $plant_id = $db->lastInsertId('id');
@@ -177,20 +177,21 @@ if (isset($_POST['add_plant_submit'])) {
 
     $result_file = exec_sql_query(
       $db,
-      "INSERT INTO documents (file_name, file_ext) VALUES (:file_name, :file_ext)",
+      "INSERT INTO documents (id, file_name, file_ext) VALUES (:id, :file_name, :file_ext)",
       array(
+        ':id' => $plant_id,
         ':file_name' => $plant_id, //$upload_filename,
         ':file_ext' => $upload_ext
       )
       );
 
-    if($result && $result_tags && $result_file){ //use to do confirmation message?
+    if($result && $result_file){ //use to do confirmation message?
       $result_inserted=True;
 
       //for the documents table
       //$record_id = $db->lastInsertId('id');
       $id_filename = "public/uploads/documents/" . $plant_id . "." . $upload_ext;
-      move_uploaded_file($upload['temp_time'], $id_filename);
+      move_uploaded_file($upload['tmp_name'], $id_filename);
     }
   }
   else{
@@ -272,9 +273,9 @@ if (isset($_POST['add_plant_submit'])) {
       </div>
       <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
       <div class = "form_element">
-        <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg or png format.</div>
+        <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg format.</div>
         <label for="file">Upload Image: </label>
-        <input type = "file" accept=".jpg, .png" name="img_file" />
+        <input type = "file" accept=".jpg" name="img_file" />
       </div>
         <div class="form_element">
           <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>

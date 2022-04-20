@@ -35,7 +35,7 @@ CREATE TABLE users (
 
 CREATE TABLE documents (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    file_name TEXT NOT NULL UNIQUE,
+    file_name TEXT NOT NULL,
     file_ext TEXT NOT NULL
 );
 
@@ -131,12 +131,19 @@ INSERT INTO entry_tags (id, plant_id, tag_id) VALUES (56, 7, 12);
 INSERT INTO entry_tags (id, plant_id, tag_id) VALUES (57, 16, 12);
 
 --insert documents
-INSERT INTO documents (id, file_name, file_ext) VALUES (1, '5', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (2, '9', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (3, '10', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (4, '11', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (5, '12', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (6, '13', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (7, '14', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (8, '15', 'jpg');
-INSERT INTO documents (id, file_name, file_ext) VALUES (9, '16', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (1, 'temp_plant', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (2, 'temp_plant', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (3, 'temp_plant', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (4, 'temp_plant', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (5, '5', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (6, 'temp_plant', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (7, 'temp_plant', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (8, 'temp_plant', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (9, '9', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (10, '10', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (11, '11', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (12, '12', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (13, '13', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (14, '14', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (15, '15', 'jpg');
+INSERT INTO documents (id, file_name, file_ext) VALUES (16, '16', 'jpg');
