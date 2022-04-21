@@ -62,6 +62,35 @@
     $sticky_bio_filter = ($_GET['bio_box'] ? 'checked' : '');
   }
 
+#DELETE FORM
+$delete_feedback = False;
+if(isset($_POST['delete_submit'])){
+  $delete_submitted = True;
+}
+if($delete_submitted){
+  $delete_plant_id = $_POST['plant_id']; #untrusted?
+
+  //get pp_id before deleting for feedback message
+  $deletequeryforppid = exec_sql_query($db, "SELECT plants.id AS 'plants.id', plants.pp_id AS 'plants.pp_id' FROM plants WHERE (plants.id=:id)", array(
+    ':id' => $delete_plant_id
+  ))->fetchAll();
+  $deleted_pp_id = $deletequeryforppid[0]['plants.pp_id'];
+
+  $delete_query = exec_sql_query($db, "DELETE FROM plants WHERE (id=:id)", array(
+    ':id' => $delete_plant_id
+  ));
+  $delete_query_tags = exec_sql_query($db, "DELETE FROM entry_tags WHERE (plant_id=:plant_id)", array(
+    ':plant_id' => $delete_plant_id
+  ));
+  $delete_query_documents = exec_sql_query($db, "DELETE FROM documents WHERE (id=:plant_id)", array(
+    ':plant_id' => $delete_plant_id
+  ));
+  if($delete_query && $delete_query_tags && $delete_query_documents){ //correctly deleted
+    $delete_feedback = True;
+  }
+
+}
+
   //query table
   $select_part = "SELECT * FROM plants ";
   $order_part = " ORDER BY ";
@@ -184,9 +213,18 @@
 
   <main>
     <h2> Playful Plants Catalog </h2>
+    <?php if($delete_feedback){?>
+      <div class="confirmation">
+          <?php
+          echo htmlspecialchars("Plant with Plant ID '". $deleted_pp_id);?></a>' was successfully deleted from the database.
+      </div>
+      <?php }
+        ?>
+    <div class="print_linebreak">
     <div class="rows">
     <?php
-    $counter = 1;?>
+    $counter = 1;
+    $counter_p = 1?>
     <div class="catalog_entry">
         <!--Image Source: Original Work (Mary Kolbas) -->
         <img src="/public/plus.jpg" alt="Plus sign in circle">
@@ -198,6 +236,7 @@
         'pp_id' => $record['pp_id']
       ));
       ?>
+      <?php if($counter_p==4) echo '<div class="print_linebreak">'; ?>
       <?php if($counter%2==0) echo '<div class="rows">'; ?>
 
       <div class="catalog_entry">
@@ -210,15 +249,24 @@
             )
         )->fetchAll();
         ?>
+      <div class="align-right">
+      <form class="delete_form" method="post" action="/admin" id="delete" novalidate>
+          <input type="hidden" name="plant_id" value="<?php echo htmlspecialchars($record['id'])?>">
+          <input class="delete_button" type="submit" value="Delete" name="delete_submit"/>
+      </form> </div>
       <img class="admin_image" src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
         <h3><?php echo htmlspecialchars($record['name']); ?></h3>
         <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
-        <div class='rows_links'><a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
-        <a> Delete </a></div>
+        <!--<div class='rows_links'>-->
+        <a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
+
       </div>
     <?php if($counter%2!=0) echo "</div>" ?>
+    <?php if($counter_p==3) echo "</div>" ?>
     <?php
     $counter=$counter+1;
+    $counter_p=$counter_p+1;
+    if($counter_p==5){$counter_p=1;}
     } ?> <!--closes foreach-->
   </main>
 </div>

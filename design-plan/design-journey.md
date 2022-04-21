@@ -222,7 +222,7 @@ Table: users
 Table: documents
 
 - id: INTEGER {PK, U, NN, AI},
-- file_name: TEXT {U, NN},
+- file_name: TEXT {NN},
 - file_ext: TEXT {NN}
 
 

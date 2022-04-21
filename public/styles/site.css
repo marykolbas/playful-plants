@@ -125,6 +125,9 @@ img{
     padding: 10px;
     margin: 10px;
 }
+h3, h4{
+    margin: 5px;
+}
 
 @media (max-width: 800px){
     .content{
@@ -132,12 +135,16 @@ img{
     }
     aside{
         border-right-style: none;
+        width: 90%;
     }
     body{
         width:100%;
     }
     .center{
         width:90%;
+    }
+    main{
+        width: 90%;
     }
 
 
@@ -149,12 +156,8 @@ img{
         display: none;
     }
     .print_linebreak{
-        /* page-break-after: left; */
-        min-height: 50%;
+        page-break-after: left;
     }
-    /* .catalog_entry{
-        page-break-after: always;
-    } */
     .align-right{
         display: none;
     }
@@ -165,4 +168,7 @@ img{
         max-width: 90%;
         max-height: 50%;
     }
+    /* #add_entry{
+        display:none;
+    } */
 }

@@ -255,7 +255,7 @@ if (isset($_POST['add_plant_submit'])) {
       if($result_inserted){?>
         <a class="green_link" href="/admin_plant?<?php echo $query_string;?>">
         <?php
-        echo htmlspecialchars("Plant with Plant ID '". $pp_id);?></a> ' was successfully added to the database.
+        echo htmlspecialchars("Plant with Plant ID '". $pp_id);?></a>' was successfully added to the database.
       <?php }
       ?>
     </div>
