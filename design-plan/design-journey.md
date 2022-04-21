@@ -125,15 +125,28 @@ After clicking on the Edit button on a plant's tile, the link opens that plant's
 
 An alternative design for the edit page is to have each field have an "edit" button next to it that must be clicked to display the text field or dropdown form. This may avoid logistic difficulties because it can prevent Tim from accidentally changing information he didn't mean to change, but also may be difficult to code and allow for multiple fields to be changed at once, so I am not sure if this is the design I want to go with.
 
+![Consumer View Home Page Itteration 3](/design-plan/consumersketch3.jpeg)
+
+This itteration of my Consumer View eliminates the hamburger menu and print button. I made this change because Abi does not need to be able to print the catalog as a consumer (this is only a goal of the administrator). Additionally, hiding the sort features in a hamburger menu would likely confuse Abi, since it is very likely she will want to use the sort and filter features to fulfil her needs. Having these on display (including the instruction on how to use the features) as soon as she loads the webpage would be more usable for her.
+
 _Final Design:_
 
-![Consumer View Sketch 2](/design-plan/consumersketch2.jpeg)
+![Consumer View Sketch 3](/design-plan/consumersketch3.jpeg)
 
-I itterated my first sketch to include more instructions and clarification for features on the website to aid Abi and her cognitive styles. This information will not only make her feel more comfortable clicking on certain buttons/links and feel informed, but also supports her comprehensive information proccessing style.
+I itterated my first and second sketches to include more instructions and clarification for features on the website to aid Abi and her cognitive styles. This information will not only make her feel more comfortable clicking on certain buttons/links and feel informed, but also supports her comprehensive information proccessing style. Additionally, it removes the hamburger menu and instead displays the important features that Abi cares about, the sort and filter form, as soon as the webpage loads.
 
-![Admin View Sketch 2](/design-plan/adminsketch2.jpeg)
+![Admin View Sketch 3](/design-plan/adminsketch3.jpeg)
 
-I will use my second sketch for the admin view that uses square tiles. For now, I also plan on using the above edit page, which when logged in as admin, displays all values of the details page within a form and allows for multiple edits at once, with a "save changes" button at the bottom.
+I itterated my sketch for the admin view slightly so now the delete button is in the upper right corner of the catalog entry box. It is one of Tom's goals to be able to delete entries, and this was previously not designed. By putting it in the top right, it mimics a "close browser" button. Additionally, the filter form only includes play type, since this is the feature Tim would want to filter data by.
+
+![Admin View Add Form](/design-plan/admin_addform.jpg)
+
+The add form design above is my second itteration. Tom will be able to enter new values here, including uploading a new image (which is required). There will be a confirmation message at the top of this page to inform Tom that the plant has been added.
+
+![Admin View Edit Plant Form](/design-plan/admin_edit.jpg)
+
+Tom will be able to see the current plant's existing data and tags on this page displayed within each form element. This provides usability to only edit certain fields with other fields staying sticky. It will also allow Tom to slightly modify text as opposed to have to remember and type the entire string of text again. Instead of a seperate confirmation page or hiding the edit form after the changes have been made (as seen in my previous sketches), there will be a confirmation message at the top of this page to inform Tom that the plant has been added. The form will have sticky values that display the changes Tom has made in case he needs to check over the saved changes.
+
 
 ![Login Page](/design-plan/loginsketch.jpg)
 
