@@ -23,6 +23,20 @@ $expressive = ($result[0]['expressive']? 'checked' : '');
 $play_with_rules = ($result[0]['play_with_rules']? 'checked' : '');
 $bio = ($result[0]['bio']? 'checked' : '');
 
+//Set to empty string (so that the foreach conditions work)
+// $is_shrub='';
+// $is_grass = '';
+// $is_vine='';
+// $is_tree = '';
+// $is_flower = '';
+// $is_groundcover = '';
+// $is_other = '';
+// $is_perennial = '';
+// $is_annual = '';
+// $is_fullsun = '';
+// $is_partialshade = '';
+// $is_fullshade = '';
+
 $tags=exec_sql_query(
   $db,
   "SELECT
@@ -36,19 +50,7 @@ $tags=exec_sql_query(
 )->fetchAll();
 
 
-//Set to empty string (so that the foreach conditions work)
-$is_shrub='';
-$is_grass = '';
-$is_vine='';
-$is_tree = '';
-$is_flower = '';
-$is_groundcover = '';
-$is_other = '';
-$is_perennial = '';
-$is_annual = '';
-$is_fullsun = '';
-$is_partialshade = '';
-$is_fullshade = '';
+
 
 //check which tags are selected for this plant
 foreach($tags as $tag){
@@ -95,13 +97,55 @@ if (isset($_POST['edit_plant_submit'])) {
   $expressive = (isset($_POST['is_expressive']) ? 'checked' : '');
   $play_with_rules = (isset($_POST['is_play_with_rules'])? 'checked' : '');
   $bio = (isset($_POST['is_bio']) ? 'checked' : '');
+  $hardiness = trim($_POST['hardiness']);
 
   $classification = $_POST['class']; //will return the value (id) of that tag
   $growth = $_POST['growth'];
-  $fullsun = $_POST['fullsun'];
-  $partialshade = $_POST['partialshade'];
-  $fullshade = $_POST['fullshade'];
+  // $fullsun = $_POST['fullsun'];
+  // $partialshade = $_POST['partialshade'];
+  // $fullshade = $_POST['fullshade'];
   $tags_array = array_filter(array($classification, $growth, $fullsun, $partialshade, $fullshade));
+
+  $is_shrub=($classification==6 ? 'selected' : '');
+  $is_grass = ($classification==7 ? 'selected' : '');
+  $is_vine=($classification==8? 'selected' : '');
+  $is_tree = ($classification==9 ? 'selected' : '');
+  $is_flower = ($classification==10 ? 'selected' : '');
+  $is_groundcover = ($classification==11 ? 'selected' : '');
+  $is_other = ($classification==12 ? 'selected' : '');
+  $is_perennial = ($growth==1 ? 'selected' : '');
+  $is_annual = ($growth==2 ? 'selected' : '');
+  $is_fullsun = ($_POST['fullsun']==3 ? 'checked' : '');
+  $is_partialshade = ($_POST['partialshade']==4 ? 'checked' : '');
+  $is_fullshade = ($_POST['fullshade']==5 ? 'checked' : '');
+
+  //sticky for when form not valid, but you changed something so ^ won't remember it
+  // $sticky_name=$trim($_POST['name']); // untrusted
+  //   $sticky_sci_name = trim($_POST['sci_name']);
+  //   $sticky_pp_id = strtoupper(trim($_POST['plant_id']));
+  //   $sticky_exploratory_constructive = (isset($_POST['is_exploratory_constructive']) ? 'checked' : '');
+  //   $sticky_exploratory_sensory = (isset($_POST['is_exploratory_sensory']) ? 'checked' : '');
+  //   $sticky_physical = $physical;
+  //   $sticky_imaginative = $imaginative;
+  //   $sticky_restorative = $restorative;
+  //   $sticky_expressive = $expressive;
+  //   $sticky_play_with_rules = $play_with_rules;
+  //   $sticky_bio = $bio;
+  //   $sticky_shrub = ($classification==6 ? 'selected' : '');
+  //   $sticky_grass = ($classification==7 ? 'selected' : '');
+  //   $sticky_vine = ($classification==8 ? 'selected' : '');
+  //   $sticky_tree = ($classification==9 ? 'selected' : '');
+  //   $sticky_flower = ($classification==10 ? 'selected' : '');
+  //   $sticky_groundcover = ($classification==11 ? 'selected' : '');
+  //   $sticky_other = ($classification==12 ? 'selected' : '');
+  //   $sticky_perennial= ($season==1 ? 'selected' : '');
+  //   $sticky_annual= ($season==2 ? 'selected' : '');
+  //   $sticky_fullsun = ($fullsun==3 ? 'checked' : '');
+  //   $sticky_partialshade = ($partialshade==4 ? 'checked' : '');
+  //   $sticky_fullshade = ($fullshade==5 ? 'checked' : '');
+
+
+
 
   $form_valid = True;
 
@@ -148,7 +192,7 @@ if (isset($_POST['edit_plant_submit'])) {
     $form_valid = False;
     $pp_id_feedback_class = '';
   }
-  else{
+  else{ //check if pp_id is unique
     $records = exec_sql_query(
       $db,
       "SELECT * FROM plants WHERE (id = :plant_id) AND (id<>:id);",
@@ -213,31 +257,31 @@ if (isset($_POST['edit_plant_submit'])) {
 
     //$plant_id = $db->lastInsertId('id');
 
-    // //delete all entrytags associated with this plant
-    // $delete_old = exec_sql_query(
-    //   $db,
-    //   "DELETE FROM entry_tags WHERE(plant_id=:plant_id)",
-    //   array(
-    //     ':plant_id' => $plant_id
-    //   )
-    // );
-    // //re-add new tags
-    // foreach($tags_array as $tag){
-    //   $result_tags = exec_sql_query(
-    //     $db,
-    //     "INSERT INTO entry_tags (plant_id, tag_id) VALUES (:plant_id, :tag_id);",
-    //     array(
-    //       ':plant_id' => $plant_id,
-    //       ':tag_id' => $tag
-    //     )
-    //   );
-    // }
+    //delete all entrytags associated with this plant
+    $delete_old = exec_sql_query(
+      $db,
+      "DELETE FROM entry_tags WHERE(plant_id=:plant_id)",
+      array(
+        ':plant_id' => $plant_id
+      )
+    );
+    //re-add new tags
+    foreach($tags_array as $tag){
+      $result_tags = exec_sql_query(
+        $db,
+        "INSERT INTO entry_tags (plant_id, tag_id) VALUES (:plant_id, :tag_id);",
+        array(
+          ':plant_id' => $plant_id,
+          ':tag_id' => $tag
+        )
+      );
+    }
 
     $result_file = exec_sql_query(
       $db,
       "UPDATE documents SET file_name =:file_name, file_ext=:file_ext WHERE (id=:id);",
       array(
-        ':file_name' => $upload_filename,
+        ':file_name' => $plant_id, //$upload_filename,
         ':file_ext' => $upload_ext,
         ':id' => $plant_id
       )
@@ -245,6 +289,10 @@ if (isset($_POST['edit_plant_submit'])) {
 
     if($result_update && $result_file){ //use to do confirmation message
       $result_edited=True;
+
+      $id_filename = "public/uploads/documents/" . $plant_id . "." . $upload_ext;
+      move_uploaded_file($upload['tmp_name'], $id_filename);
+
     }
   }
   else{
@@ -260,6 +308,20 @@ if (isset($_POST['edit_plant_submit'])) {
     $sticky_expressive = $expressive;
     $sticky_play_with_rules = $play_with_rules;
     $sticky_bio = $bio;
+
+    $sticky_shrub = ($classification==6 ? 'selected' : '');
+    $sticky_grass = ($classification==7 ? 'selected' : '');
+    $sticky_vine = ($classification==8 ? 'selected' : '');
+    $sticky_tree = ($classification==9 ? 'selected' : '');
+    $sticky_flower = ($classification==10 ? 'selected' : '');
+    $sticky_groundcover = ($classification==11 ? 'selected' : '');
+    $sticky_other = ($classification==12 ? 'selected' : '');
+    $sticky_perennial= ($season==1 ? 'selected' : '');
+    $sticky_annual= ($season==2 ? 'selected' : '');
+    $sticky_fullsun = ($fullsun==3 ? 'checked' : '');
+    $sticky_partialshade = ($partialshade==4 ? 'checked' : '');
+    $sticky_fullshade = ($fullshade==5 ? 'checked' : '');
+
     $img_feedback_class = '';
   }
 }
@@ -281,6 +343,11 @@ if (isset($_POST['edit_plant_submit'])) {
     <div class="align-right">
         <a href="/login"> Logout</a> <!--Have this button process the logout-->
     </div>
+    <?php
+    $query_string = http_build_query(array(
+        'pp_id' => $plant
+      ));
+    ?>
     <div class="confirmation">
       <?php
       if($result_edited){
@@ -289,11 +356,6 @@ if (isset($_POST['edit_plant_submit'])) {
 
     </div>
     <a href="/"> Return to Catalog </a>
-    <?php
-    $query_string = http_build_query(array(
-        'pp_id' => $plant
-      ));
-      ?>
     <form method="post" action="/admin_plant?<?php echo $query_string;?>" id="editplant" enctype = "multipart/form-data" novalidate>
     <h2> Edit Existing Plant </h2>
 

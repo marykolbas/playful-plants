@@ -24,90 +24,110 @@
 
 #FILTER FORM
   #starting variables for filter
-  $exploratory_constructive_filter = '';
-  $exploratory_sensory_filter = '';
-  $physical_filter = '';
-  $imaginative_filter = '';
-  $restorative_filter = '';
-  $expressive_filter = '';
-  $play_with_rules_filter = '';
-  $bio_filter = '';
+  $perennial= '';
+  $annual = '';
+  $fullsun = '';
+  $partialshade = '';
+  $fullshade = '';
+  $shrub = '';
+  $grass = '';
+  $vine = '';
+  $tree = '';
+  $flower = '';
+  $groundcover = '';
+  $other = '';
 
   #sticky values for when form isnt submitted
   if(isset($_GET['apply_changes_submit'])){
     $filter_submitted = True;
   }
   if(!$filter_submitted){
-    $sticky_sortby_name = '';
-    $sticky_sortby_sci_name = '';
-    $sticky_sortby_plant_id = '';
-    $sticky_exploratory_constructive_filter = '';
-    $sticky_exploratory_sensory_filter = '';
-    $sticky_physical_filter = '';
-    $sticky_imaginative_filter = '';
-    $sticky_restorative_filter = '';
-    $sticky_expressive_filter = '';
-    $sticky_play_with_rules_filter = '';
-    $sticky_bio_filter = '';
+    $sticky_perennial = '';
+    $sticky_annual = '';
+    $sticky_fullsun = '';
+    $sticky_partialshade = '';
+    $sticky_fullshade = '';
+    $sticky_shrub = '';
+    $sticky_grass = '';
+    $sticky_vine = '';
+    $sticky_tree = '';
+    $sticky_flower = '';
+    $sticky_groundcover = '';
+    $sticky_other = '';
   }
   else{
-    $sticky_sortby_name = ($_GET['sort']=='sortby_name' ? 'selected' : ''); #untrusted?
-    $sticky_sortby_sci_name = ($_GET['sort']=='sortby_sci_name' ? 'selected' : '');
-    $sticky_sortby_plant_id = ($_GET['sort']=='sortby_plant_id' ? 'selected' : '');
-    $sticky_exploratory_constructive_filter = ($_GET['exploratory_constructive_box'] ? 'checked' : '');
-    $sticky_exploratory_sensory_filter = ($_GET['exploratory_sensory_box'] ? 'checked' : '');
-    $sticky_physical_filter = ($_GET['physical_box'] ? 'checked' : '');
-    $sticky_imaginative_filter = ($_GET['imaginative_box'] ? 'checked' : '');
-    $sticky_restorative_filter =($_GET['restorative_box'] ? 'checked' : '');
-    $sticky_expressive_filter = ($_GET['expressive_box'] ? 'checked' : '');
-    $sticky_play_with_rules_filter = ($_GET['play_with_rules_box'] ? 'checked' : '');
-    $sticky_bio_filter = ($_GET['bio_box'] ? 'checked' : '');
+    $sticky_shrub= ($_GET['shrub']==6 ? 'checked' : ''); #untrusted?
+    $sticky_grass = ($_GET['grass']==7 ? 'checked' : '');
+    $sticky_vine = ($_GET['vine']==8 ? 'checked' : '');
+    $sticky_tree = ($_GET['tree']==9 ? 'checked' : '');
+    $sticky_flower = ($_GET['flower']==10 ? 'checked' : '');
+    $sticky_groundcover = ($_GET['groundcover']==11 ? 'checked' : '');
+    $sticky_other = ($_GET['other']==12 ? 'checked' : '');
+    $sticky_perennial = ($_GET['perennial']==1 ? 'checked' : '');
+    $sticky_annual= ($_GET['annual']==2 ? 'checked' : '');
+    $sticky_fullsun = ($_GET['fullsun']==3 ? 'checked' : '');
+    $sticky_partialshade = ($_GET['partialshade']==4 ? 'checked' : '');
+    $sticky_fullshade = ($_GET['fullshade']==5 ? 'checked' : '');
+    $sticky_hardiness = ($_GET['hardiness']);
+
   }
 
-  //query table
-  $select_part = "SELECT * FROM plants ";
-  $order_part = " ORDER BY ";
+  //query table )
+  $select_part = "SELECT * FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) ";
+  $order_part = " GROUP BY plants.id ORDER BY ";
   $where_part = "";
   $order_part2 = "name;";
   //create list for SQL conditional expressions:
   $filter_exprs = array();
-  if ($sticky_exploratory_constructive_filter=='checked'){
+  if ($sticky_shrub=='checked'){
     //append SQl conditional expression to list:
-    array_push($filter_exprs, "(exploratory_constructive = 1)");
+    array_push($filter_exprs, "(entry_tags.tag_id = 6)");
   }
-  if ($sticky_exploratory_sensory_filter=='checked'){
-    array_push($filter_exprs, "(exploratory_sensory = 1)");
+  if ($sticky_grass=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 7)");
   }
-  if ($sticky_physical_filter=='checked'){
-    array_push($filter_exprs, "(physical = 1)");
+  if ($sticky_vine=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 8)");
   }
-  if ($sticky_imaginative_filter=='checked'){
-    array_push($filter_exprs, "(imaginative = 1)");
+  if ($sticky_tree=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 9)");
   }
-  if ($sticky_restorative_filter=='checked'){
-    array_push($filter_exprs, "(restorative = 1)");
+  if ($sticky_flower=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 10)");
   }
-  if ($sticky_expressive_filter=='checked'){
-    array_push($filter_exprs, "(expressive = 1)");
+  if ($sticky_groundcover=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 11)");
   }
-  if ($sticky_play_with_rules_filter=='checked'){
-    array_push($filter_exprs, "(play_with_rules = 1)");
+  if ($sticky_other=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 12)");
   }
-  if ($sticky_bio_filter=='checked'){
-    array_push($filter_exprs, "(bio = 1)");
+  if ($sticky_perennial=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 1)");
+  }
+  if ($sticky_annual=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 2)");
+  }
+  if ($sticky_fullsun=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 3)");
+  }
+  if ($sticky_partialshade=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 4)");
+  }
+  if ($sticky_fullshade=='checked'){
+    array_push($filter_exprs, "(entry_tags.tag_id = 5)");
+  }
+  if(isset($sticky_hardiness)){
+    array_push($filter_exprs, "(plants.hardiness_level = '" . $sticky_hardiness . "')");
   }
 
   if (count($filter_exprs) > 0){
     $where_part = "WHERE " . implode(' OR ', $filter_exprs);
   }
-  if($sticky_sortby_name == 'selected'){
+  if($sticky_sortby_name == 'checked'){
     $order_part2 = "name;";
   }
-  else if($sticky_sortby_sci_name=='selected'){
+  else if($sticky_sortby_sci_name=='checked'){
     $order_part2 = "sci_name;";
-  }
-  else if($sticky_sortby_plant_id=='selected'){
-    $order_part2 = "plant_id;";
   }
 
   $query = $select_part . $where_part . $order_part . $order_part2;
@@ -136,9 +156,7 @@
 <div class="content">
   <aside>
       <p id="instructions">Sort and Filter catalog contents by selecting options below, then click "Apply Changes".</p>
-  <form method="post" action="/" id="print_button" novalidate>
-      <input type="submit" value="Print Catalog" name="print_submit" onclick="window.print()"/>
-    </form>
+
     <!--FILTER FORM-->
     <form method="get" action="/" novalidate>
       <div class="form_element">
@@ -146,63 +164,70 @@
         <select id="sort_field" name="sort">
           <option value="sortby_name" <?php echo htmlspecialchars($sticky_sortby_name)?>> Plant Name </option>
           <option value="sortby_sci_name" <?php echo htmlspecialchars($sticky_sortby_sci_name)?>> Scientific Name </option>
-          <option value="sortby_plant_id" <?php echo htmlspecialchars($sticky_sortby_plant_id)?>> Plant ID </option>
         </select>
       </div>
 
-    <label for="classification"> Growth Cycle</label>
+    <!--<label for="classification"> Classification</label>-->
+    Classification
         <div class="form_element">
-          <input type="checkbox" id="shrub" name="classification" <?php echo htmlspecialchars($sticky_shrub)?>/>
+          <input type="checkbox" id="shrub" value=6 name="shrub" <?php echo htmlspecialchars($sticky_shrub)?>/>
           <label for="shrub">Shrub</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="grass" name="classification" <?php echo htmlspecialchars($sticky_grass)?>/>
+          <input type="checkbox" id="grass" name="grass" value=7 <?php echo htmlspecialchars($sticky_grass)?>/>
           <label for="grass">Grass</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="vine" name="classification" <?php echo htmlspecialchars($sticky_vine)?>/>
+          <input type="checkbox" id="vine" name="vine" value=8 <?php echo htmlspecialchars($sticky_vine)?>/>
           <label for="vine">Vine</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="tree" name="classification" <?php echo htmlspecialchars($sticky_tree)?>/>
+          <input type="checkbox" id="tree" value=9 name="tree" <?php echo htmlspecialchars($sticky_tree)?>/>
           <label for="tree">Tree</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="groundcover" name="classification" <?php echo htmlspecialchars($sticky_groundcover)?>/>
-          <label for="groundcover">Groundcover</label>
+          <input type="checkbox" id="flower" value=10 name="flower" <?php echo htmlspecialchars($sticky_flower)?>/>
+          <label for="flower">Flower</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="other" name="classification" <?php echo htmlspecialchars($sticky_other)?>/>
+          <input type="checkbox" id="groundcover" value=11 name="groundcover" <?php echo htmlspecialchars($sticky_groundcover)?>/>
+          <label for="groundcover">Groundcover</label>
+        </div>
+
+        <div class="form_element">
+          <input type="checkbox" id="other" name="other" value=12 <?php echo htmlspecialchars($sticky_other)?>/>
           <label for="other">Other</label>
         </div>
 
-        <label for="growth"> Growth Cycle</label>
+        <!--<label for="growth"> Growth Cycle</label>-->
+        Growth Cycle
         <div class="form_element">
-          <input type="checkbox" id="annual" name="growth" <?php echo htmlspecialchars($sticky_annual)?>/>
+          <input type="checkbox" id="annual" name="annual" value=2 <?php echo htmlspecialchars($sticky_annual)?>/>
           <label for="annual">Annual</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="perennial" name="growth" <?php echo htmlspecialchars($sticky_perennial)?>/>
+          <input type="checkbox" id="perennial" name="perennial" value=1 <?php echo htmlspecialchars($sticky_perennial)?>/>
           <label for="perennial">Perennial</label>
         </div>
 
-        <label for="sunlight"> Sunlight </label>
+        <!--<label for="sunlight"> Sunlight </label>-->
+        Sunlight
         <div class="form_element">
-          <input type="checkbox" id="fullsun" name="sunlight" <?php echo htmlspecialchars($sticky_fullsun)?>/>
+          <input type="checkbox" id="fullsun" name="fullsun" value=3<?php echo htmlspecialchars($sticky_fullsun)?>/>
           <label for="fullsun">Full Sun</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="partialshade" name="sunlight" <?php echo htmlspecialchars($sticky_partialshade)?>/>
+          <input type="checkbox" id="partialshade" name="partialshade" value=4 <?php echo htmlspecialchars($sticky_partialshade)?>/>
           <label for="partialshade">Partial Shade</label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="fullshade" name="sunlight" <?php echo htmlspecialchars($sticky_fullshade)?>/>
+          <input type="checkbox" id="fullshade" name="fullshade" value=5 <?php echo htmlspecialchars($sticky_fullshade)?>/>
           <label for="fullshade">Full Shade</label>
         </div>
         <div class="form_element">
           <label for="hardiness">Hardiness Level: </label>
           <input type="text" id="hardiness" name="hardiness" <?php echo htmlspecialchars($sticky_hardiness)?>/>
-        </div> <!--Change this to dropdowns or categorical?-->
+        </div>
 
       <div class="align-right">
         <input type="submit" value="Apply Changes" name="apply_changes_submit"/>
@@ -216,15 +241,29 @@
 
     <?php
     $counter = 0;
+    $printcounter=0;
     foreach($records as $record){
       $query_string = http_build_query(array(
         'pp_id' => $record['pp_id']
       ));
+      $plant_id = $record['plant_id'];
+      //gets tags for this plant for filtering
+      $result_tags = exec_sql_query(
+        $db,
+        "SELECT plants.id AS 'plants.id', entry_tags.tag_id AS 'entry_tags.tag_id', entry_tags.plant_id AS 'entry_tags.plant_id' FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) WHERE (plants.id=:plant_id);",
+        array(
+          ':plant_id' => $record['plant_id']
+        )
+      )->fetchAll();
+      // $result_tags_array = $result_tags['entry_tags.plant_id'];
+      // if(in_array(1,$results_tags_array))
+
+      //gets the name of this plant's image
       $result_documentstable = exec_sql_query(
         $db,
         "SELECT file_name AS 'documents.file_name' FROM documents WHERE (id=:plant_id);",
         array(
-          ':plant_id' => $record['id']
+          ':plant_id' => $plant_id //$record['id']
         )
       )->fetchAll();
       ?>

@@ -40,7 +40,6 @@
   if(!$filter_submitted){
     $sticky_sortby_name = '';
     $sticky_sortby_sci_name = '';
-    $sticky_sortby_plant_id = '';
     $sticky_exploratory_constructive_filter = '';
     $sticky_exploratory_sensory_filter = '';
     $sticky_physical_filter = '';
@@ -53,7 +52,6 @@
   else{
     $sticky_sortby_name = ($_GET['sort']=='sortby_name' ? 'selected' : ''); #untrusted?
     $sticky_sortby_sci_name = ($_GET['sort']=='sortby_sci_name' ? 'selected' : '');
-    $sticky_sortby_plant_id = ($_GET['sort']=='sortby_plant_id' ? 'selected' : '');
     $sticky_exploratory_constructive_filter = ($_GET['exploratory_constructive_box'] ? 'checked' : '');
     $sticky_exploratory_sensory_filter = ($_GET['exploratory_sensory_box'] ? 'checked' : '');
     $sticky_physical_filter = ($_GET['physical_box'] ? 'checked' : '');
@@ -98,16 +96,13 @@
   }
 
   if (count($filter_exprs) > 0){
-    $where_part = "WHERE " . implode(' OR ', $filter_exprs);
+    $where_part = "WHERE " . implode(' AND ', $filter_exprs);
   }
   if($sticky_sortby_name == 'selected'){
     $order_part2 = "name;";
   }
   else if($sticky_sortby_sci_name=='selected'){
     $order_part2 = "sci_name;";
-  }
-  else if($sticky_sortby_plant_id=='selected'){
-    $order_part2 = "plant_id;";
   }
 
   $query = $select_part . $where_part . $order_part . $order_part2;
@@ -134,14 +129,16 @@
     </div>
 <div class="content">
   <aside>
+  <form method="post" action="/" id="print_button" novalidate>
+      <input type="submit" value="Print Catalog" name="print_submit" onclick="window.print()"/>
+    </form>
     <!--FILTER FORM-->
-    <form method="get" action="/" novalidate>
+    <form method="get" action="/admin" novalidate>
       <div class="form_element">
         <label for="sort_field">Sort By:</label>
         <select id="sort_field" name="sort">
           <option value="sortby_name" <?php echo htmlspecialchars($sticky_sortby_name)?>> Plant Name </option>
           <option value="sortby_sci_name" <?php echo htmlspecialchars($sticky_sortby_sci_name)?>> Scientific Name </option>
-          <option value="sortby_plant_id" <?php echo htmlspecialchars($sticky_sortby_plant_id)?>> Plant ID </option>
         </select>
       </div>
       <div class=columns>
@@ -216,7 +213,8 @@
       <img class="admin_image" src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
         <h3><?php echo htmlspecialchars($record['name']); ?></h3>
         <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
-        <a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
+        <div class='rows_links'><a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
+        <a> Delete </a></div>
       </div>
     <?php if($counter%2!=0) echo "</div>" ?>
     <?php

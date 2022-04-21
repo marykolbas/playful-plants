@@ -193,6 +193,9 @@ if (isset($_POST['add_plant_submit'])) {
       $id_filename = "public/uploads/documents/" . $plant_id . "." . $upload_ext;
       move_uploaded_file($upload['tmp_name'], $id_filename);
     }
+    $query_string = http_build_query(array(
+        'pp_id' => $pp_id
+      ));
   }
   else{
     // set sticky values
@@ -243,14 +246,17 @@ if (isset($_POST['add_plant_submit'])) {
    <a href="/login"> Logout</a> <!--Have this button process the logout-->
 </div>
 <a href="/"> Return to Catalog </a>
+
 <!--ADD PLANT FORM-->
 <form method="post" action="/addplant" id="addform" enctype = "multipart/form-data" novalidate>
     <h2> Add a New Plant </h2>
     <div class="confirmation">
       <?php
-      if($result_inserted){
-        echo htmlspecialchars("Plant with Plant ID '" . $pp_id . "' was successfully added to the database.");
-      }
+      if($result_inserted){?>
+        <a class="green_link" href="/admin_plant?<?php echo $query_string;?>">
+        <?php
+        echo htmlspecialchars("Plant with Plant ID '". $pp_id);?></a> ' was successfully added to the database.
+      <?php }
       ?>
     </div>
     <div class=columns>
