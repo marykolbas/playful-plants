@@ -121,8 +121,8 @@ if (isset($_POST['edit_plant_submit'])) {
 
   //sticky for when form not valid, but you changed something so ^ won't remember it
   // $sticky_name=$trim($_POST['name']); // untrusted
-  //   $sticky_sci_name = trim($_POST['sci_name']);
-  //   $sticky_pp_id = strtoupper(trim($_POST['plant_id']));
+  // $sticky_sci_name = trim($_POST['sci_name']);
+  // $sticky_pp_id = strtoupper(trim($_POST['plant_id']));
   //   $sticky_exploratory_constructive = (isset($_POST['is_exploratory_constructive']) ? 'checked' : '');
   //   $sticky_exploratory_sensory = (isset($_POST['is_exploratory_sensory']) ? 'checked' : '');
   //   $sticky_physical = $physical;
@@ -156,7 +156,7 @@ if (isset($_POST['edit_plant_submit'])) {
   if($upload['error']==UPLOAD_ERR_OK){
     $upload_filename = basename($upload['name']);
     $upload_ext = strtolower(pathinfo($upload_filename, PATHINFO_EXTENSION));
-    if(!in_array($upload_ext, array('jpg'))&&!in_array($upload_ext, array('png'))){
+    if(!in_array($upload_ext, array('jpg'))){
       $form_valid=False;
     }
   }
@@ -386,12 +386,12 @@ if (isset($_POST['edit_plant_submit'])) {
             )
         )->fetchAll();
         ?>
-      <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg"? alt="Image of "<?php echo htmlspecialchars($name);?>>
+      <img src="/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt='"Image of "<?php echo htmlspecialchars($name);?>'>
       <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
       <div class = "form_element">
         <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg format.</div>
         <label for="file">Upload New Image: </label>
-        <input type = "file" accept=".jpg" name="img_file" />
+        <input type = "file" id="file" accept=".jpg" name="img_file" />
       </div>
       </div>
         <div class="form_element">
@@ -430,7 +430,7 @@ if (isset($_POST['edit_plant_submit'])) {
         <div class="form_element">
           <label for="classification">General Classification:</label>
           <select id="classification" name="class">
-            <option value="" > </option>
+            <!-- <option value="" > </option> -->
             <option value="6" <?php echo htmlspecialchars($is_shrub);?>> Shrub </option>
             <option value="7" <?php echo htmlspecialchars($is_grass);?>> Grass </option>
             <option value="8" <?php echo htmlspecialchars($is_vine);?>> Vine </option>
@@ -443,7 +443,7 @@ if (isset($_POST['edit_plant_submit'])) {
         <div class="form_element">
           <label for="growth">Perennial/Annual:</label>
           <select id="growth" name="growth">
-            <option value=""> </option>
+            <!-- <option value=""> </option> -->
             <option value="1" <?php echo htmlspecialchars($is_perennial);?>> Perennial</option>
             <option value="2" <?php echo htmlspecialchars($is_annual);?>> Annual</option>
           </select>
@@ -465,7 +465,6 @@ if (isset($_POST['edit_plant_submit'])) {
           <input type="text" id="hardiness" name="hardiness" value="<?php echo htmlspecialchars($hardiness)?>"/>
         </div>
 
-      </div>
 
       <div class="align-right">
         <input type="submit" value="Save Changes" name="edit_plant_submit"/>

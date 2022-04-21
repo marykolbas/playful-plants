@@ -250,7 +250,7 @@ if($delete_submitted){
         )->fetchAll();
         ?>
       <div class="align-right">
-      <form class="delete_form" method="post" action="/admin" id="delete" novalidate>
+      <form class="delete_form" method="post" action="/admin" id="delete<?php echo htmlspecialchars($record['id']);?>" novalidate>
           <input type="hidden" name="plant_id" value="<?php echo htmlspecialchars($record['id'])?>">
           <input class="delete_button" type="submit" value="Delete" name="delete_submit"/>
       </form> </div>
@@ -258,7 +258,7 @@ if($delete_submitted){
         <h3><?php echo htmlspecialchars($record['name']); ?></h3>
         <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
         <!--<div class='rows_links'>-->
-        <a href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
+        <a class="edit_link" href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
 
       </div>
     <?php if($counter%2!=0) echo "</div>" ?>
@@ -266,8 +266,11 @@ if($delete_submitted){
     <?php
     $counter=$counter+1;
     $counter_p=$counter_p+1;
-    if($counter_p==5){$counter_p=1;}
+    if($counter_p==5){$counter_p=1;
+    }
     } ?> <!--closes foreach-->
+    <?php if($counter%2!=0) echo "</div>";?>
+    <?php if($counter_p==1||$counter_p==2||$counter_p==3||$counter_p==4) echo "</div>";?>
   </main>
 </div>
 </body>

@@ -148,7 +148,6 @@
 
 
 <body>
-<main>
   <h1>Playful Plants Project</h1>
   <div class="align-right">
         <a href="/login"> Log-in </a>
@@ -269,7 +268,7 @@
       ?>
       <?php if($counter%2==0) echo '<div class="rows">'; ?>
         <div class="catalog_entry">
-          <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg"? alt="Image of "<?php echo htmlspecialchars($record['name']);?>>
+          <img src="/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
           <h3><a href="/plant?<?php echo $query_string; ?>"><?php echo htmlspecialchars($record['name']); ?></a></h3>
           <h4 class="sciname"><?php echo htmlspecialchars($record['sci_name']); ?></h4>
         </div>
@@ -279,7 +278,6 @@
     } ?>
   </main>
 </div>
-</main>
 </body>
 
 </html>

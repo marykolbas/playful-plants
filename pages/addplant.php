@@ -281,7 +281,7 @@ if (isset($_POST['add_plant_submit'])) {
       <div class = "form_element">
         <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg format.</div>
         <label for="file">Upload Image: </label>
-        <input type = "file" accept=".jpg" name="img_file" />
+        <input type = "file" accept=".jpg" id="file" name="img_file" />
       </div>
         <div class="form_element">
           <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
