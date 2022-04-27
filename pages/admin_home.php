@@ -1,6 +1,4 @@
 <?php
-  //open database
-  $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
   #starting variables
   $name = '';
@@ -154,8 +152,15 @@ if($delete_submitted){
 <body>
   <h1>Playful Plants Project</h1>
   <div class="align-right">
-        <a href="/login"> Logout</a> <!--Have this button process the logout-->
-    </div>
+    <?php if(is_user_logged_in()){?>
+      <a href="/admin">Return to Admin View</a>
+  </div>
+  <div class="align-right">
+      <a href=<?php echo logout_url();?>>Logout</a>
+    <?php } else{ ?>
+      <a href="/login"> Log-in </a>
+    <?php }?>
+  </div>
 <div class="content">
   <aside>
   <form method="post" action="/admin" id="print_button" novalidate>

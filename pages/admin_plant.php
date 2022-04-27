@@ -1,6 +1,4 @@
 <?php
-//open database
-$db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
 $plant=$_GET['pp_id'];
 $result=exec_sql_query(
@@ -341,7 +339,14 @@ if (isset($_POST['edit_plant_submit'])) {
   <main class="center">
     <h1>Playful Plants Project</h1>
     <div class="align-right">
-        <a href="/login"> Logout</a> <!--Have this button process the logout-->
+      <?php if(is_user_logged_in()){?>
+        <a href="/admin">Return to Admin View</a>
+    </div>
+    <div class="align-right">
+        <a href=<?php echo logout_url();?>>Logout</a>
+      <?php } else{ ?>
+        <a href="/login"> Log-in </a>
+      <?php }?>
     </div>
     <?php
     $query_string = http_build_query(array(
@@ -355,7 +360,10 @@ if (isset($_POST['edit_plant_submit'])) {
       <?php } ?>
 
     </div>
-    <a href="/"> Return to Catalog </a>
+    <div class="columns">
+      <a href="/"> Return to Consumer Catalog </a>
+      <a href="/admin"> Return to Admin View </a>
+    </div>
     <form method="post" action="/admin_plant?<?php echo $query_string;?>" id="editplant" enctype = "multipart/form-data" novalidate>
     <h2> Edit Existing Plant </h2>
 

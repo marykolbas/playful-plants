@@ -454,7 +454,11 @@ Implementing Login
 In router.php:
   require_once('includes/db.php');
   $db = init_sqlite_db('db/site.sqlite','db/init.sql');
-  $admin = ($isadmin==1) //where $isadmin is the users['isadmin'] field
+  $admin = ($isadmin==1)
+    //where $isadmin is the users['isadmin'] field
+  include_once('includes/sessions.php');
+  $session_messages=array();
+  process_session_params($db, $session_messages);
 
 Login Page
 <?php if (!is_user_logged_in()){
@@ -463,7 +467,7 @@ Login Page
 
 Logout
 <?php if (is_user_logged_in()){?>
-  <li id="nav-logout"><a href=<?php echo logout_url(); ?>>Log Out</a></li>
+  <a href=<?php echo logout_url(); ?>>Log Out</a>
 <?php } ?>
 ```
 

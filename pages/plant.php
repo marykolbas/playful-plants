@@ -1,5 +1,4 @@
 <?php
-    $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
     $plant = $_GET['pp_id']; //from query string parameters, tainted???
 
     $result=exec_sql_query(
@@ -40,13 +39,19 @@
 </head>
 
 <body>
-
     <main class="center">
-    <h1>Playful Plants Project</h1>
-    <div class="align-right">
-        <a href="/login"> Log-in </a>
-    </div>
-        <a href="/"> Return to Catalog </a>
+        <h1>Playful Plants Project</h1>
+        <div class="align-right">
+            <?php if(is_user_logged_in()){?>
+            <a href="/admin">Return to Admin View</a>
+        </div>
+        <div class="align-right">
+            <a href=<?php echo logout_url();?>>Logout</a>
+            <?php } else{ ?>
+            <a href="/login"> Log-in </a>
+            <?php }?>
+        </div>
+        <a href="/"> Return to Consumer Catalog </a>
         <h3><?php echo htmlspecialchars($name)?></h3>
         <h4 class="sciname"><?php echo htmlspecialchars($sci_name)?></h4>
         <?php

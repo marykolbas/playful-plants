@@ -1,5 +1,28 @@
 <?php
 require_once('includes/db.php');
+//open database, taken and deleted from other pages
+$db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
+
+include_once('includes/sessions.php');
+$session_messages=array();
+process_session_params($db, $session_messages);
+
+$logged_in = exec_sql_query($db,
+"SELECT user_id FROM sessions WHERE (session = :session)",
+array(
+  ':session' => $active_cookie
+)) -> fetchAll();
+
+$user_loggedin = (count($logged_in)>0);
+
+$is_admin_query = exec_sql_query($db,
+"SELECT isadmin, username FROM users WHERE (id = :user_id)",
+array(
+  ':user_id' => $user_loggedin
+)) -> fetchAll();
+
+$is_admin = ($is_admin_query[0]['isadmin']==1);
+$current_username = $is_admin_query[0]['username'];
 
 function match_routes($uri, $routes)
 {

@@ -233,14 +233,15 @@ function logout($db, $session)
 // logout url for the current page
 function logout_url()
 {
-  $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2)[0];
+  // $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2)[0];
 
   // Add a logout query string parameter
   $params = $_GET;
   $params['logout'] = '';
 
   // Add logout param to current page URL.
-  $logout_url = htmlspecialchars($request_uri) . '?' . http_build_query($params);
+  // $logout_url = htmlspecialchars($request_uri) . '?' . http_build_query($params);
+  $logout_url = "/" . '?' . http_build_query($params);
 
   return $logout_url;
 }
@@ -271,7 +272,7 @@ function echo_login_form($action, $messages)
     </div>
 
     <div class="align-right">
-      <button name="login" type="submit">Sign In</button>
+      <button name="login" type="submit">Log In</button>
     </div>
   </form>
 <?php

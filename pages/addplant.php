@@ -1,7 +1,5 @@
 <?php
   define("MAX_FILE_FIZE", 1000000);
-  //open database
-  $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
   #starting variables
   $name = '';
@@ -243,9 +241,19 @@ if (isset($_POST['add_plant_submit'])) {
 <main class="center">
 <h1>Playful Plants Project</h1>
 <div class="align-right">
-   <a href="/login"> Logout</a> <!--Have this button process the logout-->
+  <?php if(is_user_logged_in()){?>
+    <a href="/admin">Return to Admin View</a>
 </div>
-<a href="/"> Return to Catalog </a>
+<div class="align-right">
+    <a href=<?php echo logout_url();?>>Logout</a>
+  <?php } else{ ?>
+    <a href="/login"> Log-in </a>
+  <?php }?>
+</div>
+<div class="columns">
+  <a href="/"> Return to Consumer Catalog </a>
+  <a href="/admin"> Return to Admin View </a>
+</div>
 
 <!--ADD PLANT FORM-->
 <form method="post" action="/addplant" id="addform" enctype = "multipart/form-data" novalidate>

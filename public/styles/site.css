@@ -66,6 +66,7 @@ form{
     font-weight: bold;
 }
 
+
 .hidden{
     display: none;
 }
@@ -138,6 +139,10 @@ img{
 }
 h3, h4{
     margin: 5px;
+}
+
+.feedback{ /*for feedback list element in sessions.php*/
+    list-style-type: none;
 }
 
 @media (max-width: 800px){

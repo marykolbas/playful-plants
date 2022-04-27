@@ -30,13 +30,22 @@ CREATE TABLE entry_tags (
 CREATE TABLE users (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     username TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    isadmin INTEGER NOT NULL
 );
 
 CREATE TABLE documents (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     file_name TEXT NOT NULL,
     file_ext TEXT NOT NULL
+);
+
+CREATE TABLE sessions(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    user_id INTEGER NOT NULL,
+    session TEXT NOT NULL UNIQUE,
+    last_login TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 --insert plants
@@ -147,3 +156,5 @@ INSERT INTO documents (id, file_name, file_ext) VALUES (13, '13', 'jpg');
 INSERT INTO documents (id, file_name, file_ext) VALUES (14, '14', 'jpg');
 INSERT INTO documents (id, file_name, file_ext) VALUES (15, '15', 'jpg');
 INSERT INTO documents (id, file_name, file_ext) VALUES (16, '16', 'jpg');
+
+INSERT INTO users (id, username, password, isadmin) VALUES (1, 'tim', '$2y$10$QtCybkpkzh7x5VN11APHned4J8fu78.eFXlyAMmahuAaNcbwZ7FH.', 1);
