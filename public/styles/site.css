@@ -53,7 +53,18 @@ form{
 .align-right {
     display: flex;
     justify-content:flex-end;
+
   }
+.align-top{
+    display: flex;
+    justify-content: space-between;
+}
+.align-top span{
+    padding: 10px;
+}
+.pp_id{
+    font-weight: bold;
+}
 
 .hidden{
     display: none;

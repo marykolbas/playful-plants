@@ -453,7 +453,13 @@ TODO
 ### Additional Design Justifications (Final Submission)
 > If you feel like you haven’t fully explained your design choices in the final submission, or you want to explain some functions in your site (e.g., if you feel like you make a special design choice which might not meet the final requirement), you can use the additional design justifications to justify your design choices. Remember, this is place for you to justify your design choices which you haven’t covered in the design journey. You don’t need to fill out this section if you think all design choices have been well explained in the design journey.
 
-TODO
+My consumer and admin gallery view show a similar design format. This is on purpose to provide the admin with a similar feel to what the user will be able to see so they can check whether information is added and looks good. This is important because Tim does not naturally have access to the consumer gallery view while he is logged in. Rather, the gallery view is like an admin-only portal. This is important because if I instead used a table to display the information, the image would not be clearly displayed and the admin would not be able to see what the existing image looks like. This design provides adequate information for Tim without needing to see the original consumer gallery page. The admin gallery view provides customized filtering by play type (which Tim needs to accomplish his goals) instead of by gardening tags (which Abi needs to accomplish her goals). In this way the two pages are customized to provide tools necessary for their particular audience.
+
+Additionally, due to my milestone 3 feedback, I would like to justify my "add plant" feature on my admin gallery view. I found that this format of a picture-like add button does fit common design patterns across the web. For example, Google Docs, the Google Chrome "Add Shortcut" button when opening a new tab, and in Notion to add a new gallery entry.
+
+![Screenshots from Google Docs, Google Chrome New Tab, and Personal Notion](/design-plan/addplant_designpattern.jpg)
+
+These screenshots come from [Google Docs](https://docs.google.com/document/u/0/), Google Chrome's New Tab page, and my personal [Notion](https://www.notion.so/)
 
 
 ### Self-Reflection (Final Submission)

@@ -158,7 +158,7 @@ if($delete_submitted){
     </div>
 <div class="content">
   <aside>
-  <form method="post" action="/" id="print_button" novalidate>
+  <form method="post" action="/admin" id="print_button" novalidate>
       <input type="submit" value="Print Catalog" name="print_submit" onclick="window.print()"/>
     </form>
     <!--FILTER FORM-->
@@ -249,11 +249,15 @@ if($delete_submitted){
             )
         )->fetchAll();
         ?>
-      <div class="align-right">
-      <form class="delete_form" method="post" action="/admin" id="delete<?php echo htmlspecialchars($record['id']);?>" novalidate>
+      <div class="align-top">
+        <span class="pp_id">
+          <?php echo htmlspecialchars($record['pp_id'])?>
+        </span>
+        <form class="delete_form" method="post" action="/admin" id="delete<?php echo htmlspecialchars($record['id']);?>" novalidate>
           <input type="hidden" name="plant_id" value="<?php echo htmlspecialchars($record['id'])?>">
           <input class="delete_button" type="submit" value="Delete" name="delete_submit"/>
-      </form> </div>
+        </form>
+      </div>
       <img class="admin_image" src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
         <h3><?php echo htmlspecialchars($record['name']); ?></h3>
         <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>

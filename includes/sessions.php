@@ -5,7 +5,7 @@ include_once('includes/db.php');
 $session_messages = array();
 $signup_messages = array();
 
-// cookie expiration time
+// cookie duration expiration time in seconds
 define('SESSION_COOKIE_DURATION', 60 * 60 * 1); // 1 hour = 60 sec * 60 min * 1 hr
 
 
@@ -169,21 +169,35 @@ function cookie_login($db, $session)
 {
   global $current_user;
 
-  if (isset($session)) {
-    $current_user = find_user($db, $session['user_id']);
+  // Did we find the existing session?
+  if ($session) {
 
-    // update the last login in the DB
-    $result = exec_sql_query(
-      $db,
-      "UPDATE sessions SET last_login = datetime() WHERE (id = :session_id);",
-      array(':session_id' => $session['id'])
-    );
+    // has the session expired?
+    $login_expiration = new DateTime($session['last_login']);
+    $login_expiration->modify('+ ' . SESSION_COOKIE_DURATION . ' seconds');
+    $current_datetime = new DateTime();
+    if ($login_expiration >= $current_datetime) {
+      // session has not expired
 
-    // Renew the cookie for 1 more hour
-    setcookie("session", $session['session'], time() + SESSION_COOKIE_DURATION, '/');
+      $current_user = find_user($db, $session['user_id']);
 
-    error_log("  login via cookie successful");
-    return $current_user;
+      // update the last login in the DB
+      exec_sql_query(
+        $db,
+        "UPDATE sessions SET last_login = datetime() WHERE (id = :session_id);",
+        array(':session_id' => $session['id'])
+      );
+
+      // Renew the cookie for 1 more hour
+      setcookie("session", $session['session'], time() + SESSION_COOKIE_DURATION, '/');
+
+      error_log("  login via cookie successful");
+      return $current_user;
+    } else {
+      // session has expired
+      error_log("  session expired");
+      logout($db, $session);
+    }
   }
 
   error_log("  failed to login via cookie");
@@ -193,9 +207,17 @@ function cookie_login($db, $session)
 
 
 // logout
-function logout()
+function logout($db, $session)
 {
-  // Note: You can delete the record in the sessions table, but it's considered better practice to have a "cron" job that cleans up expired sessions.
+  if ($session) {
+    // Delete session from database.
+    // Note: You probably also need a "cron" job that cleans up expired sessions.
+    exec_sql_query(
+      $db,
+      "DELETE FROM sessions WHERE (session = :session_id);",
+      array(':session_id' => $session['session'])
+    );
+  }
 
   // Remove the session from the cookie and force it to expire (go back in time).
   setcookie('session', '', time() - SESSION_COOKIE_DURATION, '/');
@@ -211,12 +233,14 @@ function logout()
 // logout url for the current page
 function logout_url()
 {
+  $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2)[0];
+
   // Add a logout query string parameter
   $params = $_GET;
   $params['logout'] = '';
 
   // Add logout param to current page URL.
-  $logout_url = htmlspecialchars($_SERVER['REQUEST_URI']) . '?' . http_build_query($params);
+  $logout_url = htmlspecialchars($request_uri) . '?' . http_build_query($params);
 
   return $logout_url;
 }
@@ -236,12 +260,12 @@ function echo_login_form($action, $messages)
   </ul>
 
   <form class="login" action="<?php echo htmlspecialchars($action) ?>" method="post" novalidate>
-    <div class="group_label_input">
+    <div class="label-input">
       <label for="username">Username:</label>
       <input id="username" type="text" name="login_username" value="<?php echo htmlspecialchars($sticky_login_username); ?>" required />
     </div>
 
-    <div class="group_label_input">
+    <div class="label-input">
       <label for="password">Password:</label>
       <input id="password" type="password" name="login_password" required />
     </div>
@@ -257,8 +281,6 @@ function echo_login_form($action, $messages)
 // Check for login, logout requests. Or check to keep the user logged in.
 function process_session_params($db, &$messages)
 {
-  global $current_user;
-
   // Is there a session? If so, find it!
   $session = NULL;
   if (isset($_COOKIE["session"])) {
@@ -269,7 +291,7 @@ function process_session_params($db, &$messages)
 
   if (isset($_GET['logout']) || isset($_POST['logout'])) { // Check if we should logout the user
     error_log("  attempting to logout...");
-    logout();
+    logout($db, $session);
   } else if (isset($_POST['login'])) { // Check if we should login the user
     error_log("  attempting to login with username and password...");
     password_login($db, $messages, $_POST['login_username'], $_POST['login_password']);
