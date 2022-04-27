@@ -218,6 +218,7 @@ Table: users
 - id: INTEGER {PK, U, NN, AI},
 - username: TEXT {U, NN},
 - password: TEXT {NN}
+- isadmin: INTEGER {NN}
 
 Table: documents
 
@@ -225,6 +226,12 @@ Table: documents
 - file_name: TEXT {NN},
 - file_ext: TEXT {NN}
 
+Table: sessions
+
+- id: INTEGER {PK, U, NN, AI},
+- user_id: INTEGER {NN}
+- session: TEXT {NN, U}
+- last_login: TEXT {NN}
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
 
@@ -268,7 +275,14 @@ FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) INNER JOI
 WHERE (plants.id = 1);
 ```
 
-
+```
+Whether user is admin (and authorized to view something)
+$is_admin = exec_sql_query($db,
+"SELECT is_admin FROM users WHERE (session = :session)",
+array(
+  ':session' => $active_cookie
+)) -> fetchAll();
+```
 
 ### Code Planning (Milestone 1, Milestone 2, Milestone 3, Final Submission)
 
@@ -433,6 +447,24 @@ Printing tags on plants detail page
             echo "</p>";
          }
         ?>
+```
+
+```
+Implementing Login
+In router.php:
+  require_once('includes/db.php');
+  $db = init_sqlite_db('db/site.sqlite','db/init.sql');
+  $admin = ($isadmin==1) //where $isadmin is the users['isadmin'] field
+
+Login Page
+<?php if (!is_user_logged_in()){
+  echo login_form('/admin', $session_messages)
+} ?>
+
+Logout
+<?php if (is_user_logged_in()){?>
+  <li id="nav-logout"><a href=<?php echo logout_url(); ?>>Log Out</a></li>
+<?php } ?>
 ```
 
 ### Accessibility Audit (Final Submission)
