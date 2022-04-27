@@ -1,5 +1,5 @@
 <?php
-
+if (is_user_logged_in() && $is_admin) {
   #starting variables
   $name = '';
   $sci_name = '';
@@ -137,6 +137,7 @@ if($delete_submitted){
 
   //get records
   $records=$result->fetchAll();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -150,17 +151,22 @@ if($delete_submitted){
 
 
 <body>
-  <h1>Playful Plants Project</h1>
-  <div class="align-right">
-    <?php if(is_user_logged_in()){?>
-      <a href="/admin">Return to Admin View</a>
-  </div>
-  <div class="align-right">
-      <a href=<?php echo logout_url();?>>Logout</a>
-    <?php } else{ ?>
-      <a href="/login"> Log-in </a>
-    <?php }?>
-  </div>
+<?php if(is_user_logged_in() && $is_admin){?>
+  <h1>Playful Plants Project - Admin View</h1>
+  <?php if(is_user_logged_in()){?>
+    <div class="align-right">
+      <ul>
+        <li><a href="/">Return to Consumer View</a></li>
+        <li><a href="/admin" class="nav_selected">Admin View</a></li>
+        <li><a href=<?php echo logout_url();?>>Logout</a></li>
+      </ul>
+    </div>
+  <?php } else{?>
+      <div class="align-right">
+        <a href="/login"> Log-in </a>
+      </div>
+  <?php }?>
+
 <div class="content">
   <aside>
   <form method="post" action="/admin" id="print_button" novalidate>
@@ -248,7 +254,7 @@ if($delete_submitted){
       <?php
             $result_documentstable = exec_sql_query(
             $db,
-            "SELECT file_name AS 'documents.file_name' FROM documents WHERE (id=:plant_id);",
+            "SELECT file_name AS 'documents.file_name', file_ext AS 'documents.file_ext' FROM documents WHERE (id=:plant_id);",
             array(
             ':plant_id' => $record['id']
             )
@@ -263,7 +269,7 @@ if($delete_submitted){
           <input class="delete_button" type="submit" value="Delete" name="delete_submit"/>
         </form>
       </div>
-      <img class="admin_image" src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
+      <img class="admin_image" src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
         <h3><?php echo htmlspecialchars($record['name']); ?></h3>
         <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
         <!--<div class='rows_links'>-->
@@ -282,6 +288,12 @@ if($delete_submitted){
     <?php if($counter_p==1||$counter_p==2||$counter_p==3||$counter_p==4) echo "</div>";?>
   </main>
 </div>
+<?php } else{ ?>
+  <div class="center">
+    <h1> Page Not Found </h1>
+    <p>This page does not exist. <a href="/"> Return to Catalog.</a></p>
+  </div>
+  <?php } ?>
 </body>
 
 </html>

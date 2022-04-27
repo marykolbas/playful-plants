@@ -147,16 +147,19 @@
 
 <body>
   <h1>Playful Plants Project</h1>
-  <div class="align-right">
-    <?php if(is_user_logged_in()){?>
-      <a href="/admin">Return to Admin View</a>
-  </div>
-  <div class="align-right">
-      <a href=<?php echo logout_url();?>>Logout</a>
-    <?php } else{ ?>
-      <a href="/login"> Log-in </a>
+  <?php if(is_user_logged_in()){?>
+      <div class="align-right">
+        <ul>
+          <li><a href="/" class="nav_selected">Consumer View</a></li>
+          <li><a href="/admin">Return to Admin View</a></li>
+          <li><a href=<?php echo logout_url();?>>Logout</a></li>
+        </ul>
+      </div>
+    <?php } else{?>
+        <div class="align-right">
+          <a href="/login"> Log-in </a>
+        </div>
     <?php }?>
-  </div>
 
 <div class="content">
   <aside>
@@ -266,7 +269,7 @@
       //gets the name of this plant's image
       $result_documentstable = exec_sql_query(
         $db,
-        "SELECT file_name AS 'documents.file_name' FROM documents WHERE (id=:plant_id);",
+        "SELECT file_name AS 'documents.file_name', file_ext AS 'documents.file_ext' FROM documents WHERE (id=:plant_id);",
         array(
           ':plant_id' => $plant_id //$record['id']
         )
@@ -274,7 +277,7 @@
       ?>
       <?php if($counter%2==0) echo '<div class="rows">'; ?>
         <div class="catalog_entry">
-          <img src="/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
+          <img src="/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
           <h3><a href="/plant?<?php echo $query_string; ?>"><?php echo htmlspecialchars($record['name']); ?></a></h3>
           <h4 class="sciname"><?php echo htmlspecialchars($record['sci_name']); ?></h4>
         </div>

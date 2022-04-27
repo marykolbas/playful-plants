@@ -1,4 +1,5 @@
 <?php
+if(is_user_logged_in() && $is_admin){
   define("MAX_FILE_FIZE", 1000000);
 
   #starting variables
@@ -224,7 +225,7 @@ if (isset($_POST['add_plant_submit'])) {
     $img_feedback_class = '';
   }
 }
-
+} //close if statement for admin
 ?>
 
 <!DOCTYPE html>
@@ -239,132 +240,136 @@ if (isset($_POST['add_plant_submit'])) {
 
 <body>
 <main class="center">
-<h1>Playful Plants Project</h1>
-<div class="align-right">
+<?php if(is_user_logged_in() && $is_admin){?>
+  <h1>Playful Plants Project</h1>
   <?php if(is_user_logged_in()){?>
-    <a href="/admin">Return to Admin View</a>
-</div>
-<div class="align-right">
-    <a href=<?php echo logout_url();?>>Logout</a>
-  <?php } else{ ?>
-    <a href="/login"> Log-in </a>
-  <?php }?>
-</div>
-<div class="columns">
-  <a href="/"> Return to Consumer Catalog </a>
-  <a href="/admin"> Return to Admin View </a>
-</div>
-
-<!--ADD PLANT FORM-->
-<form method="post" action="/addplant" id="addform" enctype = "multipart/form-data" novalidate>
-    <h2> Add a New Plant </h2>
-    <div class="confirmation">
-      <?php
-      if($result_inserted){?>
-        <a class="green_link" href="/admin_plant?<?php echo $query_string;?>">
-        <?php
-        echo htmlspecialchars("Plant with Plant ID '". $pp_id);?></a>' was successfully added to the database.
-      <?php }
-      ?>
-    </div>
-    <div class=columns>
-      <div class="feedback <?php echo $name_feedback_class; ?>">Please enter the plant's name.</div>
-      <div class="form_element">
-        <label for="name_input">Plant Name:</label>
-        <input type="text" id="name_input" name="name" value="<?php echo htmlspecialchars($sticky_name)?>"/>
-      </div>
-      <div class="feedback <?php echo $sci_name_feedback_class; ?>">Please enter the plant's scientific name.</div>
-      <div class="feedback <?php echo $sci_name_feedback_unique; ?>">A plant with this scientific name already exists. Please enter a different scientific name.</div>
-      <div class="form_element">
-        <label for="sci_name_input">Scientific Name:</label>
-        <input type="text" id="sci_name_input" name="sci_name" value="<?php echo htmlspecialchars($sticky_sci_name)?>"/>
-      </div>
-      <div class="feedback <?php echo $pp_id_feedback_class; ?>">Please enter the Plant ID.</div>
-      <div class="feedback <?php echo $pp_id_feedback_unique; ?>">A plant with this Plant ID already exists. Please enter a different Plant ID.</div>
-      <div class="form_element">
-        <label for="pp_id_input">Plant ID:</label>
-        <input type="text" id="pp_id_input" name="pp_id" value="<?php echo htmlspecialchars($sticky_pp_id)?>"/>
-      </div>
-      <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
-      <div class = "form_element">
-        <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg format.</div>
-        <label for="file">Upload Image: </label>
-        <input type = "file" accept=".jpg" id="file" name="img_file" />
-      </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
-          <label for="is_exploratory_constructive_box">Exploratory Constructive Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_exploratory_sensory_box" name="is_exploratory_sensory" <?php echo htmlspecialchars($sticky_exploratory_sensory)?>/>
-          <label for="is_exploratory_sensory_box">Exploratory Sensory Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_physical_box" name="is_physical" <?php echo htmlspecialchars($sticky_physical)?>/>
-          <label for="is_physical_box">Physical Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_imaginative_box" name="is_imaginative" <?php echo htmlspecialchars($sticky_imaginative)?> />
-          <label for="is_imaginative_box">Imaginative Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_restorative_box" name="is_restorative" <?php echo htmlspecialchars($sticky_restorative)?> />
-          <label for="is_restorative_box">Restorative Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_expressive_box" name="is_expressive" <?php echo htmlspecialchars($sticky_expressive)?> />
-          <label for="is_expressive_box">Expressive Play</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_play_with_rules_box" name="is_play_with_rules" <?php echo htmlspecialchars($sticky_play_with_rules)?> />
-          <label for="is_play_with_rules_box">Play with Rules</label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="is_bio_box" name="is_bio" <?php echo htmlspecialchars($sticky_bio)?> />
-          <label for="is_bio_box">Bio Play</label>
-        </div>
-        <div class="form_element">
-          <label for="classification">General Classification:</label>
-          <select id="classification" name="class">
-            <option value=""> </option>
-            <option value="6" <?php echo htmlspecialchars($sticky_shrub)?>> Shrub </option>
-            <option value="7" <?php echo htmlspecialchars($sticky_grass)?>> Grass </option>
-            <option value="8" <?php echo htmlspecialchars($sticky_vine)?>> Vine </option>
-            <option value="9" <?php echo htmlspecialchars($sticky_tree)?>> Tree </option>
-            <option value="10" <?php echo htmlspecialchars($sticky_flower)?>> Flower </option>
-            <option value="11" <?php echo htmlspecialchars($sticky_groundcover)?>> Groundcover </option>
-            <option value="12" <?php echo htmlspecialchars($sticky_other)?>> Other </option>
-          </select>
-        </div>
-        <div class="form_element">
-          <label for="season">Perennial/Annual:</label>
-          <select id="season" name="season">
-            <option value=""> </option>
-            <option value="1" <?php echo htmlspecialchars($sticky_perennial)?>> Perennial</option>
-            <option value="2" <?php echo htmlspecialchars($sticky_annual)?>> Annual</option>
-          </select>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="fullsun" name="fullsun" value="3" <?php echo htmlspecialchars($sticky_fullsun)?>/>
-          <label for="fullsun" >Full Sun </label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="partialshade" name="partialshade" value="4" <?php echo htmlspecialchars($sticky_partialshade)?>/>
-          <label for="partialshade">Partial Shade </label>
-        </div>
-        <div class="form_element">
-          <input type="checkbox" id="fullshade" name="fullshade" value="5" <?php echo htmlspecialchars($sticky_fullshade)?>/>
-          <label for="fullshade">Full Shade </label>
-        </div>
-        <div class="form_element">
-          <label for="hardiness">Hardiness Level</label>
-          <input type="text" id="hardiness" name="hardiness" value="<?php echo htmlspecialchars($sticky_hardiness)?>"/>
-      </div>
-      </div>
       <div class="align-right">
-        <input type="submit" value="Add Plant" name="add_plant_submit"/>
-    </div>
-    </form>
+        <ul>
+          <li><a href="/">Return to Consumer View</a></li>
+          <li><a href="/admin">Return to Admin View</a></li>
+          <li><a href=<?php echo logout_url();?>>Logout</a></li>
+        </ul>
+      </div>
+    <?php } else{?>
+        <div class="align-right">
+          <a href="/login"> Log-in </a>
+        </div>
+  <?php }?>
+
+  <!--ADD PLANT FORM-->
+  <form method="post" action="/addplant" id="addform" enctype = "multipart/form-data" novalidate>
+      <h2> Add a New Plant </h2>
+      <div class="confirmation">
+        <?php
+        if($result_inserted){?>
+          <a class="green_link" href="/admin_plant?<?php echo $query_string;?>">
+          <?php
+          echo htmlspecialchars("Plant with Plant ID '". $pp_id);?></a>' was successfully added to the database.
+        <?php }
+        ?>
+      </div>
+      <div class=columns>
+        <div class="feedback <?php echo $name_feedback_class; ?>">Please enter the plant's name.</div>
+        <div class="form_element">
+          <label for="name_input">Plant Name:</label>
+          <input type="text" id="name_input" name="name" value="<?php echo htmlspecialchars($sticky_name)?>"/>
+        </div>
+        <div class="feedback <?php echo $sci_name_feedback_class; ?>">Please enter the plant's scientific name.</div>
+        <div class="feedback <?php echo $sci_name_feedback_unique; ?>">A plant with this scientific name already exists. Please enter a different scientific name.</div>
+        <div class="form_element">
+          <label for="sci_name_input">Scientific Name:</label>
+          <input type="text" id="sci_name_input" name="sci_name" value="<?php echo htmlspecialchars($sticky_sci_name)?>"/>
+        </div>
+        <div class="feedback <?php echo $pp_id_feedback_class; ?>">Please enter the Plant ID.</div>
+        <div class="feedback <?php echo $pp_id_feedback_unique; ?>">A plant with this Plant ID already exists. Please enter a different Plant ID.</div>
+        <div class="form_element">
+          <label for="pp_id_input">Plant ID:</label>
+          <input type="text" id="pp_id_input" name="pp_id" value="<?php echo htmlspecialchars($sticky_pp_id)?>"/>
+        </div>
+        <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
+        <div class = "form_element">
+          <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg pr png format.</div>
+          <label for="file">Upload Image: </label>
+          <input type = "file" accept=".jpg, png" id="file" name="img_file" />
+        </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
+            <label for="is_exploratory_constructive_box">Exploratory Constructive Play</label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_exploratory_sensory_box" name="is_exploratory_sensory" <?php echo htmlspecialchars($sticky_exploratory_sensory)?>/>
+            <label for="is_exploratory_sensory_box">Exploratory Sensory Play</label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_physical_box" name="is_physical" <?php echo htmlspecialchars($sticky_physical)?>/>
+            <label for="is_physical_box">Physical Play</label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_imaginative_box" name="is_imaginative" <?php echo htmlspecialchars($sticky_imaginative)?> />
+            <label for="is_imaginative_box">Imaginative Play</label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_restorative_box" name="is_restorative" <?php echo htmlspecialchars($sticky_restorative)?> />
+            <label for="is_restorative_box">Restorative Play</label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_expressive_box" name="is_expressive" <?php echo htmlspecialchars($sticky_expressive)?> />
+            <label for="is_expressive_box">Expressive Play</label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_play_with_rules_box" name="is_play_with_rules" <?php echo htmlspecialchars($sticky_play_with_rules)?> />
+            <label for="is_play_with_rules_box">Play with Rules</label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="is_bio_box" name="is_bio" <?php echo htmlspecialchars($sticky_bio)?> />
+            <label for="is_bio_box">Bio Play</label>
+          </div>
+          <div class="form_element">
+            <label for="classification">General Classification:</label>
+            <select id="classification" name="class">
+              <option value=""> </option>
+              <option value="6" <?php echo htmlspecialchars($sticky_shrub)?>> Shrub </option>
+              <option value="7" <?php echo htmlspecialchars($sticky_grass)?>> Grass </option>
+              <option value="8" <?php echo htmlspecialchars($sticky_vine)?>> Vine </option>
+              <option value="9" <?php echo htmlspecialchars($sticky_tree)?>> Tree </option>
+              <option value="10" <?php echo htmlspecialchars($sticky_flower)?>> Flower </option>
+              <option value="11" <?php echo htmlspecialchars($sticky_groundcover)?>> Groundcover </option>
+              <option value="12" <?php echo htmlspecialchars($sticky_other)?>> Other </option>
+            </select>
+          </div>
+          <div class="form_element">
+            <label for="season">Perennial/Annual:</label>
+            <select id="season" name="season">
+              <option value=""> </option>
+              <option value="1" <?php echo htmlspecialchars($sticky_perennial)?>> Perennial</option>
+              <option value="2" <?php echo htmlspecialchars($sticky_annual)?>> Annual</option>
+            </select>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="fullsun" name="fullsun" value="3" <?php echo htmlspecialchars($sticky_fullsun)?>/>
+            <label for="fullsun" >Full Sun </label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="partialshade" name="partialshade" value="4" <?php echo htmlspecialchars($sticky_partialshade)?>/>
+            <label for="partialshade">Partial Shade </label>
+          </div>
+          <div class="form_element">
+            <input type="checkbox" id="fullshade" name="fullshade" value="5" <?php echo htmlspecialchars($sticky_fullshade)?>/>
+            <label for="fullshade">Full Shade </label>
+          </div>
+          <div class="form_element">
+            <label for="hardiness">Hardiness Level</label>
+            <input type="text" id="hardiness" name="hardiness" value="<?php echo htmlspecialchars($sticky_hardiness)?>"/>
+        </div>
+        </div>
+        <div class="align-right">
+          <input type="submit" value="Add Plant" name="add_plant_submit"/>
+      </div>
+      </form>
+  <?php } else {?>
+      <h1> Page Not Found </h1>
+      <p>This page does not exist. <a href="/"> Return to Catalog.</a></p>
+    <?php } ?>
     </main>
 </body>
 </html>

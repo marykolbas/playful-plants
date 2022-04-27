@@ -1,5 +1,5 @@
 <?php
-
+if (is_user_logged_in() && $is_admin) {
 $plant=$_GET['pp_id'];
 $result=exec_sql_query(
   $db,
@@ -154,7 +154,7 @@ if (isset($_POST['edit_plant_submit'])) {
   if($upload['error']==UPLOAD_ERR_OK){
     $upload_filename = basename($upload['name']);
     $upload_ext = strtolower(pathinfo($upload_filename, PATHINFO_EXTENSION));
-    if(!in_array($upload_ext, array('jpg'))){
+    if(!in_array($upload_ext, array('jpg'))&&!in_array($upload_ext, array('png'))){
       $form_valid=False;
     }
   }
@@ -323,6 +323,7 @@ if (isset($_POST['edit_plant_submit'])) {
     $img_feedback_class = '';
   }
 }
+}
 ?>
 
 <!DOCTYPE html>
@@ -337,17 +338,23 @@ if (isset($_POST['edit_plant_submit'])) {
 
 <body>
   <main class="center">
+  <?php if(is_user_logged_in() && $is_admin){?>
     <h1>Playful Plants Project</h1>
-    <div class="align-right">
-      <?php if(is_user_logged_in()){?>
-        <a href="/admin">Return to Admin View</a>
-    </div>
-    <div class="align-right">
-        <a href=<?php echo logout_url();?>>Logout</a>
-      <?php } else{ ?>
-        <a href="/login"> Log-in </a>
-      <?php }?>
-    </div>
+    <?php if(is_user_logged_in()){?>
+      <div class="align-right">
+        <ul>
+          <li><a href="/">Return to Consumer View</a></li>
+          <li><a href="/admin">Return to Admin View</a></li>
+          <li><a href=<?php echo logout_url();?>>Logout</a></li>
+        </ul>
+      </div>
+    <?php } else{?>
+        <div class="align-right">
+          <a href="/login"> Log-in </a>
+        </div>
+    <?php }?>
+
+
     <?php
     $query_string = http_build_query(array(
         'pp_id' => $plant
@@ -359,10 +366,6 @@ if (isset($_POST['edit_plant_submit'])) {
         echo htmlspecialchars("Plant with Plant ID '" . $pp_id . "' was successfully edited.");?>
       <?php } ?>
 
-    </div>
-    <div class="columns">
-      <a href="/"> Return to Consumer Catalog </a>
-      <a href="/admin"> Return to Admin View </a>
     </div>
     <form method="post" action="/admin_plant?<?php echo $query_string;?>" id="editplant" enctype = "multipart/form-data" novalidate>
     <h2> Edit Existing Plant </h2>
@@ -388,18 +391,18 @@ if (isset($_POST['edit_plant_submit'])) {
       <?php
             $result_documentstable = exec_sql_query(
             $db,
-            "SELECT file_name AS 'documents.file_name' FROM documents WHERE (id=:plant_id);",
+            "SELECT file_name AS 'documents.file_name', file_ext AS 'documents.file_ext' FROM documents WHERE (id=:plant_id);",
             array(
             ':plant_id' => $plant_id
             )
         )->fetchAll();
         ?>
-      <img src="/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.jpg" alt='"Image of "<?php echo htmlspecialchars($name);?>'>
+      <img src="/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt='"Image of "<?php echo htmlspecialchars($name);?>'>
       <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
       <div class = "form_element">
-        <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg format.</div>
+        <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg or png format.</div>
         <label for="file">Upload New Image: </label>
-        <input type = "file" id="file" accept=".jpg" name="img_file" />
+        <input type = "file" id="file" accept=".jpg, .png" name="img_file" />
       </div>
       </div>
         <div class="form_element">
@@ -479,6 +482,10 @@ if (isset($_POST['edit_plant_submit'])) {
     </div>
 
     </form>
-      </main>
+    </main>
+  <?php } else{ ?>
+    <h1> Page Not Found </h1>
+    <p>This page does not exist. <a href="/"> Return to Catalog.</a></p>
+  <?php } ?>
 </body>
 </html>

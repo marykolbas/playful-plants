@@ -7,22 +7,32 @@ include_once('includes/sessions.php');
 $session_messages=array();
 process_session_params($db, $session_messages);
 
-$logged_in = exec_sql_query($db,
-"SELECT user_id FROM sessions WHERE (session = :session)",
-array(
-  ':session' => $active_cookie
-)) -> fetchAll();
+//my own function, based on is_user_member_of function from sessions.php
+// is the user an admin?
+function is_user_admin($db)
+{
+  global $current_user;
+  if ($current_user === NULL) {
+    return False;
+  }
 
-$user_loggedin = (count($logged_in)>0);
+  $records = exec_sql_query(
+    $db,
+    "SELECT id FROM users WHERE (isadmin = 1) AND (id = :user_id);",
+    array(
+      ':user_id' => $current_user['id']
+    )
+  )->fetchAll();
+  if ($records) {
+    return True;
+  } else {
+    return False;
+  }
+}
 
-$is_admin_query = exec_sql_query($db,
-"SELECT isadmin, username FROM users WHERE (id = :user_id)",
-array(
-  ':user_id' => $user_loggedin
-)) -> fetchAll();
+$is_admin = is_user_admin($db);
 
-$is_admin = ($is_admin_query[0]['isadmin']==1);
-$current_username = $is_admin_query[0]['username'];
+////////////////////////////////////////////////////
 
 function match_routes($uri, $routes)
 {
