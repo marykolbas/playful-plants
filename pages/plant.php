@@ -43,7 +43,7 @@
         <h1>Playful Plants Project</h1>
         <?php if(is_user_logged_in()){?>
             <div class="align-right">
-                <ul>
+                <ul class="nav_bar">
                 <li><a href="/">Return to Consumer View</a></li>
                 <li><a href="/admin">Return to Admin View</a></li>
                 <li><a href=<?php echo logout_url();?>>Logout</a></li>
@@ -53,8 +53,10 @@
                 <div class="align-right">
                 <a href="/login"> Log-in </a>
                 </div>
+                <div class="returnToCat" >
+                    <a href="/"> <- Return to Consumer Catalog </a>
+                </div>
         <?php }?>
-        <a href="/"> Return to Consumer Catalog </a>
         <h3><?php echo htmlspecialchars($name)?></h3>
         <h4 class="sciname"><?php echo htmlspecialchars($sci_name)?></h4>
         <?php

@@ -146,21 +146,12 @@
 
 
 <body>
+<div class="rows_titlenav">
   <h1>Playful Plants Project</h1>
-  <?php if(is_user_logged_in()){?>
-      <div class="align-right">
-        <ul>
-          <li><a href="/" class="nav_selected">Consumer View</a></li>
-          <li><a href="/admin">Return to Admin View</a></li>
-          <li><a href=<?php echo logout_url();?>>Logout</a></li>
-        </ul>
-      </div>
-    <?php } else{?>
-        <div class="align-right">
-          <a href="/login"> Log-in </a>
-        </div>
-    <?php }?>
-
+  <?php if(!is_user_logged_in() || !$is_admin){?>
+    <a class="login_alone" href="/login"> Log-in </a>
+  <?php } ?>
+</div>
 <div class="content">
   <aside>
       <p id="instructions">Sort and Filter catalog contents by selecting options below, then click "Apply Changes".</p>
@@ -245,8 +236,18 @@
   </aside>
 
   <main>
+  <div class="rows_titlenav">
     <h2> Playful Plants Catalog </h2>
-
+    <div>
+      <?php if(is_user_logged_in() && $is_admin){?>
+          <ul class="nav_bar">
+            <li class="nav_selected"><a href="/">Consumer View</a></li>
+            <li><a href="/admin">Return to Admin View</a></li>
+            <li><a href=<?php echo logout_url();?>>Logout</a></li>
+          </ul>
+      <?php }?>
+    </div>
+  </div>
     <?php
     $counter = 0;
     $printcounter=0;

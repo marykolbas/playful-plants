@@ -342,7 +342,7 @@ if (isset($_POST['edit_plant_submit'])) {
     <h1>Playful Plants Project</h1>
     <?php if(is_user_logged_in()){?>
       <div class="align-right">
-        <ul>
+        <ul class="nav_bar">
           <li><a href="/">Return to Consumer View</a></li>
           <li><a href="/admin">Return to Admin View</a></li>
           <li><a href=<?php echo logout_url();?>>Logout</a></li>

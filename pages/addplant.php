@@ -243,17 +243,17 @@ if (isset($_POST['add_plant_submit'])) {
 <?php if(is_user_logged_in() && $is_admin){?>
   <h1>Playful Plants Project</h1>
   <?php if(is_user_logged_in()){?>
-      <div class="align-right">
-        <ul>
+      <!-- <div class="align-right"> -->
+        <ul class="nav_bar">
           <li><a href="/">Return to Consumer View</a></li>
           <li><a href="/admin">Return to Admin View</a></li>
           <li><a href=<?php echo logout_url();?>>Logout</a></li>
         </ul>
-      </div>
+      <!-- </div> -->
     <?php } else{?>
-        <div class="align-right">
+        <!-- <div class="align-right"> -->
           <a href="/login"> Log-in </a>
-        </div>
+        <!-- </div> -->
   <?php }?>
 
   <!--ADD PLANT FORM-->

@@ -4,6 +4,34 @@ body{
     margin: auto;
 }
 
+.nav_bar{
+    display:flex;
+    flex-direction:row;
+    background-color: green;
+    padding:0px;
+    justify-content: center;
+}
+.nav_bar li{
+    list-style-type: none;
+    padding:20px;
+}
+.nav_bar li a{
+    color: black;
+}
+.nav_selected{
+    background-color: lightgreen;
+}
+.login_alone{
+    margin: 20px;
+    padding: 10px;
+    background-color: green;
+    border-radius:5px;
+    color:black;
+}
+/* sessions.php class for login form */
+.label-input{
+    margin:10px;
+}
 .columns{ /*general div for column flex*/
     display: flex;
     flex-direction: column;
@@ -22,11 +50,17 @@ body{
 .rows_links a{
     padding: 10px;
 }
+.rows_titlenav{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 aside{
     flex-grow:35;
     border-right-style: solid;
     width: 30%;
+    margin-top:20px;
 }
 
 main{
@@ -145,6 +179,18 @@ h3, h4{
     list-style-type: none;
 }
 
+.returnToCat{
+    margin-bottom: 10px;
+    background-color: lightgreen;
+    padding:10px;
+    display:inline-block;
+    border-radius: 5px;
+}
+.returnToCat a{
+    color:black;
+}
+
+
 @media (max-width: 800px){
     .content{
         flex-direction: column;
@@ -154,7 +200,7 @@ h3, h4{
         width: 90%;
     }
     body{
-        width:100%;
+        width:90%;
     }
     .center{
         width:90%;

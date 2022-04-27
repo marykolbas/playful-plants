@@ -152,21 +152,7 @@ if($delete_submitted){
 
 <body>
 <?php if(is_user_logged_in() && $is_admin){?>
-  <h1>Playful Plants Project - Admin View</h1>
-  <?php if(is_user_logged_in()){?>
-    <div class="align-right">
-      <ul>
-        <li><a href="/">Return to Consumer View</a></li>
-        <li><a href="/admin" class="nav_selected">Admin View</a></li>
-        <li><a href=<?php echo logout_url();?>>Logout</a></li>
-      </ul>
-    </div>
-  <?php } else{?>
-      <div class="align-right">
-        <a href="/login"> Log-in </a>
-      </div>
-  <?php }?>
-
+    <h1>Playful Plants Project - Admin View</h1>
 <div class="content">
   <aside>
   <form method="post" action="/admin" id="print_button" novalidate>
@@ -223,7 +209,24 @@ if($delete_submitted){
   </aside>
 
   <main>
+  <div class="rows_titlenav">
     <h2> Playful Plants Catalog </h2>
+    <div>
+      <?php if(is_user_logged_in()){?>
+        <!-- <div class="align-right"> -->
+          <ul class="nav_bar">
+            <li><a href="/">Return to Consumer View</a></li>
+            <li class="nav_selected"><a href="/admin">Admin View</a></li>
+            <li><a href=<?php echo logout_url();?>>Logout</a></li>
+          </ul>
+        <!-- </div> -->
+      <?php } else{?>
+          <div class="align-right">
+            <a href="/login"> Log-in </a>
+          </div>
+      <?php }?>
+    </div>
+  </div>
     <?php if($delete_feedback){?>
       <div class="confirmation">
           <?php
