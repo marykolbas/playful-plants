@@ -242,8 +242,8 @@
       <?php if(is_user_logged_in() && $is_admin){?>
           <ul class="nav_bar">
             <li class="nav_selected"><a href="/">Consumer View</a></li>
-            <li><a href="/admin">Return to Admin View</a></li>
-            <li><a href=<?php echo logout_url();?>>Logout</a></li>
+            <li><a href="/admin">Admin View</a></li>
+            <li><a href="<?php echo logout_url();?>">Logout</a></li>
           </ul>
       <?php }?>
     </div>
@@ -286,8 +286,10 @@
     <?php
     $counter=$counter+1;
     } ?>
+  </div>
+
   </main>
-</div>
+  </div>
 </body>
 
 </html>

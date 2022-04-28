@@ -343,9 +343,9 @@ if (isset($_POST['edit_plant_submit'])) {
     <?php if(is_user_logged_in()){?>
       <div class="align-right">
         <ul class="nav_bar">
-          <li><a href="/">Return to Consumer View</a></li>
-          <li><a href="/admin">Return to Admin View</a></li>
-          <li><a href=<?php echo logout_url();?>>Logout</a></li>
+          <li><a href="/">Consumer View</a></li>
+          <li><a href="/admin">Admin View</a></li>
+          <li><a href="<?php echo logout_url();?>">Logout</a></li>
         </ul>
       </div>
     <?php } else{?>
@@ -360,6 +360,8 @@ if (isset($_POST['edit_plant_submit'])) {
         'pp_id' => $plant
       ));
     ?>
+    <form method="post" action="/admin_plant?<?php echo $query_string;?>" id="editplant" enctype = "multipart/form-data" novalidate>
+    <h2> Edit Existing Plant </h2>
     <div class="confirmation">
       <?php
       if($result_edited){
@@ -367,9 +369,6 @@ if (isset($_POST['edit_plant_submit'])) {
       <?php } ?>
 
     </div>
-    <form method="post" action="/admin_plant?<?php echo $query_string;?>" id="editplant" enctype = "multipart/form-data" novalidate>
-    <h2> Edit Existing Plant </h2>
-
       <div class="feedback <?php echo $name_feedback_class; ?>">Please enter the plant's name.</div>
       <div class="form_element">
         <label for="name_input">Plant Name:</label>
@@ -402,7 +401,7 @@ if (isset($_POST['edit_plant_submit'])) {
       <div class = "form_element">
         <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg or png format.</div>
         <label for="file">Upload New Image: </label>
-        <input type = "file" id="file" accept=".jpg, .png" name="img_file" />
+        <input type = "file" id="file" accept=".jpg, .png, .jpeg" name="img_file" />
       </div>
       </div>
         <div class="form_element">
@@ -464,7 +463,7 @@ if (isset($_POST['edit_plant_submit'])) {
           <label for="fullsun">Full Sun </label>
         </div>
         <div class="form_element">
-          <input type="checkbox" id="partialshade" name="partialshade" value="4"<?php echo htmlspecialchars($is_partialshade);?>/>
+          <input type="checkbox" id="partialshade" name="partialshade" value="4" <?php echo htmlspecialchars($is_partialshade);?>/>
           <label for="partialshade">Partial Shade </label>
         </div>
         <div class="form_element">

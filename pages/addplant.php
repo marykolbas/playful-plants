@@ -245,9 +245,9 @@ if (isset($_POST['add_plant_submit'])) {
   <?php if(is_user_logged_in()){?>
       <!-- <div class="align-right"> -->
         <ul class="nav_bar">
-          <li><a href="/">Return to Consumer View</a></li>
-          <li><a href="/admin">Return to Admin View</a></li>
-          <li><a href=<?php echo logout_url();?>>Logout</a></li>
+          <li><a href="/">Consumer View</a></li>
+          <li><a href="/admin">Admin View</a></li>
+          <li><a href="<?php echo logout_url();?>">Logout</a></li>
         </ul>
       <!-- </div> -->
     <?php } else{?>
@@ -290,7 +290,7 @@ if (isset($_POST['add_plant_submit'])) {
         <div class = "form_element">
           <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg pr png format.</div>
           <label for="file">Upload Image: </label>
-          <input type = "file" accept=".jpg, png" id="file" name="img_file" />
+          <input type = "file" accept=".jpg, .png, .jpeg" id="file" name="img_file" />
         </div>
           <div class="form_element">
             <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
@@ -327,7 +327,7 @@ if (isset($_POST['add_plant_submit'])) {
           <div class="form_element">
             <label for="classification">General Classification:</label>
             <select id="classification" name="class">
-              <option value=""> </option>
+              <option value="">None</option>
               <option value="6" <?php echo htmlspecialchars($sticky_shrub)?>> Shrub </option>
               <option value="7" <?php echo htmlspecialchars($sticky_grass)?>> Grass </option>
               <option value="8" <?php echo htmlspecialchars($sticky_vine)?>> Vine </option>
@@ -340,7 +340,7 @@ if (isset($_POST['add_plant_submit'])) {
           <div class="form_element">
             <label for="season">Perennial/Annual:</label>
             <select id="season" name="season">
-              <option value=""> </option>
+              <option value="">None</option>
               <option value="1" <?php echo htmlspecialchars($sticky_perennial)?>> Perennial</option>
               <option value="2" <?php echo htmlspecialchars($sticky_annual)?>> Annual</option>
             </select>

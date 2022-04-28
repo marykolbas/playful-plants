@@ -237,36 +237,36 @@ Table: sessions
 
 > Plan _all_ of your database queries. You may use natural language, pseudocode, or SQL.
 
-```
-Getting all plants data (consumer and administrator):
+```SQL
+/*Getting all plants data (consumer and administrator):*/
 
 SELECT * FROM plants;
 ```
 
-```
-Ordering displayed plants (consumer and administrator):
+```SQL
+/*Ordering displayed plants (consumer and administrator):*/
 
 SELECT * FROM plants ORDER BY $orderfield_and_direction;
   e.g. SELECT * FROM plants ORDER BY name ASC;
 ```
 
-```
-Ordering and Filtering plants (consumer):
+```SQL
+/*Ordering and Filtering plants (consumer):*/
 
 SELECT * FROM plants JOIN entry_tags ON plants.id=entry_tags.plant_id ORDER BY $orderfield_and_direction WHERE $filter_conditions;
   e.g. SELECT * FROM plants JOIN entry_tags ON plants.id=entry_tags.plant_id ORDER BY name ASC WHERE tag_id=1;
   (Not too sure about how joins work yet.)
 ```
 
-```
-Ordering and Filtering plants (admin):
+```SQL
+/*Ordering and Filtering plants (admin):*/
 
 SELECT * FROM plants ORDER BY $orderfield_and_direction WHERE $filter_conditions;
   e.g. SELECT * FROM plants ORDER BY name ASC WHERE ex_c=1 OR ex_s=1;
 ```
 
-```
-Getting a specific plant's tags:
+```SQL
+/*Getting a specific plant's tags:*/
 
 SELECT
   plants.id AS 'plants.id',
@@ -275,8 +275,8 @@ FROM plants INNER JOIN entry_tags ON (plants.id = entry_tags.plant_id) INNER JOI
 WHERE (plants.id = 1);
 ```
 
-```
-Whether user is admin (and authorized to view something)
+```SQL
+/*Whether user is admin (and authorized to view something)*/
 $is_admin = exec_sql_query($db,
 "SELECT is_admin FROM users WHERE (session = :session)",
 array(
@@ -289,8 +289,8 @@ array(
 > Plan any PHP code you'll need here using pseudocode.
 > Tip: Break this up by pages. It makes it easier to plan.
 
-```
-Administrator Catalog Page (use existing code and variables from project 2)
+```PHP
+//Administrator Catalog Page (use existing code and variables from project 2)
 
 sort/filter form:
 if(form is submitted){
@@ -319,16 +319,16 @@ if(form is submitted){
 }
 ```
 
-```
-Administrator Add New Plant Page (use existing code and variables from project 2)
+```PHP
+//Administrator Add New Plant Page (use existing code and variables from project 2)
 
-Add Plant Form:
+//Add Plant Form:
 if(form is submitted){
   if(name/sci_name/pp_id is empty){  //3 seperate if statements
     form not valid
     show name/sci_name/pp_id feedback
   }
-  if(sci name/pp_id isn't unique){ //2 seperate if statements
+  if(sci name/pp_id is not unique){ //2 seperate if statements
     form not valid
     show sci name feedback for non-unique
   }
@@ -349,18 +349,18 @@ if(form is submitted){
     );
   }
   else{ //if form is not valid
-    sticky_name = user's name input
-    sticky_sci_name = user's sci_name input
-    sticky_plantid = user's plantid input
+    sticky_name = users name input
+    sticky_sci_name = users sci_name input
+    sticky_plantid = users plantid input
     sticky_exploratory_constructive = checked/unchecked based on user input
     ... continues for all other checkboxes
   }
 ```
 
-```
-Login Page
+```PHP
+//Login Page
 
-Username/Password form:
+//Username/Password form:
 if(form is submitted){
   if(username/password is empty){  //2 seperate if statements
     form not valid
@@ -380,11 +380,11 @@ if(form is submitted){
   }
 ```
 
-```
-Admin View of Details Page after clicking "Edit"
+```PHP
+/*Admin View of Details Page after clicking "Edit"*/
 
-grab all of the relevant fields for that particular plant
-set all of the form value= to the values from the database
+/*grab all of the relevant fields for that particular plant
+set all of the form value= to the values from the database*/
 if(form submitted){
   make sure all fields are valid (no nulls or uniques (other than itself?), similar to Add Plant validity)
   if(form valid){
@@ -396,14 +396,14 @@ if(form submitted){
 }
 ```
 
-```
-Consumer Catalog View
+```PHP
+/*Consumer Catalog View*/
 
-sort/filter form:
+//sort/filter form:
 if(form is submitted){
-  set sticky values to user inputted values (do this any time form is submitted)
-  requery using inputted values to indicate WHERE clause (using parameter markers)
-  create list to append all of the SQL filter conditions
+  //set sticky values to user inputted values (do this any time form is submitted)
+  //requery using inputted values to indicate WHERE clause (using parameter markers)
+  //create list to append all of the SQL filter conditions
   if (radio button for a certain tag){
     append SQl conditional expression "id = #" to list
   }
@@ -419,8 +419,8 @@ if(form is submitted){
 }
 ```
 
-```
-Printing catalog using flexbox with 2 plant entries per row
+```PHP
+/*Printing catalog using flexbox with 2 plant entries per row*/
 
 <?php
 $counter = 0;
@@ -438,8 +438,8 @@ foreach($records as $record){
 
 ```
 
-```
-Printing tags on plants detail page
+```PHP
+/*Printing tags on plants detail page*/
  <?php
          foreach($tags as $tag){
             echo "<p class='tag'>";
@@ -449,9 +449,9 @@ Printing tags on plants detail page
         ?>
 ```
 
-```
-Implementing Login
-In router.php:
+```PHP
+/*Implementing Login*/
+//In router.php:
   require_once('includes/db.php');
   $db = init_sqlite_db('db/site.sqlite','db/init.sql');
   $admin = ($isadmin==1)
@@ -460,12 +460,12 @@ In router.php:
   $session_messages=array();
   process_session_params($db, $session_messages);
 
-Login Page
+//Login Page
 <?php if (!is_user_logged_in()){
   echo login_form('/admin', $session_messages)
 } ?>
 
-Logout
+//Logout
 <?php if (is_user_logged_in()){?>
   <a href=<?php echo logout_url(); ?>>Log Out</a>
 <?php } ?>

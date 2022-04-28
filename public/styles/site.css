@@ -7,7 +7,7 @@ body{
 .nav_bar{
     display:flex;
     flex-direction:row;
-    background-color: green;
+    background-color: #05B322;
     padding:0px;
     justify-content: center;
 }
@@ -24,7 +24,8 @@ body{
 .login_alone{
     margin: 20px;
     padding: 10px;
-    background-color: green;
+    /* background-color: #05B322; */
+    background-color: lightgreen;
     border-radius:5px;
     color:black;
 }
@@ -58,9 +59,12 @@ body{
 
 aside{
     flex-grow:35;
-    border-right-style: solid;
+    border-style:solid;
     width: 30%;
     margin-top:20px;
+    background-color: lightgreen;
+    padding: 20px;
+    border-radius: 5px;
 }
 
 main{
@@ -180,23 +184,28 @@ h3, h4{
 }
 
 .returnToCat{
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     background-color: lightgreen;
     padding:10px;
     display:inline-block;
     border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
 }
 .returnToCat a{
     color:black;
 }
+.green_link{
+    color: green;
+}
 
 
-@media (max-width: 800px){
+@media (max-width: 1000px){
     .content{
         flex-direction: column;
     }
     aside{
-        border-right-style: none;
         width: 90%;
     }
     body{
@@ -233,7 +242,10 @@ h3, h4{
     .edit_link{
         display: none;
     }
-    /* #add_entry{
-        display:none;
-    } */
+   .delete_button{
+       display:none;
+   }
+   .nav_bar{
+       display:none;
+   }
 }

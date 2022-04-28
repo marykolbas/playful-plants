@@ -44,18 +44,19 @@
         <?php if(is_user_logged_in()){?>
             <div class="align-right">
                 <ul class="nav_bar">
-                <li><a href="/">Return to Consumer View</a></li>
-                <li><a href="/admin">Return to Admin View</a></li>
-                <li><a href=<?php echo logout_url();?>>Logout</a></li>
+                <li><a href="/">Consumer View</a></li>
+                <li><a href="/admin">Admin View</a></li>
+                <li><a href="<?php echo logout_url();?>">Logout</a></li>
                 </ul>
             </div>
             <?php } else{?>
-                <div class="align-right">
-                <a href="/login"> Log-in </a>
+                <div class="rows_titlenav">
+                    <div class="returnToCat" >
+                        <a href="/"> Consumer Catalog </a>
+                    </div>
+                        <a class="login_alone" href="/login"> Log-in </a>
                 </div>
-                <div class="returnToCat" >
-                    <a href="/"> <- Return to Consumer Catalog </a>
-                </div>
+
         <?php }?>
         <h3><?php echo htmlspecialchars($name)?></h3>
         <h4 class="sciname"><?php echo htmlspecialchars($sci_name)?></h4>
@@ -68,7 +69,7 @@
             )
         )->fetchAll();
         ?>
-        <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt="Image of "<?php echo htmlspecialchars($name);?>/>
+        <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt="Image of <?php echo htmlspecialchars($name);?>"/>
         <p>Hardiness Level: <?php echo htmlspecialchars($hardiness);?></p>
         <h5>Tags</h5>
         <?php

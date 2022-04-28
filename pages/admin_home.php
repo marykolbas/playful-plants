@@ -209,94 +209,97 @@ if($delete_submitted){
   </aside>
 
   <main>
-  <div class="rows_titlenav">
-    <h2> Playful Plants Catalog </h2>
-    <div>
-      <?php if(is_user_logged_in()){?>
-        <!-- <div class="align-right"> -->
-          <ul class="nav_bar">
-            <li><a href="/">Return to Consumer View</a></li>
-            <li class="nav_selected"><a href="/admin">Admin View</a></li>
-            <li><a href=<?php echo logout_url();?>>Logout</a></li>
-          </ul>
-        <!-- </div> -->
-      <?php } else{?>
-          <div class="align-right">
-            <a href="/login"> Log-in </a>
-          </div>
-      <?php }?>
-    </div>
-  </div>
-    <?php if($delete_feedback){?>
-      <div class="confirmation">
-          <?php
-          echo htmlspecialchars("Plant with Plant ID '". $deleted_pp_id);?></a>' was successfully deleted from the database.
+    <div class="rows_titlenav">
+      <h2> Playful Plants Catalog </h2>
+      <div>
+        <?php if(is_user_logged_in()){?>
+          <!-- <div class="align-right"> -->
+            <ul class="nav_bar">
+              <li><a href="/">Consumer View</a></li>
+              <li class="nav_selected"><a href="/admin">Admin View</a></li>
+              <li><a href="<?php echo logout_url();?>">Logout</a></li>
+            </ul>
+          <!-- </div> -->
+        <?php } else{?>
+            <div class="align-right">
+              <a href="/login"> Log-in </a>
+            </div>
+        <?php }?>
       </div>
-      <?php }
-        ?>
-    <div class="print_linebreak">
-    <div class="rows">
-    <?php
-    $counter = 1;
-    $counter_p = 1?>
-    <div class="catalog_entry">
-        <!--Image Source: Original Work (Mary Kolbas) -->
-        <img src="/public/plus.jpg" alt="Plus sign in circle">
-        <h3><a href="/addplant"> Add New Plant </a></h3>
     </div>
-    <?php
-    foreach($records as $record){
-      $query_string = http_build_query(array(
-        'pp_id' => $record['pp_id']
-      ));
-      ?>
-      <?php if($counter_p==4) echo '<div class="print_linebreak">'; ?>
-      <?php if($counter%2==0) echo '<div class="rows">'; ?>
-
-      <div class="catalog_entry">
+      <?php if($delete_feedback){?>
+        <div class="confirmation">
+            <?php
+            echo htmlspecialchars("Plant with Plant ID '". $deleted_pp_id);?></a>' was successfully deleted from the database.
+        </div>
+        <?php }
+          ?>
+      <div class="print_linebreak">
+      <div class="rows">
       <?php
-            $result_documentstable = exec_sql_query(
-            $db,
-            "SELECT file_name AS 'documents.file_name', file_ext AS 'documents.file_ext' FROM documents WHERE (id=:plant_id);",
-            array(
-            ':plant_id' => $record['id']
-            )
-        )->fetchAll();
+      $counter = 1;
+      $counter_p = 1?>
+      <div class="catalog_entry">
+          <!--Image Source: Original Work (Mary Kolbas) -->
+          <img src="/public/plus.jpg" alt="Plus sign in circle">
+          <h3><a href="/addplant"> Add New Plant </a></h3>
+      </div>
+      <?php
+      foreach($records as $record){
+        $query_string = http_build_query(array(
+          'pp_id' => $record['pp_id']
+        ));
         ?>
-      <div class="align-top">
-        <span class="pp_id">
-          <?php echo htmlspecialchars($record['pp_id'])?>
-        </span>
-        <form class="delete_form" method="post" action="/admin" id="delete<?php echo htmlspecialchars($record['id']);?>" novalidate>
-          <input type="hidden" name="plant_id" value="<?php echo htmlspecialchars($record['id'])?>">
-          <input class="delete_button" type="submit" value="Delete" name="delete_submit"/>
-        </form>
-      </div>
-      <img class="admin_image" src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
-        <h3><?php echo htmlspecialchars($record['name']); ?></h3>
-        <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
-        <!--<div class='rows_links'>-->
-        <a class="edit_link" href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
+        <?php if($counter_p==4) echo '<div class="print_linebreak">'; ?>
+        <?php if($counter%2==0) echo '<div class="rows">'; ?>
 
-      </div>
-    <?php if($counter%2!=0) echo "</div>" ?>
-    <?php if($counter_p==3) echo "</div>" ?>
-    <?php
-    $counter=$counter+1;
-    $counter_p=$counter_p+1;
-    if($counter_p==5){$counter_p=1;
-    }
-    } ?> <!--closes foreach-->
-    <?php if($counter%2!=0) echo "</div>";?>
-    <?php if($counter_p==1||$counter_p==2||$counter_p==3||$counter_p==4) echo "</div>";?>
+        <div class="catalog_entry">
+        <?php
+              $result_documentstable = exec_sql_query(
+              $db,
+              "SELECT file_name AS 'documents.file_name', file_ext AS 'documents.file_ext' FROM documents WHERE (id=:plant_id);",
+              array(
+              ':plant_id' => $record['id']
+              )
+          )->fetchAll();
+          ?>
+        <div class="align-top">
+          <span class="pp_id">
+            <?php echo htmlspecialchars($record['pp_id'])?>
+          </span>
+          <form class="delete_form" method="post" action="/admin" id="delete<?php echo htmlspecialchars($record['id']);?>" novalidate>
+            <input type="hidden" name="plant_id" value="<?php echo htmlspecialchars($record['id'])?>">
+            <!--JS Source: Mozilla Documentation for confirm(): https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm-->
+            <input class="delete_button" type="submit" value="Delete" name="delete_submit" onclick="return confirm('Are you sure you want to delete this plant?');"/>
+          </form>
+        </div>
+        <img class="admin_image" src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt="Image of <?php echo htmlspecialchars($record['name']);?>">
+          <h3><?php echo htmlspecialchars($record['name']); ?></h3>
+          <h4><?php echo htmlspecialchars($record['sci_name']);?> </h4>
+          <!--<div class='rows_links'>-->
+          <a class="edit_link" href="/admin_plant?<?php echo $query_string; ?>"> Edit </a>
+
+        </div> <!--closes catalog entry-->
+      <?php if($counter%2!=0) echo "</div> <!--2-->"?>
+      <?php if($counter_p==3) echo "</div> <!--4-->" ?>
+      <?php
+      $counter=$counter+1;
+      $counter_p=$counter_p+1;
+      if($counter_p==5){$counter_p=1;
+      }
+      } ?> <!--closes foreach-->
   </main>
-</div>
+      <?php if($counter%2!=0) echo "</div> <!--f2-->";?>
+      <?php if($counter_p==1||$counter_p==2||$counter_p==3||$counter_p==4) echo "</div> <!--f4-->";?>
+
+<!-- </div> -->
 <?php } else{ ?>
   <div class="center">
     <h1> Page Not Found </h1>
     <p>This page does not exist. <a href="/"> Return to Catalog.</a></p>
   </div>
   <?php } ?>
+<!-- </div> -->
 </body>
 
 </html>
