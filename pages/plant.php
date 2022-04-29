@@ -70,7 +70,7 @@
         )->fetchAll();
         ?>
         <img src = "/public/uploads/documents/<?php echo htmlspecialchars($result_documentstable[0]['documents.file_name']);?>.<?php echo htmlspecialchars($result_documentstable[0]['documents.file_ext']);?>" alt="Image of <?php echo htmlspecialchars($name);?>"/>
-        <p>Hardiness Level: <?php echo htmlspecialchars($hardiness);?></p>
+        <p>Hardiness Level: <?php if($hardiness!=''){echo htmlspecialchars($hardiness);}else{echo "unknown";}?></p>
         <h5>Tags</h5>
         <?php
          foreach($tags as $tag){

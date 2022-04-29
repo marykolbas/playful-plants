@@ -154,7 +154,7 @@
 </div>
 <div class="content">
   <aside>
-      <p id="instructions">Sort and Filter catalog contents by selecting options below, then click "Apply Changes".</p>
+      <p id="instructions">Sort and Filter catalog contents by selecting options below, then click "Apply Changes". </p><p>Filtering by multiple tags will display any plants that fit at least one of the selected fields.</p>
 
     <!--FILTER FORM-->
     <form method="get" action="/" novalidate>

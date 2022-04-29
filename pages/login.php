@@ -14,8 +14,9 @@
       <h1>Playful Plants Project</h1>
       <?php if(!is_user_logged_in()){ ?>
         <div class="returnToCat" >
-          <a href="/"> Consumer Catalog </a>
+          <a href="/"> Return to Consumer Catalog </a>
         </div>
+        <h2>Log-in</h2>
         <p> If you are an administrator, log-in to edit database</p>
         <?php
           echo_login_form('/login', $session_messages);

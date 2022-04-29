@@ -217,6 +217,10 @@ h3, h4{
     main{
         width: 90%;
     }
+    .catalog_entry{
+        min-width:45%;
+        height: auto;
+    }
 
 
 

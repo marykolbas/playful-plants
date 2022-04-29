@@ -88,7 +88,7 @@ if (isset($_POST['add_plant_submit'])) {
     //   $upload_filename = 'temp_plant';
     // }
     $upload_ext = strtolower(pathinfo($upload_filename, PATHINFO_EXTENSION));
-    if(!in_array($upload_ext, array('jpg'))&&!in_array($upload_ext, array('png'))){
+    if(!in_array($upload_ext, array('jpg'))&&!in_array($upload_ext, array('png'))&&!in_array($upload_ext, array('jpeg'))&&!in_array($upload_ext, array('gif'))){
       $form_valid=False;
     }
   }
@@ -288,9 +288,9 @@ if (isset($_POST['add_plant_submit'])) {
         </div>
         <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
         <div class = "form_element">
-          <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg pr png format.</div>
+          <div class="feedback <?php echo $img_feedback_class; ?>">Please re-upload an image that is in jpg, png, jpeg, or gif format.</div>
           <label for="file">Upload Image: </label>
-          <input type = "file" accept=".jpg, .png, .jpeg" id="file" name="img_file" />
+          <input type = "file" accept=".jpg, .png, .jpeg, .gif" id="file" name="img_file" />
         </div>
           <div class="form_element">
             <input type="checkbox" id="is_exploratory_constructive_box" name="is_exploratory_constructive" <?php echo htmlspecialchars($sticky_exploratory_constructive)?>/>
@@ -327,7 +327,6 @@ if (isset($_POST['add_plant_submit'])) {
           <div class="form_element">
             <label for="classification">General Classification:</label>
             <select id="classification" name="class">
-              <option value="">None</option>
               <option value="6" <?php echo htmlspecialchars($sticky_shrub)?>> Shrub </option>
               <option value="7" <?php echo htmlspecialchars($sticky_grass)?>> Grass </option>
               <option value="8" <?php echo htmlspecialchars($sticky_vine)?>> Vine </option>

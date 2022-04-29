@@ -472,10 +472,11 @@ foreach($records as $record){
 ```
 
 ### Accessibility Audit (Final Submission)
+
 > Tell us what issues you discovered during your accessibility audit.
 > What do you do to improve the accessibility of your site?
 
-TODO
+Through my accessibility audit I found some contrast errors in my navigation. Additionally, I found some errors such as orphaned form elements due to typos. I fixed these by adjusting the colors (using black instead of white) and fixing the form typos.
 
 
 ## Reflection (Final Submission)

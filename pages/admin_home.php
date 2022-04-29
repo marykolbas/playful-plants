@@ -38,6 +38,7 @@ if (is_user_logged_in() && $is_admin) {
   if(!$filter_submitted){
     $sticky_sortby_name = '';
     $sticky_sortby_sci_name = '';
+    $sticky_sortby_pp_id = '';
     $sticky_exploratory_constructive_filter = '';
     $sticky_exploratory_sensory_filter = '';
     $sticky_physical_filter = '';
@@ -50,6 +51,7 @@ if (is_user_logged_in() && $is_admin) {
   else{
     $sticky_sortby_name = ($_GET['sort']=='sortby_name' ? 'selected' : ''); #untrusted?
     $sticky_sortby_sci_name = ($_GET['sort']=='sortby_sci_name' ? 'selected' : '');
+    $sticky_sortby_pp_id = ($_GET['sort']=='sortby_pp_id' ? 'selected' : '');
     $sticky_exploratory_constructive_filter = ($_GET['exploratory_constructive_box'] ? 'checked' : '');
     $sticky_exploratory_sensory_filter = ($_GET['exploratory_sensory_box'] ? 'checked' : '');
     $sticky_physical_filter = ($_GET['physical_box'] ? 'checked' : '');
@@ -131,6 +133,9 @@ if($delete_submitted){
   else if($sticky_sortby_sci_name=='selected'){
     $order_part2 = "sci_name;";
   }
+  else if($sticky_sortby_pp_id=='selected'){
+    $order_part2 = "pp_id;";
+  }
 
   $query = $select_part . $where_part . $order_part . $order_part2;
   $result=exec_sql_query($db, $query);
@@ -165,6 +170,7 @@ if($delete_submitted){
         <select id="sort_field" name="sort">
           <option value="sortby_name" <?php echo htmlspecialchars($sticky_sortby_name)?>> Plant Name </option>
           <option value="sortby_sci_name" <?php echo htmlspecialchars($sticky_sortby_sci_name)?>> Scientific Name </option>
+          <option value="sortby_pp_id" <?php echo htmlspecialchars($sticky_sortby_pp_id)?>> Playful Plant ID </option>
         </select>
       </div>
       <div class=columns>
@@ -230,7 +236,7 @@ if($delete_submitted){
       <?php if($delete_feedback){?>
         <div class="confirmation">
             <?php
-            echo htmlspecialchars("Plant with Plant ID '". $deleted_pp_id);?></a>' was successfully deleted from the database.
+            echo htmlspecialchars("Plant with Playful Plant ID '". $deleted_pp_id);?></a>' was successfully deleted from the database.
         </div>
         <?php }
           ?>
