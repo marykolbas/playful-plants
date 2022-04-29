@@ -302,7 +302,7 @@ if($delete_submitted){
 <?php } else{ ?>
   <div class="center">
     <h1> Page Not Found </h1>
-    <p>This page does not exist. <a href="/"> Return to Catalog.</a></p>
+    <p>Oops! This page does not exist. <a href="/"> Click here to return to the catalog.</a></p>
   </div>
   <?php } ?>
 <!-- </div> -->

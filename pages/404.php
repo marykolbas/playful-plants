@@ -12,7 +12,7 @@
 <h1> Page Not Found </h1>
 <body>
 
-<p>This page does not exist. <a href="/"> Return to Catalog.</a></p>
+<p>Oops! This page does not exist. <a href="/"> Click here to return to the catalog.</a></p>
 
 </body>
 </main>

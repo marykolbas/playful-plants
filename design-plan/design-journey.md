@@ -46,14 +46,6 @@ _Consumer_ Goal 2: Gain all the information necessary to know how to take care o
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
   - The consumer cares about creating nature-rich spaces and likely will want to garden using this data, so to meet this goal I need to provide them with this data. Since there is a lot of data, I will make this information available when the consumer clicks on the plant for more details.
 
-_Consumer_ Goal 3: Print a specific plant's care information
-
-- **Design Ideas and Choices** _How will you meet those goals in your design?_
-  - I will make the page for individual plants printer-friendly (smaller image, fit to one standard page).
-- **Rationale & Additional Notes** _Justify your decisions; additional notes._
-  - The consumer wants to know how to care for the plants that they choose to plant. By providing a way to print the page with care information, they can have this information physically without having to come to the website and search for this plant every time they need to use this information.
-
-
 
 ### _Consumer_ Persona (Milestone 1)
 
@@ -83,6 +75,13 @@ _Administrator_ Goal 2: Filter and Sort the Database
   - I will have a sidebar that allows them to sort by important information categories such as play type and other tags.
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
   - Members of the Playful Plants Project will want to be able to see what is currently in the database and how many of each plant they may have for each tag. This way they will know what is in the database and can make informed decisions about what needs to be added.
+
+_Administrator_ Goal 3: Print customized plant gallery
+
+- **Design Ideas and Choices** _How will you meet those goals in your design?_
+  - I will make the admin's home page for plants printer-friendly (remove sidebar, buttons, etc.) and continue to sort/filter by the selected choices.
+- **Rationale & Additional Notes** _Justify your decisions; additional notes._
+  - The admin wants to be able to sharing their resources, which can be supported by the ability to tailor and print plant lists. This allows them to distribute them to clients and other members of the Playful Plants Project.
 
 ### _Administrator_ Persona (Milestone 1)
 
@@ -137,7 +136,7 @@ I itterated my first and second sketches to include more instructions and clarif
 
 ![Admin View Sketch 3](/design-plan/adminsketch3.jpeg)
 
-I itterated my sketch for the admin view slightly so now the delete button is in the upper right corner of the catalog entry box. It is one of Tom's goals to be able to delete entries, and this was previously not designed. By putting it in the top right, it mimics a "close browser" button. Additionally, the filter form only includes play type, since this is the feature Tim would want to filter data by.
+I itterated my sketch for the admin view slightly so now the delete button is in the upper right corner of the catalog entry box. It is one of Tom's goals to be able to delete entries, and this was previously not designed. By putting it in the top right, it mimics a "close browser" button. Additionally, the filter form only includes play type, since this is the feature Tim would want to filter data by. I have also decided to add a navigation bar for Tom that has links to the consumer view and admin view. This navigation bar is displayed on all pages when the user that is logged in is an admin. Otherwise, there is not a navigation bar.
 
 ![Admin View Add Form](/design-plan/admin_addform.jpg)
 
@@ -150,7 +149,7 @@ Tom will be able to see the current plant's existing data and tags on this page 
 
 ![Login Page](/design-plan/loginsketch.jpg)
 
-The login page will be a seperate page with only the login form. It will only be accessible when the user isn't logged in.
+The login page will be a seperate page with only the login form.
 
 
 ### Design Pattern Explanation/Reflection (Milestone 1)
@@ -482,15 +481,39 @@ Through my accessibility audit I found some contrast errors in my navigation. Ad
 ## Reflection (Final Submission)
 
 ### Audience (Final Submission)
+
 > Tell us how your final site meets the goals of your audiences. Be specific here. Tell us how you tailored your design, content, etc. to make your website usable for your personas.
 
-TODO
+Abi (Consumer)
+
+Abi intends to use this website to accomplish her goals of find appropriate plants she can raise and how to take care of them.
+
+Content-wise, on the consumer pages I display the tags and gardening-related information, such as hardiness zone, on the individual plant pages. This helps accomplish Abi's goal of figuring out how to care for certain plants.
+
+In order to help Abi accomplish her goal of finding plants she can raise, for example based on thier plant classification or growth requirements, I provide a sort/filter form at the top of the home page (in mobile-view). This is easily accessible instead of hidden away, which helps her more effectively accomplish her goals, since she uses technology to complete her tasks. It also includes clear instructions in what interacting with the form will do. This is particularly helpful for Abi because she is risk-adverse and learns by process.
+
+Additionally, if Abi finds herself on a page only meant for administrators or that does not exist, there is an lighthearted message ("Oops!") that helps redirect her back to the catalog. This helps support her lower computer-efficacy by not blaming her for ending up on the wrong page and instead helping her go back to accomplishing her goals. Additionally, the log-in page explains the purpose of the form so that Abi does not feel confused whether she is the type of user who needs to log-in. This also supports her risk-adverse and low computer-efficacy cognitive style facets.
+
+Tim (Admin)
+
+Tim intends to use this website to add/edit/delete from the database, tailor the catalog to display plants that support certain play types, and print the customized media gallery to distribute to clients.
+
+To support his first goal of being able to modify the backing database, I created additional pages and functions that are only accessible to administrators after they log-in. The log-in process follows common design patterns and supports his selective information processing style, since he will be able to quickly find this button as a promising lead and tinker to see if it aids him in gaining access to admin controls. The "functions" (add/edit/delete) are either links or buttons with relevant labels. This makes it easy for Tim to use promising leads with his selective information processing style. Since Tim likes to tinker, I created a confirmation popup when the delete button is clicked to make sure he intends to delete and entry and isn't just exploring the technology, since he enjoys learning all the functionalities of new technologies.
+
+To support Tim's goal of being able to tailor the cataog to display plants that support certain play types, I provided a sort and filter form in the sidebar. It only filters by play type since this is the major factor Tim would need to find plants by.
+
+Although Tim doesn't need to be able to see the growth requirements for each plant for his own goals, he does need to be able to input or change this information when he is adding new plants or editing existing plants. Since he does need to be able to add and edit plants in a way that will affect consumers (e.g. changing tags), not only data only the admin views (e.g. play type), I provided a navigation bar that allows Tim to go back and forth between the Consumer and Administrator view. (This is not present for the consumer view because having admin-only pages in the navigation bar would be very confusing for Abi.)
+
+Tim has a goal to print a customized media gallery, so I provided a button to do this. It has a clear label so that Tim can find it easily given his selective information processing style. It removes the unnecesssary website elements such as the sidebar, delete buttons, and navigation to be more printer-friendly and usable, printing only the information necessary to accomplish Tim's goal.
+
+
 
 
 ### Additional Design Justifications (Final Submission)
+
 > If you feel like you haven’t fully explained your design choices in the final submission, or you want to explain some functions in your site (e.g., if you feel like you make a special design choice which might not meet the final requirement), you can use the additional design justifications to justify your design choices. Remember, this is place for you to justify your design choices which you haven’t covered in the design journey. You don’t need to fill out this section if you think all design choices have been well explained in the design journey.
 
-My consumer and admin gallery view show a similar design format. This is on purpose to provide the admin with a similar feel to what the user will be able to see so they can check whether information is added and looks good. This is important because Tim does not naturally have access to the consumer gallery view while he is logged in. Rather, the gallery view is like an admin-only portal. This is important because if I instead used a table to display the information, the image would not be clearly displayed and the admin would not be able to see what the existing image looks like. This design provides adequate information for Tim without needing to see the original consumer gallery page. The admin gallery view provides customized filtering by play type (which Tim needs to accomplish his goals) instead of by gardening tags (which Abi needs to accomplish her goals). In this way the two pages are customized to provide tools necessary for their particular audience.
+My consumer and admin gallery view show a similar design format. This is on purpose to provide the admin with a similar feel to what the user will be able to see so they can check whether information is added and looks good. This is important because if I instead used a table to display the information, the image would not be clearly displayed and the admin would not be able to see what the existing image looks like. This design provides adequate information for Tim without always needing to see the original consumer gallery page. When he prints this admin homepage, he is able to customize the display by play type which is not a feature of the consumer catalog. In this printed version, he would likely want to include the images of the plants so that the clients he distributes them to can see the images along with the names. The admin and consumer gallery view provide customized filtering either by play type (which Tim needs to accomplish his goals) or gardening tags (which Abi needs to accomplish her goals) in order to best fit their respective audience. In this way the two pages are customized to provide tools necessary for their particular audience.
 
 Additionally, due to my milestone 3 feedback, I would like to justify my "add plant" feature on my admin gallery view. I found that this format of a picture-like add button does fit common design patterns across the web. For example, Google Docs, the Google Chrome "Add Shortcut" button when opening a new tab, and in Notion to add a new gallery entry.
 
@@ -500,17 +523,19 @@ These screenshots come from [Google Docs](https://docs.google.com/document/u/0/)
 
 
 ### Self-Reflection (Final Submission)
+
 > Reflect on what you learned during this assignment. How have you improved from Project 2? What would you do differently next time?
 
-TODO
+I learned a lot this assignment and how to apply many things into one project. I learned about using JOIN queries in web development, initalizing the database, GenderMag cognitive style facets, file uploads, cookies and login, etc. I have improved from Project 2 by being able to handle learning several new topics at once and implementing them almost simultaneously. Next time, I would want to improve my website stylistically with theme (colors) and JavaScript. Also, if I could start over, I may change some design elements to better emulate common design patterns across the web.
 
 
 > Take some time here to reflect on how much you've learned since you started this class. It's often easy to ignore our own progress. Take a moment and think about your accomplishments in this class. Hopefully you'll recognize that you've accomplished a lot and that you should be very proud of those accomplishments!
 
-TODO
+I have learned a lot, especially about how to handle implementing new things that require changes all across my code. I have also learned a lot about debugging and the process of tinkering with styling. It was a new experience to have to check if so many things worked (forms, login, displaying information, user access controls, etc.).
 
 
 ### Grading: Step-by-Step Instructions (Final Submission)
+
 > Write step-by-step instructions for the graders.
 > The project if very hard to grade if we don't understand how your site works.
 > For example, you must login before you can delete.
@@ -518,30 +543,81 @@ TODO
 
 _View all entries:_
 
-1. TODO
-2.
+1. Load "/"
+
+2. View Playful Plants Catalog (scroll past green sort/filter form on mobile OR view right side of desktop)
 
 _View all entries for a tag:_
 
-1. TODO
-2.
+1. Locate the sort and filter form on "/" (either at the top of the page for mobile or left sidebar on desktop)
+
+2. Check a checkbox for a particular tag you would like to sort by
+
+3. Click "Apply Changes"
 
 _View a single entry's details:_
 
-1. TODO
-2.
+1. Locate a plant entry (box with an image and plant name) on "/"
+
+2. Click the name of the plant (link)
 
 _How to insert and upload a new entry:_
 
-1. TODO
-2.
+If you are not logged in yet (there is a "Log-In" button available), complete 1-3. Otherwise, skip to step 4.
+
+1. Click the log-in button in the upper right corner (works from "/" or a specific plant page)
+
+2. Enter username "tim" and password "monkey"
+
+3. Submit login form by clicking "Log In"
+
+4. Click "Admin View" (/admin) in the green navigation bar
+
+5. Click "Add New Plant" text (link, /addplant) within the first catalog entry box with the large plus sign
+
+6. Fill out required fields (Name, Scientific Name, Playful Plant ID, File Upload, General Classification). For File Upload, click "Choose File" and select to upload a jpg, png, gif, or jpeg.
+
+7. Click "Add Plant" submit button in bottom right
 
 _How to delete an entry:_
 
-1. TODO
-2.
+If you are not logged in yet (there is a "Log-In" button available), complete 1-3. Otherwise, skip to step 4.
+
+1. Click the log-in button in the upper right corner (works from "/" or a specific plant page)
+
+2. Enter username "tim" and password "monkey"
+
+3. Submit login form by clicking "Log In"
+
+4. Click "Admin View" (/admin) in the green navigation bar
+
+5. Locate the entry you would like to delete
+
+6. Click the "delete" button in the top-right corner of the entry you would like to delete
+
+7. Click "OK" in the dialog box to confirm delete
+
 
 _How to edit and existing entry and its tags:_
 
-1. TODO
-2.
+If you are not logged in yet (there is a "Log-In" button available), complete 1-3. Otherwise, skip to step 4.
+
+1. Click the log-in button in the upper right corner (works from "/" or a specific plant page)
+
+2. Enter username "tim" and password "monkey"
+
+3. Submit login form by clicking "Log In"
+
+4. Click "Admin View" (/admin) in the green navigation bar
+
+5. Locate the entry you would like to edit
+
+6. Click the text "Edit" (link) that is underneath the name of the plant you would like to edit
+
+7. Change the existing text in the form text fields if you would like to rename anything (you are not required to change any of the text fields)
+
+8. Upload an image (required)
+
+9. Check or uncheck the checkboxes next to the tags that you would like to include or not include (you are not required to change any of the existing checkboxes)
+
+10. Click "Save Changes" submit button

@@ -115,7 +115,9 @@
     array_push($filter_exprs, "(entry_tags.tag_id = 5)");
   }
   if(isset($sticky_hardiness)){
-    array_push($filter_exprs, "(plants.hardiness_level = '" . $sticky_hardiness . "')");
+    if($skicky_hardiness!=null){
+      array_push($filter_exprs, "(plants.hardiness_level = '" . $sticky_hardiness . "')");
+    }
   }
 
   if (count($filter_exprs) > 0){
