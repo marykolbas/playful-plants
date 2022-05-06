@@ -162,7 +162,7 @@ if (isset($_POST['edit_plant_submit'])) {
     $form_valid=False;
   }
 
-
+  $db->beginTransaction();
   if (empty($name)) {
     $form_valid = False;
     $name_feedback_class = '';
@@ -322,6 +322,7 @@ if (isset($_POST['edit_plant_submit'])) {
 
     $img_feedback_class = '';
   }
+  $db->commit();
 }
 }
 ?>

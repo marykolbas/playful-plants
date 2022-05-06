@@ -97,6 +97,7 @@ if (isset($_POST['add_plant_submit'])) {
   }
 
 
+ $db->beginTransaction();
 
   if (empty($name)) {
     $form_valid = False;
@@ -224,6 +225,7 @@ if (isset($_POST['add_plant_submit'])) {
     $sticky_fullshade = ($fullshade==5 ? 'checked' : '');
     $img_feedback_class = '';
   }
+  $db->commit();
 }
 } //close if statement for admin
 ?>
